@@ -2,7 +2,6 @@ package com.synerzip;
 
 import javax.management.MBeanServer;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,12 +12,14 @@ import org.springframework.integration.monitor.IntegrationMBeanExporter;
 import org.springframework.jmx.export.annotation.AnnotationMBeanExporter;
 import org.springframework.jmx.export.naming.ObjectNamingStrategy;
 import org.springframework.jmx.support.RegistrationPolicy;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import com.synerzip.infra.security.ApplicationSecurity;
 
 @SpringBootApplication
 @Configuration
-@EnableWebSecurity
 public class TravelTimeApplication {
 
 	@Bean
@@ -41,13 +42,11 @@ public class TravelTimeApplication {
 	    return exporter;
 	}
 	
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER");
+	@Bean
+    public WebSecurityConfigurerAdapter webSecurityConfigurerAdapter(){
+    	return new ApplicationSecurity();
     }
-    
+	
 	public static void main(String[] args) {
 		SpringApplication.run(TravelTimeApplication.class, args);
 	}
