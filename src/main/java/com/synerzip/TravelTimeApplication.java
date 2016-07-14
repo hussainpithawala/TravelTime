@@ -12,7 +12,7 @@ import com.synerzip.infra.security.ApplicationSecurity;
 
 @SpringBootApplication
 @Configuration
-@PropertySource("supplier.properties")
+@PropertySource("classpath:supplier.properties")
 public class TravelTimeApplication {	
 	@Bean
     public WebSecurityConfigurerAdapter webSecurityConfigurerAdapter(){
