@@ -12,32 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.synerzip.models.LowFareFlightSearchRS;
-
 @RequestMapping("/rest")
 @RestController
 public class FirstRestService {
-	@Autowired
-	private Environment env;
-	
-	@Autowired
-	private RestTemplate restTemplate;
-	
-	private Logger logger = LoggerFactory.getLogger(FirstRestService.class);
 	
 	@RequestMapping(value = "/hello", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SimpleResponse> hello() {
 		return new ResponseEntity<SimpleResponse>(new SimpleResponse("Happy Coding with Spring...."), HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "/searchLowFare", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<LowFareFlightSearchRS> searchLowFareFlights() {
-		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/low-fare-search?origin=LHR&destination=JFK&departure_date=2016-07-30&return_date=2016-08-07&number_of_results=3&apikey=");
-		url.append(env.getProperty("amadeus.api.key"));
-		
-		logger.info(url.toString());
-		
-		return new ResponseEntity<LowFareFlightSearchRS>(restTemplate.getForObject(url.toString(), LowFareFlightSearchRS.class), HttpStatus.OK);
 	}
 	
 	public static class SimpleResponse {
