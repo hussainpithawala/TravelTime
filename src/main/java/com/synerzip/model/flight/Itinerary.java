@@ -1,8 +1,6 @@
-package com.synerzip.models;
+package com.synerzip.model.flight;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -15,56 +13,33 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-"itineraries",
-"fare"
+"outbound"
 })
-public class ResultItinerary {
+public class Itinerary {
 
-@JsonProperty("itineraries")
-private List<Itinerary> itineraries = new ArrayList<Itinerary>();
-@JsonProperty("fare")
-private Fare fare;
+@JsonProperty("outbound")
+private Outbound outbound;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 /**
 * 
 * @return
-* The itineraries
+* The outbound
 */
-@JsonProperty("itineraries")
-public List<Itinerary> getItineraries() {
-return itineraries;
+@JsonProperty("outbound")
+public Outbound getOutbound() {
+return outbound;
 }
 
 /**
 * 
-* @param itineraries
-* The itineraries
+* @param outbound
+* The outbound
 */
-@JsonProperty("itineraries")
-public void setItineraries(List<Itinerary> itineraries) {
-this.itineraries = itineraries;
-}
-
-/**
-* 
-* @return
-* The fare
-*/
-@JsonProperty("fare")
-public Fare getFare() {
-return fare;
-}
-
-/**
-* 
-* @param fare
-* The fare
-*/
-@JsonProperty("fare")
-public void setFare(Fare fare) {
-this.fare = fare;
+@JsonProperty("outbound")
+public void setOutbound(Outbound outbound) {
+this.outbound = outbound;
 }
 
 @JsonAnyGetter

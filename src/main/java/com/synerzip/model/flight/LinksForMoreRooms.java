@@ -1,8 +1,6 @@
-package com.synerzip.models;
+package com.synerzip.model.flight;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -11,34 +9,35 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.model.hotel.MoreRoomsAtThisHotel;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "flights" })
-public class Inbound {
+@JsonPropertyOrder({ "more_rooms_at_this_hotel" })
+public class LinksForMoreRooms {
 
-	@JsonProperty("flights")
-	private List<Flight> flights = new ArrayList<Flight>();
+	@JsonProperty("more_rooms_at_this_hotel")
+	private MoreRoomsAtThisHotel moreRoomsAtThisHotel;
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 	/**
 	 * 
-	 * @return The flights
+	 * @return The moreRoomsAtThisHotel
 	 */
-	@JsonProperty("flights")
-	public List<Flight> getFlights() {
-		return flights;
+	@JsonProperty("more_rooms_at_this_hotel")
+	public MoreRoomsAtThisHotel getMoreRoomsAtThisHotel() {
+		return moreRoomsAtThisHotel;
 	}
 
 	/**
 	 * 
-	 * @param flights
-	 *            The flights
+	 * @param moreRoomsAtThisHotel
+	 *            The more_rooms_at_this_hotel
 	 */
-	@JsonProperty("flights")
-	public void setFlights(List<Flight> flights) {
-		this.flights = flights;
+	@JsonProperty("more_rooms_at_this_hotel")
+	public void setMoreRoomsAtThisHotel(MoreRoomsAtThisHotel moreRoomsAtThisHotel) {
+		this.moreRoomsAtThisHotel = moreRoomsAtThisHotel;
 	}
 
 	@JsonAnyGetter
@@ -50,4 +49,5 @@ public class Inbound {
 	public void setAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
 	}
+
 }

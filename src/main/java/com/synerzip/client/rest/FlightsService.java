@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.synerzip.models.LowFareFlightSearchRQ;
-import com.synerzip.models.LowFareFlightSearchRS;
+import com.synerzip.model.flight.LowFareFlightSearchRQ;
+import com.synerzip.model.flight.LowFareFlightSearchRS;
 import com.synerzip.supplier.service.AmadeusSupplierService;
 
 @RestController

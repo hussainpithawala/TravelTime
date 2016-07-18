@@ -1,6 +1,8 @@
-package com.synerzip.models;
+package com.synerzip.model.flight;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -13,56 +15,56 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-"airport",
-"terminal"
+"itineraries",
+"fare"
 })
-public class Destination {
+public class ResultItinerary {
 
-@JsonProperty("airport")
-private String airport;
-@JsonProperty("terminal")
-private String terminal;
+@JsonProperty("itineraries")
+private List<Itinerary> itineraries = new ArrayList<Itinerary>();
+@JsonProperty("fare")
+private Fare fare;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 /**
 * 
 * @return
-* The airport
+* The itineraries
 */
-@JsonProperty("airport")
-public String getAirport() {
-return airport;
+@JsonProperty("itineraries")
+public List<Itinerary> getItineraries() {
+return itineraries;
 }
 
 /**
 * 
-* @param airport
-* The airport
+* @param itineraries
+* The itineraries
 */
-@JsonProperty("airport")
-public void setAirport(String airport) {
-this.airport = airport;
+@JsonProperty("itineraries")
+public void setItineraries(List<Itinerary> itineraries) {
+this.itineraries = itineraries;
 }
 
 /**
 * 
 * @return
-* The terminal
+* The fare
 */
-@JsonProperty("terminal")
-public String getTerminal() {
-return terminal;
+@JsonProperty("fare")
+public Fare getFare() {
+return fare;
 }
 
 /**
 * 
-* @param terminal
-* The terminal
+* @param fare
+* The fare
 */
-@JsonProperty("terminal")
-public void setTerminal(String terminal) {
-this.terminal = terminal;
+@JsonProperty("fare")
+public void setFare(Fare fare) {
+this.fare = fare;
 }
 
 @JsonAnyGetter

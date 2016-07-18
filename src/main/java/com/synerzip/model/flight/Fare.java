@@ -1,4 +1,4 @@
-package com.synerzip.models;
+package com.synerzip.model.flight;
 
 import java.util.HashMap;
 import java.util.Map;

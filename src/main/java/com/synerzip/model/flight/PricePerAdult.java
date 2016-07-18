@@ -1,8 +1,6 @@
-package com.synerzip.models;
+package com.synerzip.model.flight;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -15,56 +13,56 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-"currency",
-"results"
+"total_fare",
+"tax"
 })
-public class LowFareFlightSearchRS {
+public class PricePerAdult {
 
-@JsonProperty("currency")
-private String currency;
-@JsonProperty("results")
-private List<ResultItinerary> results = new ArrayList<ResultItinerary>();
+@JsonProperty("total_fare")
+private String totalFare;
+@JsonProperty("tax")
+private String tax;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 /**
 * 
 * @return
-* The currency
+* The totalFare
 */
-@JsonProperty("currency")
-public String getCurrency() {
-return currency;
+@JsonProperty("total_fare")
+public String getTotalFare() {
+return totalFare;
 }
 
 /**
 * 
-* @param currency
-* The currency
+* @param totalFare
+* The total_fare
 */
-@JsonProperty("currency")
-public void setCurrency(String currency) {
-this.currency = currency;
+@JsonProperty("total_fare")
+public void setTotalFare(String totalFare) {
+this.totalFare = totalFare;
 }
 
 /**
 * 
 * @return
-* The results
+* The tax
 */
-@JsonProperty("results")
-public List<ResultItinerary> getResults() {
-return results;
+@JsonProperty("tax")
+public String getTax() {
+return tax;
 }
 
 /**
 * 
-* @param results
-* The results
+* @param tax
+* The tax
 */
-@JsonProperty("results")
-public void setResults(List<ResultItinerary> results) {
-this.results = results;
+@JsonProperty("tax")
+public void setTax(String tax) {
+this.tax = tax;
 }
 
 @JsonAnyGetter

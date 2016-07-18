@@ -1,6 +1,8 @@
-package com.synerzip.models;
+package com.synerzip.model.flight;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -13,56 +15,33 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-"refundable",
-"change_penalties"
+"flights"
 })
-public class Restrictions {
+public class Outbound {
 
-@JsonProperty("refundable")
-private boolean refundable;
-@JsonProperty("change_penalties")
-private boolean changePenalties;
+@JsonProperty("flights")
+private List<Flight> flights = new ArrayList<Flight>();
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 /**
 * 
 * @return
-* The refundable
+* The flights
 */
-@JsonProperty("refundable")
-public boolean isRefundable() {
-return refundable;
+@JsonProperty("flights")
+public List<Flight> getFlights() {
+return flights;
 }
 
 /**
 * 
-* @param refundable
-* The refundable
+* @param flights
+* The flights
 */
-@JsonProperty("refundable")
-public void setRefundable(boolean refundable) {
-this.refundable = refundable;
-}
-
-/**
-* 
-* @return
-* The changePenalties
-*/
-@JsonProperty("change_penalties")
-public boolean isChangePenalties() {
-return changePenalties;
-}
-
-/**
-* 
-* @param changePenalties
-* The change_penalties
-*/
-@JsonProperty("change_penalties")
-public void setChangePenalties(boolean changePenalties) {
-this.changePenalties = changePenalties;
+@JsonProperty("flights")
+public void setFlights(List<Flight> flights) {
+this.flights = flights;
 }
 
 @JsonAnyGetter

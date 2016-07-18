@@ -1,4 +1,4 @@
-package com.synerzip.models;
+package com.synerzip.model.flight;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,33 +13,56 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-"outbound"
+"airport",
+"terminal"
 })
-public class Itinerary {
+public class Origin {
 
-@JsonProperty("outbound")
-private Outbound outbound;
+@JsonProperty("airport")
+private String airport;
+@JsonProperty("terminal")
+private String terminal;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 /**
 * 
 * @return
-* The outbound
+* The airport
 */
-@JsonProperty("outbound")
-public Outbound getOutbound() {
-return outbound;
+@JsonProperty("airport")
+public String getAirport() {
+return airport;
 }
 
 /**
 * 
-* @param outbound
-* The outbound
+* @param airport
+* The airport
 */
-@JsonProperty("outbound")
-public void setOutbound(Outbound outbound) {
-this.outbound = outbound;
+@JsonProperty("airport")
+public void setAirport(String airport) {
+this.airport = airport;
+}
+
+/**
+* 
+* @return
+* The terminal
+*/
+@JsonProperty("terminal")
+public String getTerminal() {
+return terminal;
+}
+
+/**
+* 
+* @param terminal
+* The terminal
+*/
+@JsonProperty("terminal")
+public void setTerminal(String terminal) {
+this.terminal = terminal;
 }
 
 @JsonAnyGetter

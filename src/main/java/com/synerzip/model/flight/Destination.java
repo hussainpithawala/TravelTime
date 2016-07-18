@@ -1,4 +1,4 @@
-package com.synerzip.models;
+package com.synerzip.model.flight;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 "airport",
 "terminal"
 })
-public class Origin {
+public class Destination {
 
 @JsonProperty("airport")
 private String airport;

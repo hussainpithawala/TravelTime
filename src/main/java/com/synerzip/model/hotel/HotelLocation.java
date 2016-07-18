@@ -1,4 +1,4 @@
-package com.synerzip.models;
+package com.synerzip.model.hotel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,56 +13,56 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-"total_fare",
-"tax"
+"latitude",
+"longitude"
 })
-public class PricePerAdult {
+public class HotelLocation {
 
-@JsonProperty("total_fare")
-private String totalFare;
-@JsonProperty("tax")
-private String tax;
+@JsonProperty("latitude")
+private double latitude;
+@JsonProperty("longitude")
+private double longitude;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 /**
 * 
 * @return
-* The totalFare
+* The latitude
 */
-@JsonProperty("total_fare")
-public String getTotalFare() {
-return totalFare;
+@JsonProperty("latitude")
+public double getLatitude() {
+return latitude;
 }
 
 /**
 * 
-* @param totalFare
-* The total_fare
+* @param latitude
+* The latitude
 */
-@JsonProperty("total_fare")
-public void setTotalFare(String totalFare) {
-this.totalFare = totalFare;
+@JsonProperty("latitude")
+public void setLatitude(double latitude) {
+this.latitude = latitude;
 }
 
 /**
 * 
 * @return
-* The tax
+* The longitude
 */
-@JsonProperty("tax")
-public String getTax() {
-return tax;
+@JsonProperty("longitude")
+public double getLongitude() {
+return longitude;
 }
 
 /**
 * 
-* @param tax
-* The tax
+* @param longitude
+* The longitude
 */
-@JsonProperty("tax")
-public void setTax(String tax) {
-this.tax = tax;
+@JsonProperty("longitude")
+public void setLongitude(double longitude) {
+this.longitude = longitude;
 }
 
 @JsonAnyGetter
