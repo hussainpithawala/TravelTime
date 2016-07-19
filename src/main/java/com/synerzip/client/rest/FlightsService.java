@@ -7,6 +7,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,6 +50,16 @@ public class FlightsService {
 		logger.info(url.toString());
 		
 		return new ResponseEntity<LowFareFlightSearchRS>(restTemplate.getForObject(url.toString(), LowFareFlightSearchRS.class), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/rest/async/searchLowFare", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public AsyncResult<LowFareFlightSearchRS> searchLowFareFlightsAsync() {
+		StringBuilder url = new StringBuilder(
+				"http://api.sandbox.amadeus.com/v1.2/flights/low-fare-search?origin=LHR&destination=JFK&departure_date=2016-07-30&return_date=2016-08-07&number_of_results=3&apikey=");
+		url.append(env.getProperty("amadeus.api.key"));
+
+		logger.info(url.toString());
+		return new AsyncResult<LowFareFlightSearchRS>(restTemplate.getForObject(url.toString(), LowFareFlightSearchRS.class));
 	}
 	
 }
