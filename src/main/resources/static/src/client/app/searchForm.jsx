@@ -52,11 +52,11 @@ var TextInput = React.createClass({
     if (this.props.type == 'textarea') {
       inputField = <textarea value={this.props.value} name={this.props.name} placeholder={this.props.name}
         ref={this.props.name} required = {this.props.isrequired} onChange = {this.handleChange}
-        styles={inputstyles}/>
+        style={inputstyles}/>
     } else {
       inputField = <input value={this.props.value} name={this.props.name} placeholder={this.props.name}
         ref={this.props.name} required = {this.props.isrequired} onChange = {this.handleChange}
-        styles={inputstyles}/>
+        style={inputstyles}/>
     }
     return (
       <div className="mdl-cell mdl-cell--6-col">
@@ -168,7 +168,7 @@ var SearchForm = React.createClass({
                 <input type="checkbox" id="checkbox1" className="mdl-checkbox__input" defaultChecked/>
                 <span className="mdl-checkbox__label">Hotel</span>
               </label>
-              <div className="mdl-grid" styles={ paddingInitial }>
+              <div className="mdl-grid" style={ paddingInitial }>
                 <div className="mdl-cell mdl-cell--12-col">
                   <span>Standard Hotel Shipping</span>
                   <br/>
@@ -181,11 +181,11 @@ var SearchForm = React.createClass({
                            htmlhtmlFor={'ReferencePoint'} isRequired={false} messageRequired={''}
                 />
                 <div className="mdl-cell mdl-cell--6-col">
-                  <input type="text" data-type="date" id="dep-date-input" styles={inputstyles}
+                  <input type="text" data-type="date" id="dep-date-input" style={inputstyles}
                          placeholder="From"/>
                 </div>
                 <div className="mdl-cell mdl-cell--6-col">
-                  <input type="text" id="datepicker" styles={inputstyles}
+                  <input type="text" id="datepicker" style={inputstyles}
                          placeholder="To"/>
                 </div>
                 <div className="mdl-cell mdl-cell--6-col">
@@ -197,7 +197,7 @@ var SearchForm = React.createClass({
                 </div>
                 <div className="mdl-cell mdl-cell--6-col">
                   <span className="field">Max Wait:</span>
-                  <input type="text" name="MaxWt" placeholder="16000 ms" styles={inputstyles} />
+                  <input type="text" name="MaxWt" placeholder="16000 ms" style={inputstyles} />
                 </div>
                 <div className="mdl-cell mdl-cell--3-col">
                   <span className="field">Cribs:</span>

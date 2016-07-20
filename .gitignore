@@ -3,7 +3,7 @@
 /.mvn/
 .classpath
 /.settings/
-src/main/resources/static/src/client/public/bundle.js
+src/main/resources/static/src/client/public/
 src/main/resources/supplier.properties
 .project
-src/main/resources/static/node_modules
+src/main/resources/static/node_modules/

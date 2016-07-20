@@ -16,6 +16,9 @@
     "material-design-lite": "^1.1.3",
     "react": "^15.2.0",
     "react-dom": "^15.2.0",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "jquery": "1.9.1",
+    "jqueryui": "1.11.1",
+    "moment": "2.14.1"
   }
 }
