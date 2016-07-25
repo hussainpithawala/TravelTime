@@ -1,13 +1,18 @@
 package com.synerzip;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -20,11 +25,12 @@ import com.synerzip.client.rest.FlightsService;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
-
+@ContextConfiguration(classes = { TravelTimeApplication.class })
+@TestPropertySource(locations = { "classpath:supplier.properties" })
 public class FlightsServiceTest {
-	@Mock
+	@Autowired
 	private Environment env;
-	@Mock
+	@Autowired
 	private RestTemplate restTemplate;
 	private MockMvc mockMvc;
 
@@ -40,8 +46,8 @@ public class FlightsServiceTest {
 	@Test
 	public void searchLowFarecontextLoads() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchLowFare").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
-
+				.andExpect(status().isOk())
+				.andDo(print());
 	}
 
 }
