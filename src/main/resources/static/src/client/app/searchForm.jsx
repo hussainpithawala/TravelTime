@@ -86,7 +86,7 @@ var SearchForm = React.createClass({
     //e.preventDefault(); // prevent default actions for <form> tag
     // validate entire search form here
     var validForm = true;
-    this.state.fields.forEach(function(field){
+    this.state.Fields.forEach(function(field){
       if (typeof field.isValid === "function") {
         var validField = field.isValid(field.refs[field.props.name]);
         validForm = validForm && validField;
@@ -101,8 +101,8 @@ var SearchForm = React.createClass({
         Rooms: this.state.rooms
       };
       $.ajax({
-        type: "POST",
-        url: this.props.urlPost,
+        type: "GET",
+        url: "/rest/hotelsearch",
         data: requestJSON,
         success: function(response) {
           this.setState({
@@ -112,6 +112,7 @@ var SearchForm = React.createClass({
             rooms:0,
             serverMessage:response.message,
           })
+          console.log(response);
         }.bind(this),
         error: function (e) {
           console.log(e);
@@ -126,28 +127,28 @@ var SearchForm = React.createClass({
     this.setState({
       fromDate: date
     });
-    alert("changed from date")
+    console.log("changed from date")
   },
   // handle change to-date
   onChangeToDate: function (date) {
     this.setState({
       toDate: date
     });
-    alert("changed  to date")
+    console.log("changed  to date")
   },
   // handle location change here
   onChangeLocation: function (location) {
     this.setState({
       location: location
     });
-    alert("changed location");
+    console.log("changed location");
   },
   // handle rooms change here
   onChangeRooms:  function (rooms) {
     this.setState({
       rooms: rooms
     });
-    alert("changed rooms")
+    console.log("changed rooms")
   },
   // register input controls
   register: function (field) {
