@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.synerzip.model.flight.ExtensiveSearchRS;
+import com.synerzip.model.flight.FlightInspirationSearchRS;
 import com.synerzip.model.flight.LowFareFlightSearchRQ;
 import com.synerzip.model.flight.LowFareFlightSearchRS;
 import com.synerzip.supplier.service.AmadeusSupplierService;
@@ -71,6 +72,17 @@ public class FlightsService {
 		
 		logger.info(url.toString());
 		return new ResponseEntity<ExtensiveSearchRS>(restTemplate.getForObject(url.toString(), ExtensiveSearchRS.class), HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value = "/rest/searchFlightInspiration", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<FlightInspirationSearchRS> searchFlightInspiration() {
+		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/inspiration-search?origin=NYC&destination=PAR&departure_date=2016-09-11--2016-09-26&one-way=false&duration=1--15&&direct=false&max_price=4000&aggregation_mode=WEEK&apikey=");
+		url.append(env.getProperty("amadeus.api.key"));
+		
+		logger.info(url.toString());
+		
+		return new ResponseEntity<FlightInspirationSearchRS>(restTemplate.getForObject(url.toString(), FlightInspirationSearchRS.class), HttpStatus.OK);
 	}
 	
 }

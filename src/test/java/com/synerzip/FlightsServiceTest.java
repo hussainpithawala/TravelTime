@@ -49,5 +49,12 @@ public class FlightsServiceTest {
 				.andExpect(status().isOk())
 				.andDo(print());
 	}
+	
+	@Test
+	public void searchFilghtInspiration() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchFlightInspiration").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andDo(print());
+	}
 
 }
