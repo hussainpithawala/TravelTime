@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.synerzip.model.flight.ExtensiveSearchRS;
 import com.synerzip.model.flight.FlightInspirationSearchRS;
+import com.synerzip.model.flight.LocationInformationSearchRS;
 import com.synerzip.model.flight.LowFareFlightSearchRQ;
 import com.synerzip.model.flight.LowFareFlightSearchRS;
 import com.synerzip.supplier.service.AmadeusSupplierService;
@@ -74,7 +75,8 @@ public class FlightsService {
 		return new ResponseEntity<ExtensiveSearchRS>(restTemplate.getForObject(url.toString(), ExtensiveSearchRS.class), HttpStatus.OK);
 	}
 	
-	
+	// The Inspiration Flight Search allows you to find the prices of one-way and
+	// return flights from an origin city without necessarily having a destination, or even a flight date
 	@RequestMapping(value = "/rest/searchFlightInspiration", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FlightInspirationSearchRS> searchFlightInspiration() {
 		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/inspiration-search?origin=NYC&destination=PAR&departure_date=2016-09-11--2016-09-26&one-way=false&duration=1--15&&direct=false&max_price=4000&aggregation_mode=WEEK&apikey=");
@@ -83,6 +85,17 @@ public class FlightsService {
 		logger.info(url.toString());
 		
 		return new ResponseEntity<FlightInspirationSearchRS>(restTemplate.getForObject(url.toString(), FlightInspirationSearchRS.class), HttpStatus.OK);
+	}
+	
+	// This service retrieves the location information corresponding to a IATA city or airport code.
+	@RequestMapping(value = "/rest/searchLocationInformation", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<LocationInformationSearchRS> searchLocationInformation() {
+		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/location/PAR/?apikey=");
+		url.append(env.getProperty("amadeus.api.key"));
+		
+		logger.info(url.toString());
+		
+		return new ResponseEntity<LocationInformationSearchRS>(restTemplate.getForObject(url.toString(), LocationInformationSearchRS.class), HttpStatus.OK);
 	}
 	
 }

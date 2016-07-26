@@ -51,8 +51,17 @@ public class FlightsServiceTest {
 	}
 	
 	@Test
+	// Tests the response status of FlightInspiration search request.
 	public void searchFilghtInspiration() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchFlightInspiration").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andDo(print());
+	}
+	
+	@Test
+	// Tests the response status of Location Information request.
+	public void searchLocationInformation() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchLocationInformation").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andDo(print());
 	}
