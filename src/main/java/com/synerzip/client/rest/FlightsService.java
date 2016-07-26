@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.synerzip.model.flight.ExtensiveSearchRS;
 import com.synerzip.model.flight.LowFareFlightSearchRQ;
 import com.synerzip.model.flight.LowFareFlightSearchRS;
 import com.synerzip.supplier.service.AmadeusSupplierService;
@@ -60,6 +61,16 @@ public class FlightsService {
 
 		logger.info(url.toString());
 		return new AsyncResult<LowFareFlightSearchRS>(restTemplate.getForObject(url.toString(), LowFareFlightSearchRS.class));
+	}
+	
+	
+	@RequestMapping(value = "/rest/searchExtensive", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ExtensiveSearchRS> searchextensiveFlights() {
+		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/extensive-search?origin=FRA&destination=LON&departure_date=2016-08-07--2016-08-16&one-way=false&duration=3&direct=false&max_price=450&aggregation_mode=DAY&apikey=");
+		url.append(env.getProperty("amadeus.api.key"));
+		
+		logger.info(url.toString());
+		return new ResponseEntity<ExtensiveSearchRS>(restTemplate.getForObject(url.toString(), ExtensiveSearchRS.class), HttpStatus.OK);
 	}
 	
 }
