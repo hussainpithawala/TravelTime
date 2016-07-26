@@ -305,3 +305,19 @@ input[type='radio']:checked:before {
 .sectionContent{
     margin-top: 20px;
 }
+
+.Results {
+    margin-top: 20px;
+}
+/*Collapsible Result Panel*/
+.Results .Collapsible{
+    border: 1px dotted grey;
+    padding: 10px;
+    font-size: large;
+    border-left: none;
+    border-right: none;
+}
+
+.Results .Collapsible a{
+    color: grey !important;
+}

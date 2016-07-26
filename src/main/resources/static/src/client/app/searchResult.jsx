@@ -1,51 +1,30 @@
 import React from 'react';
+import Collapsible from 'react-collapsible';
 
 var Section = React.createClass({
-    toggleContent: function(){
-        this.props.toggleOne(this.props.data.id)
-    },
-    getHeight: function(){
-        if(this.props.open){
-            return "3em"
-        } else {
-            return "0"
-        }
-    },
     render: function() {
-        var style = { height: this.getHeight() }
         return (
-            <div className={"section section" + this.props.data.id}>
-                <h5 className="sectionTitle" onClick={this.toggleContent} >{this.props.data.title}</h5>
-                <p className="sectionContent" style={style} >{this.props.data.content}</p>
-            </div>
+            <Collapsible class ="Result" triggerText={this.props.data.title}>
+                <p>{this.props.data.content}.</p>
+                <p>It can even be another Collapsible component. Check out the next section!</p>
+            </Collapsible>
         );
     }
 })
 
 var Container = React.createClass({
-    getInitialState: function(sectionList){
-        return { openSectionIndex: -1 }
-    },
     buildSections: function(sectionList){
         var sections = sectionList.map(this.buildSection);
         return sections;
     },
-    buildSection: function(section, index){
-        var openStatus = (index === this.state.openSectionIndex);
+    buildSection: function(section){
         /* Remember to add a 'key'. React wants you to add an identifier when you instantiate a component multiple times */
-        return <Section key={section.id} data={section} toggleOne={this.toggleOne} open={openStatus} />
-    },
-    toggleOne: function(id){
-        if(this.state.openSectionIndex === id){
-            this.setState({openSectionIndex: -1});
-        } else {
-            this.setState({openSectionIndex: id});
-        }
+        return <Section key={section.id} data={section} />
     },
     render: function() {
         var sections = this.buildSections(this.props.data);
         return (
-            <div className="container">
+            <div className="Results">
                 {sections}
             </div>
         );

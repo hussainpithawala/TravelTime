@@ -12,14 +12,21 @@ class App extends React.Component {
                 <div className="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
                     <div className="mdl-tabs__tab-bar" id="tabBar">
                         <a href="#SHOP" className="mdl-tabs__tab is-active">SHOP</a>
-                        <a href="#lannisters-panel" className="mdl-tabs__tab">Lannisters</a>
-                        <a href="#targaryens-panel" className="mdl-tabs__tab">Targaryens</a>
+                        <a href="#VIEW" className="mdl-tabs__tab">TAB2</a>
+                        {/*<a href="#targaryens-panel" className="mdl-tabs__tab">Targaryens</a>*/}
                     </div>
                     <div className="mdl-tabs__panel is-active" id="SHOP">
                         <section className="mdl-layout__tab-panel is-active" id="scroll-tab-1">
                             <div className="mdl-grid">
                                 <SearchForm></SearchForm>
                                 <SearchResult></SearchResult>
+                            </div>
+                        </section>
+                    </div>
+                    <div className="mdl-tabs__panel is-active" id="VIEW">
+                        <section className="mdl-layout__tab-panel is-active" id="scroll-tab-2">
+                            <div className="mdl-grid">
+                                tab 2
                             </div>
                         </section>
                     </div>
