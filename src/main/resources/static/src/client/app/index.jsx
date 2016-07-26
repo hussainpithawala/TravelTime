@@ -2,6 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import DisplayFlights from './FlightsDisplay.jsx';
 import SearchForm from './searchForm.jsx';
+import SearchResult from './searchResult.jsx';
 
 class App extends React.Component {
     render () {
@@ -18,6 +19,7 @@ class App extends React.Component {
                         <section className="mdl-layout__tab-panel is-active" id="scroll-tab-1">
                             <div className="mdl-grid">
                                 <SearchForm></SearchForm>
+                                <SearchResult></SearchResult>
                             </div>
                         </section>
                     </div>

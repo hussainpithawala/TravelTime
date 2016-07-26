@@ -176,7 +176,7 @@ a.mdl-tabs__tab:hover{
     background-color: #77bd1f;
 }
 input {
-    height: 20px;
+    height: 25px;
 }
 select {
     height: 25px;
@@ -271,4 +271,37 @@ input[type='radio']:checked:before {
     background:white !important;
 }
 
-.ui-accordion-header.ui-state-active { background-color: #6e98e3 !important; }
+.ui-accordion-header.ui-state-active { color: #77bd1f !important; }
+
+.sectionContent {
+    overflow: hidden;
+    -webkit-transition: height 0.3s ease-in;
+    -moz-transition: height 0.3s ease-in;
+    -o-transition: height 0.3s ease-in;
+    -ms-transition: height 0.3s ease-in;
+    transition: height 0.3s ease-in;
+}
+
+.sectionTitle {
+    display: block;
+    cursor: pointer;
+}
+
+.container .section {
+    border-style: groove;
+    border-radius: 25px;
+    color: #6e98e3;
+}
+
+.container .section h5 {
+    height: 3px;
+}
+.container .section:hover {
+    border-color: #6e98e3;
+}
+.container {
+    padding: 20px;
+}
+.sectionContent{
+    margin-top: 20px;
+}
