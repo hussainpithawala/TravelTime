@@ -115,7 +115,7 @@
     background: #b4cbe5;
 }
 #tabBar{
-    background-color: #6e98e3;
+    background-color: #00ac9d;
 }
 .mdl-checkbox__label{
     position: absolute;
@@ -147,17 +147,17 @@ a.mdl-tabs__tab:hover{
     height: 500px;
     float: right;
     border: none;
-    background-color: #6e98e3;
+    background-color:#00ac9d;
     color: #CECECE;
     margin-left: auto;
 }
 .collapsible button:hover {
-    background-color: #6e98e3;
+    background-color: #00ac9d;
     /*border: 1px solid #eff0f1;*/
 }
 #searchPanel1 {
     border: 1px solid #CCCCCC;
-    background-color: #6e98e3;
+    background-color: #00ac9d;
     margin-right: 40px;
     padding: 10px;
     box-shadow: 0px 0px 3px 0px #aaa;
@@ -290,14 +290,14 @@ input[type='radio']:checked:before {
 .container .section {
     border-style: groove;
     border-radius: 25px;
-    color: #6e98e3;
+    color:#00ac9d;
 }
 
 .container .section h5 {
     height: 3px;
 }
 .container .section:hover {
-    border-color: #6e98e3;
+    border-color: #00ac9d;
 }
 .container {
     padding: 20px;
@@ -309,15 +309,50 @@ input[type='radio']:checked:before {
 .Results {
     margin-top: 20px;
 }
-/*Collapsible Result Panel*/
-.Results .Collapsible{
-    border: 1px dotted grey;
-    padding: 10px;
-    font-size: large;
-    border-left: none;
-    border-right: none;
-}
+/*!*Collapsible Result Panel*!*/
+/*.Results .Collapsible{*/
+    /*border: 1px dotted grey;*/
+    /*padding: 10px;*/
+    /*font-size: large;*/
+    /*border-left: none;*/
+    /*border-right: none;*/
+/*}*/
 
-.Results .Collapsible a{
-    color: grey !important;
-}
+/*.Results .Collapsible a{*/
+    /*color: grey !important;*/
+/*}*/
+/*.Collapsible {*/
+    /*background-color: white; }*/
+
+.Collapsible__contentInner {
+    padding: 10px;
+    border: 1px dotted darkgray;
+    border-top: 0; }
+.Collapsible__contentInner p {
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 20px; }
+.Collapsible__contentInner p:last-child {
+    margin-bottom: 0; }
+
+.Collapsible__trigger {
+    display: block;
+    font-weight: 400;
+    text-decoration: none;
+    /*color: #333333;*/
+    position: relative;
+    padding: 10px;
+    background: none;
+    color: darkgray;
+    border: 1px dotted darkgray; }
+.Collapsible__trigger:after {
+    font-family: 'FontAwesome';
+    content: '\f107';
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    margin-right: 10px;
+    display: block;
+    transition: transform 300ms; }
+.Collapsible__trigger.is-open:after {
+    transform: rotateZ(180deg); }
