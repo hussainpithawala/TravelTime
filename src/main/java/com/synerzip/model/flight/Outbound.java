@@ -15,12 +15,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-"flights"
+"flights",
+"duration"
 })
 public class Outbound {
 
 @JsonProperty("flights")
 private List<Flight> flights = new ArrayList<Flight>();
+@JsonProperty("duration")
+private String duration;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -42,6 +45,25 @@ return flights;
 @JsonProperty("flights")
 public void setFlights(List<Flight> flights) {
 this.flights = flights;
+}
+
+/**
+ * 
+ * @return The duration
+ */
+@JsonProperty("duration")
+public String getDuration() {
+    return duration;
+}
+
+/**
+ * 
+ * @param duration
+ *       The duration
+ */
+@JsonProperty("duration")
+public void setDuration(String duration) {
+    this.duration = duration;
 }
 
 @JsonAnyGetter

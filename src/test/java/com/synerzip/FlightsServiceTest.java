@@ -1,7 +1,6 @@
 package com.synerzip;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,14 +43,20 @@ public class FlightsServiceTest {
 	}
 
 	@Test
-	public void searchLowFarecontextLoads() throws Exception {
+	public void searchLowFareFlight() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchLowFare").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andDo(print());
 	}
 	
 	@Test
-	// Tests the response status of FlightInspiration search request.
+	public void searchExtensiveFlight() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchExtensive").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andDo(print());
+	}
+	
+	@Test
 	public void searchFilghtInspiration() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchFlightInspiration").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
@@ -62,6 +67,13 @@ public class FlightsServiceTest {
 	// Tests the response status of Location Information request.
 	public void searchLocationInformation() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchLocationInformation").accept(MediaType.APPLICATION_JSON))
+		.andExpect(status().isOk())
+		.andDo(print());
+	}
+	
+	@Test
+	public void searchAffiliateFlight() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchAffiliate").accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andDo(print());
 	}

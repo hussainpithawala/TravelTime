@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "travel_class", "booking_code", "seats_remaining" })
+@JsonPropertyOrder({ "travel_class", "booking_code", "seats_remaining", "cabin_code", "fare_basis", "fare_family" })
 public class BookingInfo {
 
 	@JsonProperty("travel_class")
@@ -21,6 +21,12 @@ public class BookingInfo {
 	private String bookingCode;
 	@JsonProperty("seats_remaining")
 	private int seatsRemaining;
+	@JsonProperty("cabin_code")
+	private String cabinCode;
+	@JsonProperty("fare_basis")
+	private String fareBasis;
+	@JsonProperty("fare_family")
+	private String fareFamily;
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -81,6 +87,64 @@ public class BookingInfo {
 		this.seatsRemaining = seatsRemaining;
 	}
 
+	/**
+	 * 
+	 * @return The cabinCode
+	 */
+	@JsonProperty("cabin_code")
+	public String getCabinCode() {
+		return cabinCode;
+	}
+	
+	/**
+	 * 
+	 * @param cabinCode
+	 *            The cabin_code
+	 */
+    @JsonProperty("cabin_code")
+    public void setCabinCode(String cabinCode) {
+		this.cabinCode = cabinCode;
+    }
+    
+    /**
+	 * 
+	 * @return The fareBasis
+	 */
+    @JsonProperty("fare_basis")
+    public String getFareBasis() {
+        return fareBasis;
+    }
+    
+    /**
+	 * 
+	 * @param fareBasis
+	 *            The fare_basis
+	 */
+    @JsonProperty("fare_basis")
+    public void setFareBasis(String fareBasis) {
+        this.fareBasis = fareBasis;
+    }
+    
+    /**
+     * 
+     * @return
+     *     The fareFamily
+     */
+    @JsonProperty("fare_family")
+    public String getFareFamily() {
+        return fareFamily;
+    }
+
+    /**
+     * 
+     * @param fareFamily
+     *     The fare_family
+     */
+    @JsonProperty("fare_family")
+    public void setFareFamily(String fareFamily) {
+        this.fareFamily = fareFamily;
+    }
+    
 	@JsonAnyGetter
 	public Map<String, Object> getAdditionalProperties() {
 		return this.additionalProperties;

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.synerzip.model.flight.AffiliateFlightSearchRS;
 import com.synerzip.model.flight.ExtensiveSearchRS;
 import com.synerzip.model.flight.FlightInspirationSearchRS;
 import com.synerzip.model.flight.LocationInformationSearchRS;
@@ -65,9 +66,8 @@ public class FlightsService {
 		return new AsyncResult<LowFareFlightSearchRS>(restTemplate.getForObject(url.toString(), LowFareFlightSearchRS.class));
 	}
 	
-	
 	@RequestMapping(value = "/rest/searchExtensive", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ExtensiveSearchRS> searchextensiveFlights() {
+	public ResponseEntity<ExtensiveSearchRS> searchFlightExtensive() {
 		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/extensive-search?origin=FRA&destination=LON&departure_date=2016-08-07--2016-08-16&one-way=false&duration=3&direct=false&max_price=450&aggregation_mode=DAY&apikey=");
 		url.append(env.getProperty("amadeus.api.key"));
 		
@@ -75,8 +75,6 @@ public class FlightsService {
 		return new ResponseEntity<ExtensiveSearchRS>(restTemplate.getForObject(url.toString(), ExtensiveSearchRS.class), HttpStatus.OK);
 	}
 	
-	// The Inspiration Flight Search allows you to find the prices of one-way and
-	// return flights from an origin city without necessarily having a destination, or even a flight date
 	@RequestMapping(value = "/rest/searchFlightInspiration", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FlightInspirationSearchRS> searchFlightInspiration() {
 		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/inspiration-search?origin=NYC&destination=PAR&departure_date=2016-09-11--2016-09-26&one-way=false&duration=1--15&&direct=false&max_price=4000&aggregation_mode=WEEK&apikey=");
@@ -98,4 +96,12 @@ public class FlightsService {
 		return new ResponseEntity<LocationInformationSearchRS>(restTemplate.getForObject(url.toString(), LocationInformationSearchRS.class), HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/rest/searchAffiliate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<AffiliateFlightSearchRS> searchFlightAffiliate() {
+		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/affiliate-search?origin=LON&destination=DUB&departure_date=2016-11-25&return_date=2016-11-28&adults=1&children=0&infants=0&max_price=980&cy=EUR&mobile=false&apikey=");
+		url.append(env.getProperty("amadeus.api.key"));
+		
+		logger.info(url.toString());
+		return new ResponseEntity<AffiliateFlightSearchRS>(restTemplate.getForObject(url.toString(), AffiliateFlightSearchRS.class), HttpStatus.OK);
+	}
 }
