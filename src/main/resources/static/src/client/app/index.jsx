@@ -1,8 +1,6 @@
 import React from 'react';
 import {render} from 'react-dom';
-import DisplayFlights from './FlightsDisplay.jsx';
-import SearchForm from './searchForm.jsx';
-import SearchResult from './searchResult.jsx';
+import SearchPanel from './searchPanel.jsx';
 
 class App extends React.Component {
     render () {
@@ -17,10 +15,7 @@ class App extends React.Component {
                     </div>
                     <div className="mdl-tabs__panel is-active" id="SHOP">
                         <section className="mdl-layout__tab-panel is-active" id="scroll-tab-1">
-                            <div className="mdl-grid">
-                                <SearchForm></SearchForm>
-                                <SearchResult></SearchResult>
-                            </div>
+                            <SearchPanel></SearchPanel>
                         </section>
                     </div>
                     <div className="mdl-tabs__panel is-active" id="VIEW">

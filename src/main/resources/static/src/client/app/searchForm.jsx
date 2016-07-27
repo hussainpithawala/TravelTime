@@ -83,7 +83,7 @@ var SearchForm = React.createClass({
   // handle form submit event here
   handleSubmit: function (e) {
     // handle submit action here
-    //e.preventDefault(); // prevent default actions for <form> tag
+    e.preventDefault(); // prevent default actions for <form> tag
     // validate entire search form here
     var validForm = true;
     this.state.Fields.forEach(function(field){
@@ -111,13 +111,18 @@ var SearchForm = React.createClass({
             location:'',
             rooms:0,
             serverMessage:response.message,
-          })
+          });
           console.log(response);
+          this.props.updateSearchResult(response);
         }.bind(this),
         error: function (e) {
           console.log(e);
-          alert("Something went bad!!")
-        }
+          console.log("Something went bad!!");
+          // TODO : This is a temporary code. Remove it once client-server communication part is finished
+          $.getJSON( "src/client/tmp/hotelSearchResult.json", function( data ) {
+            this.props.updateSearchResult(data);
+          }.bind(this));
+        }.bind(this)
       });
     }
     console.log("Submitted!!");

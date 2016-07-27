@@ -4,8 +4,8 @@ import Collapsible from 'react-collapsible';
 var Section = React.createClass({
     render: function() {
         return (
-            <Collapsible class ="Result" triggerText={this.props.data.title}>
-                <p>{this.props.data.content}.</p>
+            <Collapsible class ="Result" triggerText={this.props.data.property_name}>
+                <p>{this.props.data.marketing_text}.</p>
                 <p>It can even be another Collapsible component. Check out the next section!</p>
             </Collapsible>
         );
@@ -19,7 +19,7 @@ var Container = React.createClass({
     },
     buildSection: function(section){
         /* Remember to add a 'key'. React wants you to add an identifier when you instantiate a component multiple times */
-        return <Section key={section.id} data={section} />
+        return <Section key={section.property_code} data={section} />
     },
     render: function() {
         var sections = this.buildSections(this.props.data);
@@ -40,27 +40,33 @@ var SearchResult = React.createClass({
     },
 
     componentDidMount: function() {
+        console.log(this.props.searchResult);
         this.setState({
             backendData :  [
                 {
-                    "id": 0,
-                    "title":"Section 1",
-                    "content":"Our content for the section 1"
+                    "property_code": 0,
+                    "property_name":"Section 1",
+                    "marketing_text":"Our content for the section 1"
                 },
                 {
-                    "id": 1,
-                    "title":"Section 2",
-                    "content":"Our content for the section 2"
+                    "property_code": 1,
+                    "property_name":"Section 2",
+                    "marketing_text":"Our content for the section 2"
                 },
                 {
-                    "id": 2,
-                    "title":"Section 3",
-                    "content":"Our content for the section 3"
+                    "property_code": 2,
+                    "property_name":"Section 3",
+                    "marketing_text":"Our content for the section 3"
                 }
             ]
         });
     },
     render: function() {
+        if (this.props.searchResult) {
+            this.setState({
+                backendData: this.props.searchResult.results
+            })
+        }
         return (
             <div className="mdl-cell mdl-cell--8-col" id="mainPanel">
                 <p className="flow-text" id="mainText">Shop Results </p>
