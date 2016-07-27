@@ -61,12 +61,15 @@ var SearchResult = React.createClass({
             ]
         });
     },
-    render: function() {
-        if (this.props.searchResult) {
+    componentWillReceiveProps: function(nextProps) {
+        //console.log(nextProps);
+        if (nextProps.searchResult) {
             this.setState({
-                backendData: this.props.searchResult.results
+                backendData: nextProps.searchResult.results
             })
         }
+    },
+    render: function() {
         return (
             <div className="mdl-cell mdl-cell--8-col" id="mainPanel">
                 <p className="flow-text" id="mainText">Shop Results </p>
