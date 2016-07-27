@@ -1,5 +1,7 @@
 package com.synerzip.client.rest;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,9 @@ import com.synerzip.model.flight.FlightInspirationSearchRS;
 import com.synerzip.model.flight.LocationInformationSearchRS;
 import com.synerzip.model.flight.LowFareFlightSearchRQ;
 import com.synerzip.model.flight.LowFareFlightSearchRS;
+import com.synerzip.model.flight.NearestAirportSearchRS;
 import com.synerzip.supplier.service.AmadeusSupplierService;
+
 
 @RestController
 public class FlightsService {
@@ -75,27 +79,26 @@ public class FlightsService {
 		return new ResponseEntity<ExtensiveSearchRS>(restTemplate.getForObject(url.toString(), ExtensiveSearchRS.class), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/rest/searchFlightInspiration", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<FlightInspirationSearchRS> searchFlightInspiration() {
-		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/inspiration-search?origin=NYC&destination=PAR&departure_date=2016-09-11--2016-09-26&one-way=false&duration=1--15&&direct=false&max_price=4000&aggregation_mode=WEEK&apikey=");
-		url.append(env.getProperty("amadeus.api.key"));
-		
-		logger.info(url.toString());
-		
-		return new ResponseEntity<FlightInspirationSearchRS>(restTemplate.getForObject(url.toString(), FlightInspirationSearchRS.class), HttpStatus.OK);
-	}
-	
-	// This service retrieves the location information corresponding to a IATA city or airport code.
-	@RequestMapping(value = "/rest/searchLocationInformation", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<LocationInformationSearchRS> searchLocationInformation() {
-		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/location/PAR/?apikey=");
-		url.append(env.getProperty("amadeus.api.key"));
-		
-		logger.info(url.toString());
-		
-		return new ResponseEntity<LocationInformationSearchRS>(restTemplate.getForObject(url.toString(), LocationInformationSearchRS.class), HttpStatus.OK);
-	}
-	
+    // The Inspiration Flight Search allows you to find the prices of one-way and return flights from an origin city without necessarily having a destination, or even a flight date
+    @RequestMapping(value = "/rest/searchFlightInspiration", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<FlightInspirationSearchRS> searchFlightInspiration() {
+      StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/inspiration-search?origin=NYC&destination=PAR&departure_date=2016-09-11--2016-09-26&one-way=false&duration=1--15&&direct=false&max_price=4000&aggregation_mode=WEEK&apikey=");
+      url.append(env.getProperty("amadeus.api.key"));
+      
+      logger.info(url.toString());
+      return new ResponseEntity<FlightInspirationSearchRS>(restTemplate.getForObject(url.toString(), FlightInspirationSearchRS.class), HttpStatus.OK);
+    }
+
+    // This service retrieves the location information corresponding to a IATA city or airport code.
+    @RequestMapping(value = "/rest/searchLocationInformation", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LocationInformationSearchRS> searchLocationInformation() {
+      StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/location/PAR/?apikey=");
+      url.append(env.getProperty("amadeus.api.key"));
+
+      logger.info(url.toString());
+      return new ResponseEntity<LocationInformationSearchRS>(restTemplate.getForObject(url.toString(), LocationInformationSearchRS.class), HttpStatus.OK);
+    }
+    
 	@RequestMapping(value = "/rest/searchAffiliate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AffiliateFlightSearchRS> searchFlightAffiliate() {
 		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/affiliate-search?origin=LON&destination=DUB&departure_date=2016-11-25&return_date=2016-11-28&adults=1&children=0&infants=0&max_price=980&cy=EUR&mobile=false&apikey=");
@@ -104,4 +107,14 @@ public class FlightsService {
 		logger.info(url.toString());
 		return new ResponseEntity<AffiliateFlightSearchRS>(restTemplate.getForObject(url.toString(), AffiliateFlightSearchRS.class), HttpStatus.OK);
 	}
+	
+    // This service gives the most relevant airports in a radius of 500 km around the given coordinates.
+    @RequestMapping(value = "/rest/searchNearestAirport", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<NearestAirportSearchRS[]> searchNearestAirport() {
+      StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/airports/nearest-relevant?latitude=54.9501&longitude=-7.7373&apikey=");
+      url.append(env.getProperty("amadeus.api.key"));
+
+      logger.info(url.toString());
+      return new ResponseEntity<NearestAirportSearchRS[]>(restTemplate.getForObject(url.toString(), NearestAirportSearchRS[].class), HttpStatus.OK);
+    }
 }
