@@ -166,7 +166,7 @@ var SearchForm = React.createClass({
   render: function() {
     return (
       <div className="collapsible" id="generalSearchPanel">
-        <button>&raquo;</button>
+        <button id="collapsibleBtn">&raquo;</button>
         <div id="searchPanel">
           <form onSubmit={this.handleSubmit}>
             <div id="searchPanel1">

@@ -1,7 +1,7 @@
 $(document).ready(function() {
   var hideWidth = '-385px'; //width that will be hidden
   var collapsibleEl = $('#generalSearchPanel'); //collapsible element
-  var buttonEl =  $(".collapsible button"); //button inside element
+  var buttonEl =  $("#collapsibleBtn"); //button inside element
 
   collapsibleEl.css({'margin-left': hideWidth}); //on page load we'll move and hide part of elements
   
