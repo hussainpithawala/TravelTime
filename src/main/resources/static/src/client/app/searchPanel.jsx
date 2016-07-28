@@ -2,7 +2,6 @@ import React from 'react';
 
 import SearchForm from './searchForm.jsx';
 import SearchResult from './searchResult.jsx';
-
 var SearchPanel = React.createClass({
   getInitialState: function() {
     return {
@@ -20,7 +19,7 @@ var SearchPanel = React.createClass({
     if(this.state.searchResult) {
       var SearchResultOption = <SearchResult searchResult={this.state.searchResult}></SearchResult>
     } else {
-      var SearchResultOption = <imp src=""/>
+      var SearchResultOption = <div className="circular"></div>
     }
     return(
       <div className="mdl-grid">

@@ -143,6 +143,7 @@ var SearchForm = React.createClass({
   },
   // handle location change here
   onChangeLocation: function (location) {
+    var me = this;
     $(function () {
       var getData = function (request, response) {
         $.getJSON(
@@ -154,6 +155,9 @@ var SearchForm = React.createClass({
 
       var selectItem = function (event, ui) {
         $("#Location").val(ui.item.value);
+        me.setState({
+          location: ui.item.value
+        });
         return false;
       }
 
