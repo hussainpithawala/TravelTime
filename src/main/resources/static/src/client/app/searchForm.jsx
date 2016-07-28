@@ -52,11 +52,11 @@ var TextInput = React.createClass({
     if (this.props.type == 'textarea') {
       inputField = <textarea value={this.props.value} name={this.props.name} placeholder={this.props.name}
         ref={this.props.name} required = {this.props.isrequired} onChange = {this.handleChange}
-        style={inputstyles}/>
+        style={inputstyles} id={this.props.name}/>
     } else {
       inputField = <input value={this.props.value} name={this.props.name} placeholder={this.props.name}
         ref={this.props.name} required = {this.props.isrequired} onChange = {this.handleChange}
-        style={inputstyles}/>
+        style={inputstyles} id={this.props.name}/>
     }
     return (
       <div className="mdl-cell mdl-cell--6-col">
@@ -143,6 +143,29 @@ var SearchForm = React.createClass({
   },
   // handle location change here
   onChangeLocation: function (location) {
+    $(function () {
+      var getData = function (request, response) {
+        $.getJSON(
+          "rest/get/airportAutocomplete?term=" + location,
+          function (data) {
+            response(data);
+          });
+      };
+
+      var selectItem = function (event, ui) {
+        $("#Location").val(ui.item.value);
+        return false;
+      }
+
+      $("#Location").autocomplete({
+        source: getData,
+        select: selectItem,
+        minLength: 2,
+        change: function() {
+          $("#Location").val("").css("display", 2);
+        }
+      });
+    });
     this.setState({
       location: location
     });
