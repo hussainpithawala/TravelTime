@@ -72,8 +72,8 @@ var SearchForm = React.createClass({
   // get initial state event
   getInitialState: function() {
     return {
-      fromDate:'',
-      toDate:'',
+      checkIn:'',
+      checkOut:'',
       location:'',
       rooms:0,
       serverMessage:'',
@@ -95,14 +95,13 @@ var SearchForm = React.createClass({
     // send post request to server
     if (validForm) {
       var requestJSON = {
-        From: this.state.fromDate,
-        To: this.state.toDate,
-        Location: this.state.location,
-        Rooms: this.state.rooms
+        checkIn: "2016-09-09",
+        checkOut: "2016-09-11",
+        location: this.state.location
       };
       $.ajax({
-        type: "GET",
-        url: "/rest/hotelsearch",
+        type: "POST",
+        url: "/rest/hotelSearchByAirportCode",
         data: requestJSON,
         success: function(response) {
           this.setState({
@@ -130,17 +129,18 @@ var SearchForm = React.createClass({
   // handle change from-date
   onChangeFromDate: function (date) {
     this.setState({
-      fromDate: date
+      checkIn: date
     });
-    console.log("changed from date")
+    alert("changed from date")
   },
   // handle change to-date
   onChangeToDate: function (date) {
     this.setState({
-      toDate: date
+      checkOut: date
     });
-    console.log("changed  to date")
+    alert("changed  to date")
   },
+
   // handle location change here
   onChangeLocation: function (location) {
     var me = this;
@@ -155,19 +155,15 @@ var SearchForm = React.createClass({
 
       var selectItem = function (event, ui) {
         $("#Location").val(ui.item.value);
-        me.setState({
-          location: ui.item.value
-        });
-        return false;
-      }
+        console.log(ui.item.value);
+        me.setState({location: ui.item.value});
+        return true;
+      };
 
       $("#Location").autocomplete({
         source: getData,
         select: selectItem,
-        minLength: 2,
-        change: function() {
-          $("#Location").val("").css("display", 2);
-        }
+        minLength: 2
       });
     });
     this.setState({
@@ -215,11 +211,11 @@ var SearchForm = React.createClass({
                 />
                 <div className="mdl-cell mdl-cell--6-col">
                   <input type="text" data-type="date" id="dep-date-input" style={inputstyles}
-                         placeholder="From"/>
+                         placeholder="From" onChange={this.onChangeFromDate}/>
                 </div>
                 <div className="mdl-cell mdl-cell--6-col">
                   <input type="text" id="datepicker" style={inputstyles}
-                         placeholder="To"/>
+                         placeholder="To" onChange={this.onChangeToDate}/>
                 </div>
                 <div className="mdl-cell mdl-cell--6-col">
                   <span className="field">Rooms:</span>
