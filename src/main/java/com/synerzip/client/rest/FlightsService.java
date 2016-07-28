@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
 import com.synerzip.model.flight.AffiliateFlightSearchRS;
+import com.synerzip.model.flight.AirportAutocompleteRS;
 import com.synerzip.model.flight.ExtensiveSearchRS;
 import com.synerzip.model.flight.FlightInspirationSearchRS;
 import com.synerzip.model.flight.LocationInformationSearchRS;
@@ -40,6 +40,7 @@ public class FlightsService {
 	@Autowired
 	AmadeusSupplierService amadeusService;
 	
+	// This service retrieves the best price for flights.
 	@RequestMapping(value = "/rest/searchLowFare", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<LowFareFlightSearchRS> searchLowFareFlights() {
 		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/low-fare-search?origin=LHR&destination=JFK&departure_date=2016-07-30&return_date=2016-08-07&number_of_results=3&apikey=");
@@ -70,6 +71,7 @@ public class FlightsService {
 		return new AsyncResult<LowFareFlightSearchRS>(restTemplate.getForObject(url.toString(), LowFareFlightSearchRS.class));
 	}
 	
+	// This service retrieves prices of flights over a large number of days. 
 	@RequestMapping(value = "/rest/searchExtensive", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ExtensiveSearchRS> searchFlightExtensive() {
 		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/extensive-search?origin=FRA&destination=LON&departure_date=2016-08-07--2016-08-16&one-way=false&duration=3&direct=false&max_price=450&aggregation_mode=DAY&apikey=");
@@ -116,5 +118,15 @@ public class FlightsService {
 
       logger.info(url.toString());
       return new ResponseEntity<NearestAirportSearchRS[]>(restTemplate.getForObject(url.toString(), NearestAirportSearchRS[].class), HttpStatus.OK);
+    }
+    
+ // This service provides a full name of IATA location with their IATA code.
+    @RequestMapping(value = "/rest/airportAutocomplete", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AirportAutocompleteRS[]> airportAutocomplete() {
+    StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/airports/autocomplete?term=LON&apikey=");
+    url.append(env.getProperty("amadeus.api.key"));
+    
+    logger.info(url.toString());
+    return new ResponseEntity<AirportAutocompleteRS[]>(restTemplate.getForObject(url.toString(), AirportAutocompleteRS[].class), HttpStatus.OK);
     }
 }
