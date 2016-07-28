@@ -17,10 +17,15 @@ var SearchPanel = React.createClass({
   },
 
   render: function () {
+    if(this.state.searchResult) {
+      var SearchResultOption = <SearchResult searchResult={this.state.searchResult}></SearchResult>
+    } else {
+      var SearchResultOption = <imp src=""/>
+    }
     return(
       <div className="mdl-grid">
         <SearchForm updateSearchResult = {this.updateSearchResult}></SearchForm>
-        <SearchResult searchResult={this.state.searchResult}></SearchResult>
+        {SearchResultOption}
       </div>
     );
   }
