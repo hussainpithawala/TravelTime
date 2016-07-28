@@ -43,44 +43,44 @@ public class FlightsServiceTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(instance).build();
 	}
 
-//	@Test
-//	// Tests the response status and print the response on console of LowFare search request.
-//	public void searchLowFareFlight() throws Exception {
-//		mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchLowFare").accept(MediaType.APPLICATION_JSON))
-//				.andExpect(status().isOk())
-//				.andDo(print());
-//	}
-//	
-//	@Test
-//	public void searchExtensiveFlight() throws Exception {
-//		mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchExtensive").accept(MediaType.APPLICATION_JSON))
-//				.andExpect(status().isOk())
-//				.andDo(print());
-//	}
-//	
-//    @Test
-//    // Tests the response status of Flight Inspiration request.
-//    public void searchFilghtInspiration() throws Exception {
-//      mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchFlightInspiration").accept(MediaType.APPLICATION_JSON))
-//          .andExpect(status().isOk())
-//          .andDo(print());
-//    }
-//
-//    @Test
-//    // Tests the response status of Location Information request.
-//    public void searchLocationInformation() throws Exception {
-//      mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchLocationInformation")
-//          .accept(MediaType.APPLICATION_JSON))
-//          .andExpect(status().isOk())
-//          .andDo(print());
-//    }
-//
-//	@Test
-//	public void searchAffiliateFlight() throws Exception {
-//		mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchAffiliate").accept(MediaType.APPLICATION_JSON))
-//				.andExpect(status().isOk())
-//				.andDo(print());
-//	}
+	@Test
+	// Tests the response status and print the response on console of LowFare search request.
+	public void searchLowFareFlight() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchLowFare").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andDo(print());
+	}
+	
+	@Test
+	public void searchExtensiveFlight() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchExtensive").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andDo(print());
+	}
+	
+    @Test
+    // Tests the response status of Flight Inspiration request.
+    public void searchFilghtInspiration() throws Exception {
+      mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchFlightInspiration").accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isOk())
+          .andDo(print());
+    }
+
+    @Test
+    // Tests the response status of Location Information request.
+    public void searchLocationInformation() throws Exception {
+      mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchLocationInformation")
+          .accept(MediaType.APPLICATION_JSON))
+          .andExpect(status().isOk())
+          .andDo(print());
+    }
+
+	@Test
+	public void searchAffiliateFlight() throws Exception {
+		mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchAffiliate").accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andDo(print());
+	}
 	
 	@Test
 	public void airportAutocomplete() throws Exception {
