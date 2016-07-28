@@ -1,7 +1,5 @@
 package com.synerzip.client.rest;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +11,10 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
 import com.synerzip.model.flight.AffiliateFlightSearchRS;
 import com.synerzip.model.flight.AirportAutocompleteRS;
 import com.synerzip.model.flight.ExtensiveSearchRS;
@@ -120,7 +120,7 @@ public class FlightsService {
       return new ResponseEntity<NearestAirportSearchRS[]>(restTemplate.getForObject(url.toString(), NearestAirportSearchRS[].class), HttpStatus.OK);
     }
     
- // This service provides a full name of IATA location with their IATA code.
+    // This service provides a full name of IATA location with their IATA code.
     @RequestMapping(value = "/rest/airportAutocomplete", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AirportAutocompleteRS[]> airportAutocomplete() {
     StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/airports/autocomplete?term=LON&apikey=");
@@ -129,4 +129,13 @@ public class FlightsService {
     logger.info(url.toString());
     return new ResponseEntity<AirportAutocompleteRS[]>(restTemplate.getForObject(url.toString(), AirportAutocompleteRS[].class), HttpStatus.OK);
     }
+    
+    // This service is accept search keyword and return possible set of result
+    @RequestMapping(value = "/rest/get/airportAutocomplete", method=RequestMethod.GET)
+    	public ResponseEntity<AirportAutocompleteRS[]> searchairportAutoComplete(@RequestParam("term") String term) {
+    		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/airports/autocomplete?term=" +term+"&apikey=");
+    		url.append(env.getProperty("amadeus.api.key"));
+    		logger.info(url.toString());
+    		return new ResponseEntity<AirportAutocompleteRS[]>(restTemplate.getForObject(url.toString(), AirportAutocompleteRS[].class), HttpStatus.OK);
+    	}
 }
