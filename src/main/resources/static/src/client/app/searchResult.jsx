@@ -35,39 +35,20 @@ var SearchResult = React.createClass({
 
     getInitialState: function() {
         return {
-            backendData: []
+            backendData: this.props.searchResult.results
         }
     },
 
-    componentDidMount: function() {
-        console.log(this.props.searchResult);
-        this.setState({
-            backendData :  [
-                {
-                    "property_code": 0,
-                    "property_name":"Section 1",
-                    "marketing_text":"Our content for the section 1"
-                },
-                {
-                    "property_code": 1,
-                    "property_name":"Section 2",
-                    "marketing_text":"Our content for the section 2"
-                },
-                {
-                    "property_code": 2,
-                    "property_name":"Section 3",
-                    "marketing_text":"Our content for the section 3"
-                }
-            ]
-        });
-    },
-    componentWillReceiveProps: function(nextProps) {
-        //console.log(nextProps);
-        if (nextProps.searchResult) {
+    propertiesChanged: function(properties) {
+        if (properties) {
             this.setState({
-                backendData: nextProps.searchResult.results
+                backendData: properties.results
             })
         }
+    },
+    
+    componentWillReceiveProps: function(nextProps) {
+        this.propertiesChanged(nextProps.searchResult)
     },
     render: function() {
         return (
