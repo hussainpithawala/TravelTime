@@ -18,7 +18,7 @@ class App extends React.Component {
                             <SearchPanel></SearchPanel>
                         </section>
                     </div>
-                    <div className="mdl-tabs__panel is-active" id="VIEW">
+                    <div className="mdl-tabs__panel" id="VIEW">
                         <section className="mdl-layout__tab-panel is-active" id="scroll-tab-2">
                             <div className="mdl-grid">
                                 tab 2
