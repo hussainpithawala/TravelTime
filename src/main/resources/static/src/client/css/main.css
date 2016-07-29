@@ -370,3 +370,22 @@ input[type='radio']:checked:before {
     margin-left: 30px;
     box-shadow: 0px 0px 8px 0px #00ac9d;
 }
+
+#hotelInfo h6 {
+    margin-top: auto;
+    margin-bottom:auto;
+}
+
+#roomInfo h6 {
+    margin-top: auto;
+    margin-bottom:auto;
+    margin-left: 15px;
+}
+#roomInfo p{
+    margin-top: 6px;
+}
+
+#price{
+    margin-left: 100px;
+}
+

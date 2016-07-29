@@ -1,12 +1,51 @@
 import React from 'react';
 import Collapsible from 'react-collapsible';
 
+var HotelDetails = React.createClass({
+render: function () {
+    var hotelDetails = this.props.details;
+    return (<div id="hotelInfo" className="mdl-grid">
+        <div className="mdl-cell mdl-cell--4-col">
+            <h6> <b>Address: </b> </h6>
+            <p> {this.props.details.address.line1} {hotelDetails.address.city}</p>
+        </div>
+        <div className="mdl-cell mdl-cell--8-col">
+            <h6> <b>Contact: </b> </h6>
+            <p> {this.props.details.contacts[0].detail}</p>
+        </div>
+    </div>)}
+});
+
+var Room = React.createClass({
+    render: function() {
+
+        return (<div className="mdl-grid">
+                <input className="mdl-cell mdl-cell--4-col" type="radio" name="room" value={this.props.data.room_type_info.room_type} />
+                <p>{this.props.data.room_type_info.room_type}</p>
+                <p id="price" className="mdl-cell mdl-cell--4-col"> {this.props.data.total_amount.amount} "$" </p>
+            </div>
+        );
+    }
+});
+var RoomsDetails = React.createClass({
+    render: function() {
+        return (
+            <div id="roomInfo">
+                <h6> <b>SELECT NIGHTLY RATE </b></h6>
+                {this.props.roomsData.rooms.map(function(result) {
+                    return <Room key={result.room_type_code} data={result}/>;
+                })}
+            </div>
+        );
+    }
+});
+
 var Section = React.createClass({
     render: function() {
         return (
-            <Collapsible class ="Result" triggerText={this.props.data.property_name}>
-                <p>{this.props.data.marketing_text}.</p>
-                <p>It can even be another Collapsible component. Check out the next section!</p>
+            <Collapsible class ="Result" triggerText= {this.props.data.property_name}>
+                <HotelDetails details={this.props.data}/>
+                <RoomsDetails roomsData={this.props.data}/>
             </Collapsible>
         );
     }
