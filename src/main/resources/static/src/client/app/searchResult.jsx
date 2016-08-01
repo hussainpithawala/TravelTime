@@ -41,12 +41,28 @@ var RoomsDetails = React.createClass({
 });
 
 var Section = React.createClass({
+
+    componentDidMount: function() {
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].onclick = function(){
+                this.classList.toggle("active");
+                this.nextElementSibling.classList.toggle("show");
+            }
+        }
+    },
+
     render: function() {
         return (
-            <Collapsible class ="Result" triggerText= {this.props.data.property_name}>
-                <HotelDetails details={this.props.data}/>
-                <RoomsDetails roomsData={this.props.data}/>
-            </Collapsible>
+            <div>
+                <button className="accordion" title={this.props.data.min_daily_rate.amount}>{this.props.data.property_name} </button>
+                <div className="panel">
+                    <HotelDetails details={this.props.data}/>
+                    <RoomsDetails roomsData={this.props.data}/>
+                </div>
+            </div>
         );
     }
 })
