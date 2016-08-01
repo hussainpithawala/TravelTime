@@ -49,14 +49,14 @@ var TextInput = React.createClass({
   },
   render: function() {
     var inputField;
-    if (this.props.type == 'textarea') {
-      inputField = <textarea value={this.props.value} name={this.props.name} placeholder={this.props.name}
-        ref={this.props.name} required = {this.props.isrequired} onChange = {this.handleChange}
-        style={inputstyles} id={this.props.name}/>
-    } else {
+    if (this.props.type == 'text') {
       inputField = <input value={this.props.value} name={this.props.name} placeholder={this.props.name}
         ref={this.props.name} required = {this.props.isrequired} onChange = {this.handleChange}
         style={inputstyles} id={this.props.name}/>
+    } else if(this.props.type == 'date' ) {
+      inputField = <input type="date" value={this.props.value} name={this.props.name} placeholder={this.props.name}
+                          ref={this.props.name} required = {this.props.isrequired} onChange = {this.handleChange}
+                          style={inputstyles} id={this.props.name} data-type="date"/>
     }
     return (
       <div className="mdl-cell mdl-cell--6-col">
@@ -95,8 +95,8 @@ var SearchForm = React.createClass({
     // send post request to server
     if (validForm) {
       var requestJSON = {
-        checkIn: "2016-09-09",
-        checkOut: "2016-09-11",
+        checkIn: this.state.checkIn,
+        checkOut: this.state.checkOut,
         location: this.state.location
       };
       $.ajax({
@@ -131,14 +131,12 @@ var SearchForm = React.createClass({
     this.setState({
       checkIn: date
     });
-    alert("changed from date")
   },
   // handle change to-date
   onChangeToDate: function (date) {
     this.setState({
       checkOut: date
     });
-    alert("changed  to date")
   },
 
   // handle location change here
@@ -210,12 +208,16 @@ var SearchForm = React.createClass({
                            htmlhtmlFor={'ReferencePoint'} isRequired={false} messageRequired={''}
                 />
                 <div className="mdl-cell mdl-cell--6-col">
-                  <input type="text" data-type="date" id="dep-date-input" style={inputstyles}
-                         placeholder="From" onChange={this.onChangeFromDate}/>
+                  <TextInput type="date" value={this.state.checkIn} label={'Check-In'} name={'CheckIn'}
+                             htmlFor={'CheckIn'} isRequired={true} onChange={this.onChangeFromDate}
+                             onComponentMounted={this.register} messageRequired={'Check-in required'}
+                  />
                 </div>
                 <div className="mdl-cell mdl-cell--6-col">
-                  <input type="text" id="datepicker" style={inputstyles}
-                         placeholder="To" onChange={this.onChangeToDate}/>
+                  <TextInput type="date" value={this.state.checkOut} label={'Check-Out'} name={'CheckOut'}
+                             htmlFor={'CheckOut'} isRequired={true} onChange={this.onChangeToDate}
+                             onComponentMounted={this.register} messageRequired={'Check-out required'}
+                  />
                 </div>
                 <div className="mdl-cell mdl-cell--6-col">
                   <span className="field">Rooms:</span>
