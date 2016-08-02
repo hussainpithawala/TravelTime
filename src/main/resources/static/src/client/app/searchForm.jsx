@@ -95,13 +95,14 @@ var SearchForm = React.createClass({
     // send post request to server
     if (validForm) {
       var requestJSON = {
-        checkIn: this.state.checkIn,
-        checkOut: this.state.checkOut,
-        location: this.state.location
+        "checkIn"  : this.state.checkIn,
+        "checkOut" : this.state.checkOut,
+        "location" : this.state.location
       };
       $.ajax({
         type: "POST",
         url: "/rest/hotelSearchByAirportCode",
+        contentType: "application/json",
         data: requestJSON,
         success: function(response) {
           this.setState({
