@@ -103,7 +103,7 @@ var SearchForm = React.createClass({
         type: "POST",
         url: "/rest/hotelSearchByAirportCode",
         contentType: "application/json",
-        data: requestJSON,
+        data: JSON.stringify(requestJSON),
         success: function(response) {
           this.setState({
             fromDate:'',
