@@ -307,10 +307,13 @@ input[type='radio']:checked:before {
 }
 
 .Results {
-    margin-top: 20px;
+    margin-top: 40px;
     box-shadow: 0px 0px 3px 0px #aaa;
 }
-
+#mainPanel h5 {
+    float: right;
+    color: darkgray;
+}
 button.accordion {
     background-color: white;
     color: #444;
@@ -390,3 +393,10 @@ div.panel.show {
     margin-left: 100px;
 }
 
+#selectedRoomRate {
+    float: right;
+}
+
+#note {
+    margin-top: auto;
+}

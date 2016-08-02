@@ -17,10 +17,12 @@ render: function () {
 });
 
 var Room = React.createClass({
+    handleChange: function (e) {
+        this.props.changedRoomRate(e.target.value);
+    },
     render: function() {
-
         return (<div className="mdl-grid">
-                <input className="mdl-cell mdl-cell--4-col" type="radio" name="room" value={this.props.data.room_type_info.room_type} />
+                <input className="mdl-cell mdl-cell--4-col" type="radio" name="room" value={this.props.data.total_amount.amount} onChange={this.handleChange} />
                 <p>{this.props.data.room_type_info.room_type}</p>
                 <p id="price" className="mdl-cell mdl-cell--4-col"> {this.props.data.total_amount.amount} "$" </p>
             </div>
@@ -28,13 +30,26 @@ var Room = React.createClass({
     }
 });
 var RoomsDetails = React.createClass({
+    getInitialState: function() {
+        return {
+            selectedRoomRate: this.props.roomsData.rooms[0].total_amount.amount
+        }
+    },
+    changedRoomRate: function(rate) {
+        this.setState({
+            selectedRoomRate: rate
+        });
+    },
+
     render: function() {
+        var this_= this;
         return (
             <div id="roomInfo">
                 <h6> <b>SELECT NIGHTLY RATE </b></h6>
                 {this.props.roomsData.rooms.map(function(result) {
-                    return <Room key={result.room_type_code} data={result}/>;
+                    return <Room key={result.room_type_code} data={result}  changedRoomRate={this_.changedRoomRate}/>;
                 })}
+                <p id="selectedRoomRate">{this.state.selectedRoomRate} "USD"</p>
             </div>
         );
     }
@@ -109,6 +124,7 @@ var SearchResult = React.createClass({
         return (
             <div className="mdl-cell mdl-cell--8-col" id="mainPanel">
                 <p className="flow-text" id="mainText">Shop Results </p>
+                <h5 id="note">LOWEST AVAILABLE NIGHTLY RATE PER ROOM</h5>
                 <Container data={this.state.backendData}></Container>
             </div>
         );
