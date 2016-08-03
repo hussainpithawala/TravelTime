@@ -208,18 +208,14 @@ var SearchForm = React.createClass({
                 <TextInput type="text" value={this.state.referencePoint} label={'Reference Point'} name={'ReferencePoint'}
                            htmlhtmlFor={'ReferencePoint'} isRequired={false} messageRequired={''}
                 />
-                <div className="mdl-cell mdl-cell--6-col">
                   <TextInput type="date" value={this.state.checkIn} label={'Check-In'} name={'CheckIn'}
                              htmlFor={'CheckIn'} isRequired={true} onChange={this.onChangeFromDate}
                              onComponentMounted={this.register} messageRequired={'Check-in required'}
                   />
-                </div>
-                <div className="mdl-cell mdl-cell--6-col">
                   <TextInput type="date" value={this.state.checkOut} label={'Check-Out'} name={'CheckOut'}
                              htmlFor={'CheckOut'} isRequired={true} onChange={this.onChangeToDate}
                              onComponentMounted={this.register} messageRequired={'Check-out required'}
                   />
-                </div>
                 <div className="mdl-cell mdl-cell--6-col">
                   <span className="field">Rooms:</span>
                   <div className="mdl-selectfield">
