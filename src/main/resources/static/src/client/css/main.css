@@ -386,17 +386,21 @@ div.panel.show {
     margin-left: 15px;
 }
 #roomInfo p{
-    margin-top: 6px;
+    margin-top: 4px;
+    margin-bottom: auto;
 }
 
-#price{
-    margin-left: 100px;
+#roomDescription{
+    float: right;
+    margin-left: 140px;
 }
-
 #selectedRoomRate {
     float: right;
 }
 
+#price{
+    width: 100px;
+}
 #note {
     margin-top: auto;
 }

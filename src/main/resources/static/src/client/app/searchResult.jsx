@@ -21,10 +21,15 @@ var Room = React.createClass({
         this.props.changedRoomRate(e.target.value);
     },
     render: function() {
+        var text = "";
+        for (var i = 0; i < this.props.data.descriptions.length; i++) {
+            text = text  + this.props.data.descriptions[i] + ". ";
+        }
         return (<div className="mdl-grid">
                 <input className="mdl-cell mdl-cell--4-col" type="radio" name="room" value={this.props.data.total_amount.amount} onChange={this.handleChange} />
-                <p>{this.props.data.room_type_info.room_type}</p>
-                <p id="price" className="mdl-cell mdl-cell--4-col"> {this.props.data.total_amount.amount} "$" </p>
+                <p id="price">{this.props.data.total_amount.amount} "$"</p>
+                <p className="mdl-cell mdl-cell--7-col"> {this.props.data.room_type_info.room_type} </p>
+                <p className="mdl-cell mdl-cell--7-col" id="roomDescription">{text}</p>
             </div>
         );
     }
