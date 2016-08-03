@@ -384,6 +384,7 @@ div.panel.show {
     margin-top: auto;
     margin-bottom:auto;
     margin-left: 15px;
+    color: darkgray;
 }
 #roomInfo p{
     margin-top: 4px;
