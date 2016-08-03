@@ -28,7 +28,7 @@ var Room = React.createClass({
         return (<div className="mdl-grid">
                 <input className="mdl-cell mdl-cell--4-col" type="radio" name="room" value={this.props.data.total_amount.amount} onChange={this.handleChange} />
                 <p id="price">{this.props.data.total_amount.amount} "$"</p>
-                <p className="mdl-cell mdl-cell--7-col"> {this.props.data.room_type_info.room_type} </p>
+                <p className="mdl-cell mdl-cell--7-col" id="roomType"> {this.props.data.room_type_info.room_type} </p>
                 <p className="mdl-cell mdl-cell--7-col" id="roomDescription">{text}</p>
             </div>
         );

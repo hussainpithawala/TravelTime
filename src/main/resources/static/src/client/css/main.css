@@ -404,3 +404,6 @@ div.panel.show {
 #note {
     margin-top: auto;
 }
+#roomType{
+    background-color: #ddd;
+}
