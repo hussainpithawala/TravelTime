@@ -56,7 +56,7 @@ var TextInput = React.createClass({
     } else if(this.props.type == 'date' ) {
       inputField = <input type="date" value={this.props.value} name={this.props.name} placeholder={this.props.name}
                           ref={this.props.name} required = {this.props.isrequired} onChange = {this.handleChange}
-                          style={inputstyles} id={this.props.name} data-type="date"/>
+                          style={inputstyles} id={this.props.name} data-type="date" min={this.props.min}/>
     }
     return (
       <div className="mdl-cell mdl-cell--6-col">
@@ -132,6 +132,11 @@ var SearchForm = React.createClass({
     this.setState({
       checkIn: date
     });
+    if (new Date(date) > new Date(this.state.checkOut)) {
+      this.setState({
+        checkOut: date
+      });
+    }
   },
   // handle change to-date
   onChangeToDate: function (date) {
@@ -215,6 +220,7 @@ var SearchForm = React.createClass({
                   <TextInput type="date" value={this.state.checkOut} label={'Check-Out'} name={'CheckOut'}
                              htmlFor={'CheckOut'} isRequired={true} onChange={this.onChangeToDate}
                              onComponentMounted={this.register} messageRequired={'Check-out required'}
+                             min={this.state.checkIn}
                   />
                 <div className="mdl-cell mdl-cell--6-col">
                   <span className="field">Rooms:</span>
