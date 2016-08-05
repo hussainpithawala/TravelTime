@@ -31,90 +31,73 @@ import com.synerzip.model.flight.sabre.AuthResponse;
 public class SabreTokenService {
 	private Logger logger = LoggerFactory.getLogger(SabreTokenService.class);
 	private final ReentrantLock lock = new ReentrantLock();
-	private Condition condition = null;
-	
-	
+
 	@Autowired
 	private Environment env;
 
 	@Autowired
 	private RestTemplate restTemplate;
-	
+
 	private Date expirationDate = null;
-	
+
 	private AtomicBoolean invalid = new AtomicBoolean(true);
-	
+
 	private AtomicReference<AuthResponse> token = new AtomicReference<AuthResponse>(null);
-	
+
 	public String getTokenString() {
 		try {
+			lock.lock(); // lock else block to proceed later
 			if (expirationDate == null || invalid.get() || new Date().after(expirationDate)) {
-				// try to acquire the lock to update the values
-				// else await over the condition
-				if (lock.tryLock() && invalid.get()) { // While acquiring also check whether token is still invalid
-					condition = lock.newCondition();   // acquire a new condition over which subsequent threads could wait
-					logger.info("Entered the critical section to update the Sabre Token");
-					updateToken();					
-				} else {
-					logger.info("Unable to acquire the lock... searching for condition");
-					if (condition != null) {
-						logger.info("Unable to acquire the lock... awaiting condition");
-						condition.await();
-						logger.info("Signaled to move on...");
-					}
-				}
+				logger.info("Entered the critical section to update the Sabre Token");
+				updateToken();
+			} else {
+				logger.info("Token no longer invalid.. proceed.");
 			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} finally {
-			if (lock.isHeldByCurrentThread()) {
-				logger.info("Freeing the Lock to update and signalling waiting threads");
-				condition.signalAll();
-				lock.unlock();
-			}
+			logger.info("Freeing the Lock for other threads");
+			lock.unlock();
 		}
-		
+
 		return token.get().getAccessToken();
 	}
-	
+
 	private void updateToken() {
 		// Invoke the rest service and fetch new token
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 		map.add("grant_type", "client_credentials");
-		
+
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		headers.add("Authorization", "Basic " + getCredentialsString());
 		headers.add("Accept", "*/*");
-		
+
 		HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(map, headers);
 		List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
 		messageConverters.add(new FormHttpMessageConverter());
 		messageConverters.add(new MappingJackson2HttpMessageConverter());
-		
+
 		restTemplate.setMessageConverters(messageConverters);
-		
+
 		String url = env.getProperty("sabre.url") + "/v2/auth/token";
 		AuthResponse authToken = restTemplate.postForObject(url, requestEntity, AuthResponse.class);
 		resetToken(authToken);
 	}
-	
-    private void resetToken(AuthResponse token) {
-        this.token.set(token);
-        this.invalid.set(false);
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.SECOND, Integer.parseInt(token.getExpiresIn()));
-        this.expirationDate = cal.getTime();
-    }
-	    
+
+	private void resetToken(AuthResponse token) {
+		this.token.set(token);
+		this.invalid.set(false);
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.SECOND, Integer.parseInt(token.getExpiresIn()));
+		this.expirationDate = cal.getTime();
+	}
+
 	private String getCredentialsString() {
 		String clientId = env.getProperty("sabre.clientId");
 		String clientSecret = env.getProperty("sabre.clientSecret");
-		String finalEncodedString = b64(b64(clientId)+":"+b64(clientSecret));
+		String finalEncodedString = b64(b64(clientId) + ":" + b64(clientSecret));
 		return finalEncodedString;
 	}
-	
+
 	private String b64(String toEncode) {
 		return Base64.encodeBase64String(toEncode.getBytes());
 	}
