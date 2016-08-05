@@ -43,7 +43,7 @@ public class FlightsService {
 	// This service retrieves the best price for flights.
 	@RequestMapping(value = "/rest/searchLowFare", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<LowFareFlightSearchRS> searchLowFareFlights() {
-		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/low-fare-search?origin=LHR&destination=JFK&departure_date=2016-07-30&return_date=2016-08-07&number_of_results=3&apikey=");
+		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/low-fare-search?origin=LHR&destination=JFK&departure_date=2016-08-30&return_date=2016-09-07&number_of_results=3&apikey=");
 		url.append(env.getProperty("amadeus.api.key"));
 		
 		logger.info(url.toString());
@@ -53,7 +53,7 @@ public class FlightsService {
 	
 	@RequestMapping(value = "/rest/post/searchLowFare", method=RequestMethod.POST)
 	public ResponseEntity<LowFareFlightSearchRS> searchLowFareFlightsWithPost(@RequestBody LowFareFlightSearchRQ lowFareFlightRequest) {
-		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/low-fare-search?origin=LHR&destination=JFK&departure_date=2016-07-30&return_date=2016-08-07&number_of_results=3&apikey=");
+		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/low-fare-search?origin=LHR&destination=JFK&departure_date=2016-08-30&return_date=2016-09-07&number_of_results=3&apikey=");
 		url.append(env.getProperty("amadeus.api.key"));
 		
 		logger.info(url.toString());
@@ -64,7 +64,7 @@ public class FlightsService {
 	@RequestMapping(value = "/rest/async/searchLowFare", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public AsyncResult<LowFareFlightSearchRS> searchLowFareFlightsAsync() {
 		StringBuilder url = new StringBuilder(
-				"http://api.sandbox.amadeus.com/v1.2/flights/low-fare-search?origin=LHR&destination=JFK&departure_date=2016-07-30&return_date=2016-08-07&number_of_results=3&apikey=");
+				"http://api.sandbox.amadeus.com/v1.2/flights/low-fare-search?origin=LHR&destination=JFK&departure_date=2016-08-30&return_date=2016-09-07&number_of_results=3&apikey=");
 		url.append(env.getProperty("amadeus.api.key"));
 
 		logger.info(url.toString());
@@ -74,7 +74,7 @@ public class FlightsService {
 	// This service retrieves prices of flights over a large number of days. 
 	@RequestMapping(value = "/rest/searchExtensive", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ExtensiveSearchRS> searchFlightExtensive() {
-		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/extensive-search?origin=FRA&destination=LON&departure_date=2016-08-07--2016-08-16&one-way=false&duration=3&direct=false&max_price=450&aggregation_mode=DAY&apikey=");
+		StringBuilder url = new StringBuilder("http://api.sandbox.amadeus.com/v1.2/flights/extensive-search?origin=FRA&destination=LON&departure_date=2016-09-07--2016-09-16&one-way=false&duration=3&direct=false&max_price=450&aggregation_mode=DAY&apikey=");
 		url.append(env.getProperty("amadeus.api.key"));
 		
 		logger.info(url.toString());
