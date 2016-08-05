@@ -314,12 +314,12 @@ input[type='radio']:checked:before {
     float: right;
     color: darkgray;
 }
-button.accordion {
+div.accordion {
     background-color: white;
     color: #444;
     cursor: pointer;
     padding: 18px;
-    width: 100%;
+    width: 95.5%;
     border: 1px dotted darkgray;
     text-align: left;
     outline: none;
@@ -327,16 +327,16 @@ button.accordion {
     transition: 0.4s;
 }
 
-button.accordion.active, button.accordion:hover {
+div.accordion.active, div.accordion:hover {
     background-color: #ddd;
 }
 
-button.accordion:after {
+div.accordion:after {
     content: attr(title) "USD";
     float: right;
 }
 
-button.accordion:before {
+div.accordion:before {
     content: '\02795';
     font-size: 13px;
     color: #777;
@@ -344,7 +344,7 @@ button.accordion:before {
     margin-right: 10px;
 }
 
-button.accordion.active:before {
+div.accordion.active:before {
     content: "\2796";
 }
 
@@ -407,4 +407,37 @@ div.panel.show {
 }
 #roomType{
     background-color: #ddd;
+}
+.tooltip {
+    position: relative;
+    /*display: inline-block;*/
+    /*border-bottom: 1px dotted black; !* If you want dots under the hoverable text *!*/
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    /*width: 120px;*/
+    background-color: white;
+    color: black;
+    text-align: left;
+    padding: 5px 0;
+    border-radius: 6px;
+    border: 1px solid grey;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+    width: 270px;
+    bottom: 100%;
+    left: 80%;
+    /*margin-left: -60px;*/
+}
+
+.tooltip .tooltiptext p {
+    margin-bottom: 0px;
+}
+
+.material-icons{
+    font-size:inherit;
+    float: right;
 }

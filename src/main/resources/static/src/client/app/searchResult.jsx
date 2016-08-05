@@ -62,22 +62,40 @@ var RoomsDetails = React.createClass({
 
 var Section = React.createClass({
 
+    getInitialState: function() {
+        return { showToolTip: false };
+    },
     componentDidMount: function() {
         var acc = document.getElementsByClassName("accordion");
         var i;
 
         for (i = 0; i < acc.length; i++) {
-            acc[i].onclick = function(){
+            acc[i].onclick = function(e){
                 this.classList.toggle("active");
                 this.nextElementSibling.classList.toggle("show");
             }
         }
     },
 
+    cardShow: function (e) {
+        this.setState({
+            showToolTip:true
+        });
+    }
+    ,
+    cardHide: function (e) {
+        this.setState({
+            showToolTip:false
+        });
+    },
     render: function() {
         return (
             <div>
-                <button className="accordion" title={this.props.data.min_daily_rate.amount}>{this.props.data.property_name} </button>
+                <div className="accordion tooltip" title={this.props.data.min_daily_rate.amount}>{this.props.data.property_name}
+                    <i className="material-icons" onMouseEnter={this.cardShow}
+                       onMouseLeave={this.cardHide}>info</i>
+                    {this.state.showToolTip? <Tooltip data={this.props.data}/>:null}
+                </div>
                 <div className="panel">
                     <HotelDetails details={this.props.data}/>
                     <RoomsDetails roomsData={this.props.data}/>
@@ -86,6 +104,24 @@ var Section = React.createClass({
         );
     }
 })
+
+var Tooltip = React.createClass({
+    buildToolTip: function(data){
+        var text = data.rooms.map(function (info) {
+            return <li key={info.room_type_code}>{info.room_type_info.room_type} - {info.total_amount.amount}</li>
+        })
+        return text;
+    },
+
+    render:function () {
+        var toolTipText = this.buildToolTip(this.props.data);
+        return (
+        <div className="tooltiptext" ref="myinput">
+            {toolTipText}
+        </div>
+        );
+    }
+});
 
 var Container = React.createClass({
     buildSections: function(sectionList){
