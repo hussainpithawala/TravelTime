@@ -99,7 +99,7 @@ public class LeadPriceCalendarRS {
      *     The links
      */
     @JsonProperty("Links")
-    public List<Link_> getLinks() {
+    public List<Link> getLinks() {
         return links;
     }
 
@@ -109,7 +109,7 @@ public class LeadPriceCalendarRS {
      *     The Links
      */
     @JsonProperty("Links")
-    public void setLinks(List<Link_> links) {
+    public void setLinks(List<Link> links) {
         this.links = links;
     }
 
