@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.synerzip.client.rest.FirstRestService;
+import com.synerzip.client.rest.SimpleController;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -23,7 +23,7 @@ public class FirstRestServiceTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		mockMvc = MockMvcBuilders.standaloneSetup(new FirstRestService()).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(new SimpleController()).build();
 	}
 	
 	@Test

@@ -27,7 +27,7 @@ import com.synerzip.supplier.service.AmadeusSupplierService;
 
 
 @RestController
-public class FlightsService {
+public class FlightsController {
 
 	@Autowired
 	private Environment env;
@@ -35,7 +35,7 @@ public class FlightsService {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-	private Logger logger = LoggerFactory.getLogger(FlightsService.class);
+	private Logger logger = LoggerFactory.getLogger(FlightsController.class);
 	
 	@Autowired
 	AmadeusSupplierService amadeusService;

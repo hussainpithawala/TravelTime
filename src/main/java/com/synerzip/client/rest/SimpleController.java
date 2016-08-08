@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/rest")
 @RestController
-public class FirstRestService {
+public class SimpleController {
 	
 	@RequestMapping(value = "/hello", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SimpleResponse> hello() {

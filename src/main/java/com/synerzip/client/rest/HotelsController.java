@@ -17,7 +17,7 @@ import com.synerzip.supplier.amadeus.model.hotel.HotelSearchRQ;
 import com.synerzip.supplier.amadeus.model.hotel.HotelSearchRS;
 
 @RestController
-public class HotelsService {
+public class HotelsController {
 
 	@Autowired
 	private Environment env;
@@ -25,7 +25,7 @@ public class HotelsService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	private Logger logger = LoggerFactory.getLogger(HotelsService.class);
+	private Logger logger = LoggerFactory.getLogger(HotelsController.class);
 	
 	@RequestMapping(value="/rest/hotelSearchByAirportCode", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<HotelSearchRS> searchHotelsByAirportCode(@RequestBody HotelSearchRQ hotelSearchRQ){

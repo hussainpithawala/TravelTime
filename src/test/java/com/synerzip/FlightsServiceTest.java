@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
 
-import com.synerzip.client.rest.FlightsService;
+import com.synerzip.client.rest.FlightsController;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -37,7 +37,7 @@ public class FlightsServiceTest {
 	// create a instance and start server for test.
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		FlightsService instance = new FlightsService();
+		FlightsController instance = new FlightsController();
 		ReflectionTestUtils.setField(instance, "env", env);
 		ReflectionTestUtils.setField(instance, "restTemplate", restTemplate);
 		mockMvc = MockMvcBuilders.standaloneSetup(instance).build();
