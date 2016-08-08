@@ -108,7 +108,7 @@ var Section = React.createClass({
 var Tooltip = React.createClass({
     buildToolTip: function(data){
         var text = data.rooms.map(function (info) {
-            return <li key={info.room_type_code}>{info.room_type_info.room_type} - {info.total_amount.amount}</li>
+            return <li key={info.room_type_code}>{info.room_type_info.room_type} - {info.total_amount.amount} $</li>
         })
         return text;
     },

@@ -13,10 +13,16 @@ $(document).ready(function() {
       //animate margin-left value to -490px
       $(this).parent().animate({marginLeft: hideWidth}, 300 );
       $(this).html('&raquo;'); //change text of button
+      if($("#mainPanel").length) {
+        $(mainPanel).addClass('mdl-cell mdl-cell--10-col').removeClass('mdl-cell mdl-cell--8-col');
+      }
     }else{
       //animate margin-left value 0px
       $(this).parent().animate({marginLeft: "0"}, 300 );  
       $(this).html('&laquo;'); //change text of button
+      if($("#mainPanel").length){
+        $(mainPanel).addClass('mdl-cell mdl-cell--8-col').removeClass('mdl-cell mdl-cell--10-col');
+      }
     }
   });
 
