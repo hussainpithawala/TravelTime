@@ -12,7 +12,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -34,10 +33,6 @@ public class SabreTokenService {
 
 	@Autowired
 	private Environment env;
-
-	@Autowired
-	@Qualifier("basic")
-	private RestTemplate restTemplate;
 
 	private Date expirationDate = null;
 
@@ -77,6 +72,7 @@ public class SabreTokenService {
 		messageConverters.add(new FormHttpMessageConverter());
 		messageConverters.add(new MappingJackson2HttpMessageConverter());
 
+		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.setMessageConverters(messageConverters);
 
 		String url = env.getProperty("sabre.url") + "/v2/auth/token";
