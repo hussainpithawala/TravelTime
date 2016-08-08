@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,6 +31,7 @@ public class FlightsServiceTest {
 	@Autowired
 	private Environment env;
 	@Autowired
+	@Qualifier("basic")
 	private RestTemplate restTemplate;
 	private MockMvc mockMvc;
 
