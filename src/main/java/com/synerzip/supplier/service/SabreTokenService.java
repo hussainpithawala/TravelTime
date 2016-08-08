@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.codec.binary.Base64;
@@ -25,7 +24,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.synerzip.model.flight.sabre.AuthResponse;
+import com.synerzip.supplier.sabre.model.flights.auth.AuthResponse;
 
 @Component
 public class SabreTokenService {

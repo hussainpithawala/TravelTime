@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.synerzip.model.flight.AffiliateFlightSearchRS;
-import com.synerzip.model.flight.AirportAutocompleteRS;
-import com.synerzip.model.flight.ExtensiveSearchRS;
-import com.synerzip.model.flight.FlightInspirationSearchRS;
-import com.synerzip.model.flight.LocationInformationSearchRS;
-import com.synerzip.model.flight.LowFareFlightSearchRQ;
-import com.synerzip.model.flight.LowFareFlightSearchRS;
-import com.synerzip.model.flight.NearestAirportSearchRS;
+import com.synerzip.supplier.amadeus.model.flights.AffiliateFlightSearchRS;
+import com.synerzip.supplier.amadeus.model.flights.AirportAutocompleteRS;
+import com.synerzip.supplier.amadeus.model.flights.ExtensiveSearchRS;
+import com.synerzip.supplier.amadeus.model.flights.FlightInspirationSearchRS;
+import com.synerzip.supplier.amadeus.model.flights.LocationInformationSearchRS;
+import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRQ;
+import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRS;
+import com.synerzip.supplier.amadeus.model.flights.NearestAirportSearchRS;
 import com.synerzip.supplier.service.AmadeusSupplierService;
 
 
