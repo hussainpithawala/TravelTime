@@ -309,7 +309,9 @@ input[type='radio']:checked:before {
 .Results {
     margin-top: 40px;
     box-shadow: 0px 0px 3px 0px #aaa;
+    margin-left: 10px;
 }
+
 #mainPanel h5 {
     float: right;
     color: darkgray;
@@ -319,7 +321,6 @@ div.accordion {
     color: #444;
     cursor: pointer;
     padding: 18px;
-    width: 95.5%;
     border: 1px dotted darkgray;
     text-align: left;
     outline: none;
