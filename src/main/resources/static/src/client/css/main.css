@@ -114,6 +114,12 @@
 .ui-datepicker-buttonpane .ui-datepicker-current:hover {
     background: #b4cbe5;
 }
+#logo{
+    text-align:center;
+    color:white;
+    line-height: 15px;
+    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px #00AC9D;
+}
 #tabBar{
     background-color: #00ac9d;
 }
@@ -418,8 +424,8 @@ div.panel.show {
 /* Tooltip text */
 .tooltip .tooltiptext {
     /*width: 120px;*/
-    background-color: white;
-    color: black;
+    background-color: #00ac9d;
+    color: white;
     text-align: left;
     padding: 5px 0;
     border-radius: 6px;
@@ -436,6 +442,10 @@ div.panel.show {
 
 .tooltip .tooltiptext p {
     margin-bottom: 0px;
+}
+
+.tooltip .tooltiptext li {
+    padding: 5px;
 }
 
 .material-icons{

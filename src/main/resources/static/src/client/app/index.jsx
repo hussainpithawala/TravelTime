@@ -6,7 +6,7 @@ class App extends React.Component {
     render () {
         return (
             <div>
-                <h1> Welcome to Synerzip Travel-time </h1>
+                <h4 id="logo"> Welcome to Synerzip Travel-time </h4>
                 <div className="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
                     <div className="mdl-tabs__tab-bar" id="tabBar">
                         <a href="#HOTEL" className="mdl-tabs__tab is-active">HOTEL</a>
