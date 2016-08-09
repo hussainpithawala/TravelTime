@@ -6,4 +6,5 @@
 src/main/resources/static/src/client/public/
 src/main/resources/supplier.properties
 .project
+/tokens/
 src/main/resources/static/node_modules/

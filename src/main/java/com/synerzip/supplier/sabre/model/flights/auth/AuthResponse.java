@@ -1,10 +1,12 @@
 package com.synerzip.supplier.sabre.model.flights.auth;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AuthResponse {
+public class AuthResponse implements Serializable{
 
     @JsonProperty("access_token")
     private String accessToken;

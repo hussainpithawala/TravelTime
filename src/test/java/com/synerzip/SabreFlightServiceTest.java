@@ -28,8 +28,8 @@ public class SabreFlightServiceTest {
 		request.setOrigin("ORD");
 		request.setDestination("LGA");
 		request.setDeparturedate("2016-09-13");
-		request.setReturndate("2016-09-16");
-		request.setMaxfare(140.0);
+//		request.setReturndate("2016-09-16");
+//		request.setMaxfare(140.0);
 		InstaFlightResponse response = sabreFlightService.doInstaFlightSearch(request);
 		Assert.assertNotNull("Returned Priced Itineraries", response.getPricedItineraries().size());
 	}

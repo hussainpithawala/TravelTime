@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.client.RestTemplate;
 
@@ -41,6 +42,18 @@ public class TravelTimeApplication {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.setInterceptors(ris);
 		return restTemplate;
+	}
+	
+	@Bean
+	public ThreadPoolTaskExecutor provideThreadPoolTaskExecutor() {
+		ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+		threadPoolTaskExecutor.setCorePoolSize(4);
+		threadPoolTaskExecutor.setMaxPoolSize(16);
+		threadPoolTaskExecutor.setQueueCapacity(20);
+		
+		threadPoolTaskExecutor.initialize();
+		
+		return threadPoolTaskExecutor;
 	}
 	
 	public static void main(String[] args) {

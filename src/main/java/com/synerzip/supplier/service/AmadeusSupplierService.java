@@ -1,23 +1,33 @@
 package com.synerzip.supplier.service;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import com.synerzip.supplier.amadeus.model.flights.AmadeusRequest;
+import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRQ;
+import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRS;
 
 @Component
 public class AmadeusSupplierService {
 
-	private final String BaseURL = "GET /v1.2/flights";
+	@Autowired
+	private Environment env;
+
+	@Autowired
+	private AmadeusRequest amadeusRequest;
 	
-	public String getLowFareFlightSearchResponse(Map<String, String[]> requestParams) {
-		Iterator entries = requestParams.entrySet().iterator();
-		String reqParams = "";
-		while(entries.hasNext()) {
-			Map.Entry<String, String[]> entry = (Entry<String, String[]>)entries.next();
-			reqParams += entry.getKey() + "-" + entry.getValue()[0];
-		}
-		return "Trial" + reqParams;
+	@Autowired
+	@Qualifier("basic")
+	private RestTemplate restTemplate;
+
+	public LowFareFlightSearchRS fetchLowFareFlights(LowFareFlightSearchRQ request) {
+		String subUrl = "/flights/low-fare-search";
+		StringBuilder urlBuilder = new StringBuilder(env.getProperty("amadeus.url")).append(subUrl)
+				.append(amadeusRequest.generateQuery(request)).append("apikey=").append(env.getProperty("amadeus.api.key"));
+		return restTemplate.getForObject(urlBuilder.toString(), LowFareFlightSearchRS.class, HttpStatus.OK);
 	}
 }
