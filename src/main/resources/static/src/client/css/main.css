@@ -154,7 +154,7 @@ a.mdl-tabs__tab:hover{
     float: right;
     border: none;
     background-color:#00ac9d;
-    color: #CECECE;
+    color: white;
     margin-left: auto;
 }
 .collapsible button:hover {
@@ -166,7 +166,7 @@ a.mdl-tabs__tab:hover{
     background-color: #00ac9d;
     margin-right: 40px;
     padding: 10px;
-    box-shadow: 0px 0px 3px 0px #aaa;
+    /*box-shadow: 0px 0px 3px 0px #aaa;*/
 }
 #Rooms {
     width: 150px;
@@ -326,7 +326,7 @@ div.accordion {
     background-color: white;
     color: #444;
     cursor: pointer;
-    padding: 18px;
+    padding: 12px;
     border: 1px dotted darkgray;
     text-align: left;
     outline: none;
@@ -451,4 +451,5 @@ div.panel.show {
 .material-icons{
     font-size:inherit;
     float: right;
+    padding: 2px;
 }
