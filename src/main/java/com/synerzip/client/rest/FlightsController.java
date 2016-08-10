@@ -28,7 +28,7 @@ import com.synerzip.supplier.amadeus.model.flights.LocationInformationSearchRS;
 import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRQ;
 import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRS;
 import com.synerzip.supplier.amadeus.model.flights.NearestAirportSearchRS;
-import com.synerzip.supplier.service.AmadeusSupplierService;
+import com.synerzip.supplier.service.AmadeusFlightService;
 import com.synerzip.supplier.service.SabreFlightService;
 import com.synerzip.supplier.utilities.RequestTransformer;
 import com.synerzip.supplier.utilities.ResponseTransformer;
@@ -52,7 +52,7 @@ public class FlightsController {
 	private ResponseTransformer responseTransformer;
 
 	@Autowired
-	private AmadeusSupplierService amadeusService;
+	private AmadeusFlightService amadeusService;
 
 	@Autowired
 	private SabreFlightService sabreFlightService;

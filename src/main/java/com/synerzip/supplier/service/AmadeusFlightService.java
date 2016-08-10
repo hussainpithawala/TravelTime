@@ -12,7 +12,7 @@ import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRQ;
 import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRS;
 
 @Component
-public class AmadeusSupplierService {
+public class AmadeusFlightService {
 
 	@Autowired
 	private Environment env;
