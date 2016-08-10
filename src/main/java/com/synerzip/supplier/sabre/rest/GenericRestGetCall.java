@@ -1,5 +1,7 @@
 package com.synerzip.supplier.sabre.rest;
 
+import java.util.concurrent.Semaphore;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ import com.synerzip.supplier.service.SabreTokenService;
 @Component
 public class GenericRestGetCall {
 	private static final Logger logger = LoggerFactory.getLogger(GenericRestGetCall.class);
+	
+	// Need to restrict number of concurrent calls to Sabre Test API, current limit is 2 calls per second
+	private final Semaphore semaphore = new Semaphore(2, true); // A fair semaphore with only 2 permits
 
 	@Autowired
 	private SabreTokenService sabreTokenService;
@@ -24,10 +29,6 @@ public class GenericRestGetCall {
 	private RestTemplate restTemplate;
 
 	/**
-	 * Adds interceptors, creates request string with query and sends the
-	 * request. Returns the response object.
-	 * @param <RS>
-	 * 
 	 * @param clazz
 	 *            Class of the response object.
 	 * @return response object.
@@ -43,10 +44,17 @@ public class GenericRestGetCall {
 		}
 		
 		try {
+			semaphore.acquire();
+			logger.info("Acquired permit to place request to Sabre");
 			response = restTemplate.getForObject(getRequestString(url, request), clazz, new Object[] {});
 		} catch (HttpClientErrorException e) {
 			if (e.getStatusCode().equals(HttpStatus.UNAUTHORIZED))
 				sabreTokenService.setInvalid();
+		} catch (InterruptedException e) {
+			logger.error("Thread interrupted during permit acquisition", e);
+		} finally {
+			semaphore.release();
+			logger.info("Released permit back");
 		}
 		return response;
 	}

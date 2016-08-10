@@ -16,7 +16,7 @@ import com.synerzip.supplier.service.SabreTokenService;
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = { TravelTimeApplication.class })
-@TestPropertySource(locations = { "classpath:supplier.properties" })
+@TestPropertySource(locations = { "classpath:supplier.properties", "classpath:application.properties"})
 public class SabreTokenServiceTest {
 	@Autowired
 	private SabreTokenService sabreTokenService;
