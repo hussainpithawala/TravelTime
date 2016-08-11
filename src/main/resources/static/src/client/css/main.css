@@ -117,11 +117,14 @@
 #logo{
     text-align:center;
     color:white;
-    line-height: 15px;
+    line-height: initial;
     text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px #00AC9D;
 }
 #tabBar{
     background-color: #00ac9d;
+    height: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 .mdl-checkbox__label{
     position: absolute;
@@ -142,7 +145,7 @@ a.mdl-tabs__tab:hover{
     /*background: #EBEBEB;*/
     /*border: 1px solid #CCCCCC;*/
     padding: 10px;
-    width: 400px;
+    width: 350px;
     font: 12px Arial, Helvetica, sans-serif;
     color: #ffffff;
     display: block;
@@ -169,13 +172,13 @@ a.mdl-tabs__tab:hover{
     /*box-shadow: 0px 0px 3px 0px #aaa;*/
 }
 #Rooms {
-    width: 150px;
+    width: 130px;
 }
 #Cribs{
-    width: 70px;
+    width: 60px;
 }
 #RollawayBeds{
-    width: 70px;
+    width: 60px;
 }
 #submit {
     height: initial;
@@ -191,6 +194,9 @@ select {
     background-color: #013248;
     margin-right: 30px;
     padding: 10px;
+}
+#HOTEL{
+    margin-top: 10px;
 }
 .ui-datepicker {
     position: relative;

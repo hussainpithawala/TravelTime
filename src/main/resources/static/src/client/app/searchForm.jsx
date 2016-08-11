@@ -1,6 +1,6 @@
 import React from 'react';
 
-var inputstyles = {width:"150px"};
+var inputstyles = {width:"130px"};
 var paddingInitial = {padding: 'initial'};
 var NumberSelector = React.createClass({
   getInitialState: function() {
