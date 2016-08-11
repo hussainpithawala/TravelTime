@@ -377,8 +377,8 @@ div.panel.show {
 }
 
 .circular {
-    width: 650px;
-    height: 300px;
+    width: 750px;
+    height: 340px;
     border-radius: 100px;
     -webkit-border-radius: 100px;
     -moz-border-radius: 100px;
@@ -386,6 +386,7 @@ div.panel.show {
     margin-top: 10px;
     margin-left: 30px;
     box-shadow: 0px 0px 8px 0px #00ac9d;
+    background-size:cover;
 }
 
 #hotelInfo h6 {
