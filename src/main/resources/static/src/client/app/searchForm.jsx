@@ -99,31 +99,7 @@ var SearchForm = React.createClass({
         "checkOut" : this.state.checkOut,
         "location" : this.state.location
       };
-      $.ajax({
-        type: "POST",
-        url: "/rest/hotelSearchByAirportCode",
-        contentType: "application/json",
-        data: JSON.stringify(requestJSON),
-        success: function(response) {
-          this.setState({
-            fromDate:'',
-            toDate:'',
-            location:'',
-            rooms:0,
-            serverMessage:response.message,
-          });
-          console.log(response);
-          this.props.updateSearchResult(response);
-        }.bind(this),
-        error: function (e) {
-          console.log(e);
-          console.log("Something went bad!!");
-          // TODO : This is a temporary code. Remove it once client-server communication part is finished
-          $.getJSON( "src/client/tmp/hotelSearchResult.json", function( data ) {
-            this.props.updateSearchResult(data);
-          }.bind(this));
-        }.bind(this)
-      });
+      this.props.updateSearchResult(requestJSON);
     }
     console.log("Submitted!!");
   },

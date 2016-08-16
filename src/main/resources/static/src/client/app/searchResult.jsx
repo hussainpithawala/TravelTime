@@ -49,13 +49,13 @@ var RoomsDetails = React.createClass({
     render: function() {
         var this_= this;
         return (
-            <div id="roomInfo">
-                <h6> <b>SELECT NIGHTLY RATE </b></h6>
-                {this.props.roomsData.rooms.map(function(result) {
-                    return <Room key={result.room_type_code} data={result}  changedRoomRate={this_.changedRoomRate}/>;
-                })}
-                <p id="selectedRoomRate">{this.state.selectedRoomRate} "USD"</p>
-            </div>
+          <div id="roomInfo">
+              <h6> <b>SELECT NIGHTLY RATE </b></h6>
+              {this.props.roomsData.rooms.map(function(result) {
+                  return <Room key={result.room_type_code} data={result}  changedRoomRate={this_.changedRoomRate}/>;
+              })}
+              <p id="selectedRoomRate">{this.state.selectedRoomRate} "USD"</p>
+          </div>
         );
     }
 });
@@ -90,17 +90,17 @@ var Section = React.createClass({
     },
     render: function() {
         return (
-            <div>
-                <div className="accordion tooltip" title={this.props.data.min_daily_rate.amount}>{this.props.data.property_name}
-                    <i className="material-icons" onMouseEnter={this.cardShow}
-                       onMouseLeave={this.cardHide}>info</i>
-                    {this.state.showToolTip? <Tooltip data={this.props.data}/>:null}
-                </div>
-                <div className="panel">
-                    <HotelDetails details={this.props.data}/>
-                    <RoomsDetails roomsData={this.props.data}/>
-                </div>
-            </div>
+          <div>
+              <div className="accordion tooltip" title={this.props.data.min_daily_rate.amount}>{this.props.data.property_name}
+                  <i className="material-icons" onMouseEnter={this.cardShow}
+                     onMouseLeave={this.cardHide}>info</i>
+                  {this.state.showToolTip? <Tooltip data={this.props.data}/>:null}
+              </div>
+              <div className="panel">
+                  <HotelDetails details={this.props.data}/>
+                  <RoomsDetails roomsData={this.props.data}/>
+              </div>
+          </div>
         );
     }
 })
@@ -116,9 +116,9 @@ var Tooltip = React.createClass({
     render:function () {
         var toolTipText = this.buildToolTip(this.props.data);
         return (
-        <div className="tooltiptext" ref="myinput">
-            {toolTipText}
-        </div>
+          <div className="tooltiptext" ref="myinput">
+              {toolTipText}
+          </div>
         );
     }
 });
@@ -135,9 +135,9 @@ var Container = React.createClass({
     render: function() {
         var sections = this.buildSections(this.props.data);
         return (
-            <div className="Results">
-                {sections}
-            </div>
+          <div className="Results">
+              {sections}
+          </div>
         );
     }
 });
@@ -146,28 +146,28 @@ var SearchResult = React.createClass({
 
     getInitialState: function() {
         return {
-            backendData: this.props.searchResult.results
+            backendData: this.props.searchResult
         }
     },
 
-    propertiesChanged: function(properties) {
-        if (properties) {
+    propertiesChanged: function(reloadedResult) {
+        if (reloadedResult) {
             this.setState({
-                backendData: properties.results
+                backendData: reloadedResult
             })
         }
     },
-    
+
     componentWillReceiveProps: function(nextProps) {
         this.propertiesChanged(nextProps.searchResult)
     },
     render: function() {
         return (
-            <div className="mdl-cell mdl-cell--8-col" id="mainPanel">
-                <p className="flow-text" id="mainText">Shop Results </p>
-                <h5 id="note">LOWEST AVAILABLE NIGHTLY RATE PER ROOM</h5>
-                <Container data={this.state.backendData}></Container>
-            </div>
+          <div className="mdl-cell mdl-cell--8-col" id="mainPanel">
+              <p className="flow-text" id="mainText">Shop Results </p>
+              <h5 id="note">LOWEST AVAILABLE NIGHTLY RATE PER ROOM</h5>
+              <Container data={this.state.backendData}></Container>
+          </div>
         );
     }
 });
