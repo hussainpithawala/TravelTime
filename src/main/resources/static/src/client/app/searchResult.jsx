@@ -1,5 +1,4 @@
 import React from 'react';
-import Collapsible from 'react-collapsible';
 
 var HotelDetails = React.createClass({
 render: function () {
