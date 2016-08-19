@@ -21,6 +21,8 @@ public class Itinerary {
 
 @JsonProperty("outbound")
 private Outbound outbound;
+@JsonProperty("inbound")
+private Inbound inbound;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -44,6 +46,16 @@ public void setOutbound(Outbound outbound) {
 this.outbound = outbound;
 }
 
+@JsonProperty("inbound")
+public Inbound getInbound() {
+	return inbound;
+}
+
+@JsonProperty("inbound")
+public void setInbound(Inbound inbound) {
+	this.inbound = inbound;
+}
+
 @JsonAnyGetter
 public Map<String, Object> getAdditionalProperties() {
 return this.additionalProperties;
@@ -53,5 +65,4 @@ return this.additionalProperties;
 public void setAdditionalProperty(String name, Object value) {
 this.additionalProperties.put(name, value);
 }
-
 }

@@ -22,6 +22,7 @@ public class RequestTransformer {
 					Objects.requireNonNull(lowFareFlightSearchRQ.getDepartureDate(), "Departure date cannot be null"));
 			instaFlightRequest.setReturndate(
 					Objects.requireNonNull(lowFareFlightSearchRQ.getReturnDate(), "Return date cannot be null"));
+			instaFlightRequest.setLimit(lowFareFlightSearchRQ.getNumberOfResults());
 			return instaFlightRequest;
 		}
 	};
