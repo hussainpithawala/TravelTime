@@ -59,12 +59,12 @@ return tax;
 
 /**
 * 
-* @param totalTax
+* @param tax
 * The tax
 */
 @JsonProperty("tax")
-public void setTax(String totalTax) {
-this.tax = totalTax;
+public void setTax(String tax) {
+this.tax = tax;
 }
 
 @JsonAnyGetter

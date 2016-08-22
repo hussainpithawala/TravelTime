@@ -13,18 +13,16 @@ import com.synerzip.supplier.sabre.model.flights.instaflight_gen.InstaFlightResp
 @Component
 public class ResponseTransformer {
 	@Autowired
-	private SabreInstaFlightTransformer instaFlightTransformer;
+	private sabrePricedItinerariesTransformer pricedItineraryTransformer;
 	
 	public final Function<InstaFlightResponse, LowFareFlightSearchRS> convert = new Function<InstaFlightResponse, LowFareFlightSearchRS>() {
 		@Override
 		public LowFareFlightSearchRS apply(InstaFlightResponse instaFlightResponse) {
-			//create a lowFareSearch response object and mapped result and currency
 			LowFareFlightSearchRS lowFareFlightSearchRS = new LowFareFlightSearchRS();
 			//map sabre currency with amadeus currency
-			String currency = instaFlightTransformer.mappedPricedItinerarywithCurrency(instaFlightResponse);
-			lowFareFlightSearchRS.setCurrency(currency);
+			lowFareFlightSearchRS.setCurrency("INR");
 			//map sabre result with amadeus result
-			List<ResultItinerary> results = instaFlightTransformer.mappedPricedItinerarywithResult(instaFlightResponse);
+			List<ResultItinerary> results = pricedItineraryTransformer.mappedPricedItinerarywithResult(instaFlightResponse);
 			lowFareFlightSearchRS.setResults(results);
 			return lowFareFlightSearchRS;
 		}
