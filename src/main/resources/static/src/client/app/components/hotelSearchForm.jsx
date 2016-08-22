@@ -68,7 +68,7 @@ var TextInput = React.createClass({
   }
 });
 
-var SearchForm = React.createClass({
+var HotelSearchForm = React.createClass({
   // get initial state event
   getInitialState: function() {
     return {
@@ -234,4 +234,4 @@ var SearchForm = React.createClass({
     );
   }
 });
-export default SearchForm;
+export default HotelSearchForm;

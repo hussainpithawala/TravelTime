@@ -141,7 +141,7 @@ var Container = React.createClass({
     }
 });
 
-var SearchResult = React.createClass({
+var HotelSearchResult = React.createClass({
 
     getInitialState: function() {
         return {
@@ -170,4 +170,5 @@ var SearchResult = React.createClass({
         );
     }
 });
-export default SearchResult;
+
+export default HotelSearchResult;

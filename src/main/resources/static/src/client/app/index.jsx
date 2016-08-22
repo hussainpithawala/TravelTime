@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from 'react-dom';
-import SearchPanel from './searchPanel.jsx';
+import HotelSearchPanel from './pages/hotelSearchPanel.jsx';
 
 class App extends React.Component {
     render () {
@@ -14,7 +14,7 @@ class App extends React.Component {
                     </div>
                     <div className="mdl-tabs__panel is-active" id="HOTEL">
                         <section className="mdl-layout__tab-panel is-active" id="scroll-tab-1">
-                            <SearchPanel></SearchPanel>
+                            <HotelSearchPanel></HotelSearchPanel>
                         </section>
                     </div>
                     <div className="mdl-tabs__panel" id="FLIGHTS">

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import SearchForm from './searchForm.jsx';
-import SearchResult from './searchResult.jsx';
-import * as HotelsActions from './actions/HotelsActions.jsx';
-import HotelsStore from './stores/HotelsStore.jsx';
+import HotelSearchForm from '../components/hotelSearchForm.jsx';
+import HotelSearchResult from '../components/hotelsList.jsx';
+import * as HotelsActions from '../actions/HotelsActions.jsx';
+import HotelsStore from '../stores/HotelsStore.jsx';
 
-var SearchPanel = React.createClass({
+var HotelSearchPanel = React.createClass({
   getInitialState: function() {
     return {
       hotels: HotelsStore.getAllHotels()
@@ -33,16 +33,16 @@ var SearchPanel = React.createClass({
 
   render: function () {
     if(this.state.hotels) {
-      var SearchResultOption = <SearchResult searchResult={this.state.hotels}></SearchResult>
+      var SearchResultOption = <HotelSearchResult searchResult={this.state.hotels}></HotelSearchResult>
     } else {
       var SearchResultOption = <div className="circular"></div>
     }
     return(
       <div className="mdl-grid">
-        <SearchForm updateSearchResult = {this.reloadHotels}></SearchForm>
+        <HotelSearchForm updateSearchResult = {this.reloadHotels}></HotelSearchForm>
         {SearchResultOption}
       </div>
     );
   }
 });
-export default SearchPanel;
+export default HotelSearchPanel;
