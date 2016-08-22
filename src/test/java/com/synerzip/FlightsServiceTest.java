@@ -44,8 +44,6 @@ public class FlightsServiceTest {
 	// create a instance and start server for test.
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		ReflectionTestUtils.setField(instance, "env", env);
-		ReflectionTestUtils.setField(instance, "restTemplate", restTemplate);
 		mockMvc = MockMvcBuilders.standaloneSetup(instance).build();
 	}
 

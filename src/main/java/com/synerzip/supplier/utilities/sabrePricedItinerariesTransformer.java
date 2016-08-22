@@ -35,11 +35,11 @@ public class sabrePricedItinerariesTransformer {
 			List<OriginDestinationOption> originDestinationOptions = airItineraryTransformer
 					.getoriginDestinationOptionList(airItinerary);
 			List<Itinerary> itineraries = new ArrayList<Itinerary>();
+			Itinerary itinerary = new Itinerary();
 			for (int iternary_index = 0; iternary_index < originDestinationOptions.size(); ++iternary_index) {
 				OriginDestinationOption originDestinationOption = originDestinationOptions.get(iternary_index);
 				List<FlightSegment> flightSegmentlist = airItineraryTransformer.getFlightSegment(
 						originDestinationOption);
-				Itinerary itinerary = new Itinerary();
 				if (iternary_index == 0) {
 					Outbound outBound = new Outbound();
 					List<Flight> flightList = airItineraryTransformer.getFlightList(flightSegmentlist, pricedItinerary);
@@ -51,8 +51,8 @@ public class sabrePricedItinerariesTransformer {
 					inBound.setFlights(flightList);
 					itinerary.setInbound(inBound);
 				}
-				itineraries.add(itinerary);
 			}
+			itineraries.add(itinerary);
 			resultItinerary.setItineraries(itineraries);
 			resultItineries.add(resultItinerary);
 		}
