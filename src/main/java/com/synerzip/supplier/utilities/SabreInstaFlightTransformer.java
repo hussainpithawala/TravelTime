@@ -15,7 +15,7 @@ import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PricedItinerary
 @Component
 public class SabreInstaFlightTransformer {
 	@Autowired
-	private sabrePricedItinerariesTransformer pricedItineraryTransformer;
+	private SabrePricedItinerariesTransformer pricedItineraryTransformer;
 	
 	public String mappedPricedItinerarywithCurrency(InstaFlightResponse instaFlightResponse){
 		String currency = instaFlightResponse.getPricedItineraries().get(0).getAirItineraryPricingInfo().getItinTotalFare().getFareConstruction().getCurrencyCode();

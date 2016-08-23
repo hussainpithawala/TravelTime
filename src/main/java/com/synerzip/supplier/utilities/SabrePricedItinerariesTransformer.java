@@ -21,9 +21,9 @@ import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PassengerFare;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PricedItinerary;
 
 @Component
-public class sabrePricedItinerariesTransformer {
+public class SabrePricedItinerariesTransformer {
 	@Autowired
-	private sabreAirItineraryTransformer airItineraryTransformer;
+	private SabreAirItineraryTransformer airItineraryTransformer;
 	
 	@Autowired
 	private AirItineraryPricingInfoTransformer airItineraryPricingInfoTransformer;

@@ -18,7 +18,7 @@ import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PTC_FareBreakdo
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PricedItinerary;
 
 @Component
-public class sabreAirItineraryTransformer {
+public class SabreAirItineraryTransformer {
 	@Autowired
 	private AirItineraryPricingInfoTransformer airItineraryPricingInfoTransformer;
 	
