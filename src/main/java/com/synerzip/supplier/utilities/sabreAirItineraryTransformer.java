@@ -3,6 +3,7 @@ package com.synerzip.supplier.utilities;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.synerzip.supplier.amadeus.model.flights.BookingInfo;
@@ -13,20 +14,13 @@ import com.synerzip.supplier.sabre.model.flights.instaflight_gen.AirItinerary;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.AirItineraryPricingInfo;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.FlightSegment;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.OriginDestinationOption;
-import com.synerzip.supplier.sabre.model.flights.instaflight_gen.OriginDestinationOptions;
+import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PTC_FareBreakdown;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PricedItinerary;
 
 @Component
 public class sabreAirItineraryTransformer {
-	public List<AirItinerary>  getPricedItinerary(List<PricedItinerary> pricedItineraries){
-		List<AirItinerary> airItineraries = new ArrayList<AirItinerary>();
-		for (int i = 0; i < pricedItineraries.size(); ++i) {
-			PricedItinerary pricedItinerary = pricedItineraries.get(i);
-			AirItinerary airItinerary = pricedItinerary.getAirItinerary();
-			airItineraries.add(airItinerary);
-		}
-		return airItineraries;
-	}
+	@Autowired
+	private AirItineraryPricingInfoTransformer airItineraryPricingInfoTransformer;
 	
 	public AirItinerary getAirItinerary(PricedItinerary pricedItinerary){
 		return pricedItinerary.getAirItinerary();
@@ -49,8 +43,8 @@ public class sabreAirItineraryTransformer {
 	}
 	
 	public String getBookingCode(AirItineraryPricingInfo airItineraryPricingInfo){
-		return airItineraryPricingInfo.getPTC_FareBreakdowns().getPTC_FareBreakdown().getFareBasisCodes()
-				.getFareBasisCode().get(0).getBookingCode();
+		PTC_FareBreakdown PTC_FareBreakdown = airItineraryPricingInfoTransformer.getPTCBreakdown(airItineraryPricingInfo);
+		return PTC_FareBreakdown.getFareBasisCodes().getFareBasisCode().get(0).getBookingCode();
 	}
 	
 	public int getSeatsRemaining(AirItineraryPricingInfo airItineraryPricingInfo){
@@ -68,7 +62,7 @@ public class sabreAirItineraryTransformer {
 		Destination.setAirport(getDestinationCode(flightSegment));
 		
 		//set bookingInfo object
-		AirItineraryPricingInfo airItineraryPricingInfo = pricedItinerary.getAirItineraryPricingInfo();
+		AirItineraryPricingInfo airItineraryPricingInfo = airItineraryPricingInfoTransformer.getAirItineraryPricingInfo(pricedItinerary);
 		booking_info.setBookingCode(getBookingCode(airItineraryPricingInfo));
 		booking_info.setSeatsRemaining(getSeatsRemaining(airItineraryPricingInfo));
 		

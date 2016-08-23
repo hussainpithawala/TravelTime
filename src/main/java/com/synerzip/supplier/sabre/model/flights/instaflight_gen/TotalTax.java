@@ -27,7 +27,7 @@ public class TotalTax {
     @JsonProperty("DecimalPlaces")
     private Integer DecimalPlaces;
     @JsonProperty("Amount")
-    private Double Amount;
+    private String Amount;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -77,7 +77,7 @@ public class TotalTax {
      *     The Amount
      */
     @JsonProperty("Amount")
-    public Double getAmount() {
+    public String getAmount() {
         return Amount;
     }
 
@@ -87,7 +87,7 @@ public class TotalTax {
      *     The Amount
      */
     @JsonProperty("Amount")
-    public void setAmount(Double Amount) {
+    public void setAmount(String Amount) {
         this.Amount = Amount;
     }
 
