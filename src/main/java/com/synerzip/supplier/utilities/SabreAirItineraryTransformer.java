@@ -78,13 +78,9 @@ public class SabreAirItineraryTransformer {
 	
 	public List<Flight> getFlightList(List<FlightSegment> flightSegmentlist, PricedItinerary pricedItinerary) {
 		List<Flight> flightList = new ArrayList<Flight>();
-		for (int flight_index = 0; flight_index < flightSegmentlist.size(); ++flight_index) {
-			FlightSegment flightSegment = flightSegmentlist.get(flight_index);
-			Flight flightObj = getFlightObject(flightSegment, pricedItinerary);
-			if (flightObj != null) {
-				flightList.add(flightObj);
-			}
-		}
+		flightSegmentlist.stream().map(flightSegment -> {
+			return getFlightObject(flightSegment, pricedItinerary);
+		}).filter(flight -> flight != null).forEach(flight -> flightList.add(flight));
 		return flightList;
 	}
 }
