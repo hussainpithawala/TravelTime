@@ -38,8 +38,6 @@ var HotelSearchPanel = React.createClass({
   render: function () {
     if(this.state.hotels) {
       var SearchResultOption = <HotelSearchResult searchResult={this.state.hotels}></HotelSearchResult>
-    } else {
-      var SearchResultOption = <div className="circular col-sm-8"></div>
     }
     return(
       <div className="row">

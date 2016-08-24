@@ -121,23 +121,11 @@
     text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px #00AC9D;
 }
 #tabBar{
-    background-color: #00ac9d;
     height: 40px;
-    margin-left: 20px;
-    margin-right: 20px;
-}
-.mdl-checkbox__label{
-    position: absolute;
-    margin: 2px;
-}
-.mdl-tabs__tab{
-    color: #ffffff ! important;
-}
-a.mdl-tabs__tab:hover{
-    background-color: #77bd1f;
-}
-.mdl-tabs_tab.active{
-    background-color: #ff0000;
+    margin:0 auto;
+    width: 800px;
+    margin-top: 20px;
+
 }
 
 #generalSearchPanel {
@@ -154,9 +142,9 @@ a.mdl-tabs__tab:hover{
 }
 #searchPanel1 {
     border: 1px solid #CCCCCC;
-    background-color: #00ac9d;
     margin-right: 40px;
     padding: 10px;
+
     /*box-shadow: 0px 0px 3px 0px #aaa;*/
 }
 #Rooms {
@@ -178,11 +166,6 @@ input {
 }
 select {
     height: 25px;
-}
-#searchPanel2 {
-    background-color: #013248;
-    margin-right: 30px;
-    padding: 10px;
 }
 #HOTEL{
     margin-top: 10px;
@@ -211,28 +194,6 @@ select {
 select:focus {
     outline: none}
 
-/* Hide label */
-.mdl-selectfield label {display: none;}
-/* Use custom arrow */
-.mdl-selectfield select {appearance: none}
-.mdl-selectfield {
-    font-family: 'Roboto','Helvetica','Arial',sans-serif;
-    position: relative;
-    &:after {
-     position: absolute;
-     top: 0.75em;
-     right: 0.5em;
-     /* Styling the down arrow */
-     width: 0;
-     height: 0;
-     padding: 0;
-     content: '';
-     border-left: .25em solid transparent;
-     border-right: .25em solid transparent;
-     border-top: .375em solid $select-border-color;
-     pointer-events: none;
- }
-}
 #mainText{
     margin:2px;
     font: 30px Verdana, sans-serif;
@@ -322,7 +283,7 @@ div.accordion {
     color: #444 !important;
     cursor: pointer;
     padding: 12px;
-    border: 1px dotted darkgray;
+    border: 1px dotted;
     text-align: left;
     outline: none;
     font-size: 15px;
@@ -352,7 +313,7 @@ div.accordion.active:before {
 
 div.panel {
     padding: 0 18px;
-    background-color: white;
+    /*background-color: white;*/
     max-height: 0;
     overflow: hidden;
     transition: 0.1s ease-in-out;
@@ -362,7 +323,7 @@ div.panel {
 div.panel.show {
     opacity: 1;
     max-height: 500px;
-    border: 1px dotted darkgray;
+    border: 1px dotted;
 }
 
 .circular {
@@ -425,8 +386,7 @@ div.panel.show {
     text-align: left;
     padding: 5px 0;
     border-radius: 6px;
-    border: 1px solid grey;
-
+    border: 1px solid;
     /* Position the tooltip text - see examples below! */
     position: absolute;
     z-index: 1;
@@ -452,4 +412,17 @@ div.panel.show {
 
 #searchPanel1 .row{
     height: 50px;
+}
+#content{
+    width: 100%;
+    height: 100%;
+    background-image: url("../img/airlines-banner.jpg");
+    background-size:cover;
+}
+.panel{
+    background-color: transparent;
+}
+
+.nav-tabs>li>a {
+    color: white;
 }
