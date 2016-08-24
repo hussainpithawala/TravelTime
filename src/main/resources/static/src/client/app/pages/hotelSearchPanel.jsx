@@ -35,10 +35,10 @@ var HotelSearchPanel = React.createClass({
     if(this.state.hotels) {
       var SearchResultOption = <HotelSearchResult searchResult={this.state.hotels}></HotelSearchResult>
     } else {
-      var SearchResultOption = <div className="circular"></div>
+      var SearchResultOption = <div className="circular col-sm-8"></div>
     }
     return(
-      <div className="mdl-grid">
+      <div className="row">
         <HotelSearchForm updateSearchResult = {this.reloadHotels}></HotelSearchForm>
         {SearchResultOption}
       </div>

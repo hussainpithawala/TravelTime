@@ -152,18 +152,6 @@ a.mdl-tabs__tab:hover{
     overflow: hidden;
     /*margin-top: 10px;*/
 }
-.collapsible button {
-    height: 345px;
-    float: right;
-    border: none;
-    background-color:#00ac9d;
-    color: white;
-    margin-left: auto;
-}
-.collapsible button:hover {
-    background-color: #00ac9d;
-    /*border: 1px solid #eff0f1;*/
-}
 #searchPanel1 {
     border: 1px solid #CCCCCC;
     background-color: #00ac9d;
@@ -186,6 +174,7 @@ a.mdl-tabs__tab:hover{
 }
 input {
     height: 25px;
+    color: gray;
 }
 select {
     height: 25px;
@@ -330,7 +319,7 @@ input[type='radio']:checked:before {
 }
 div.accordion {
     background-color: white;
-    color: #444;
+    color: #444 !important;
     cursor: pointer;
     padding: 12px;
     border: 1px dotted darkgray;
@@ -459,4 +448,8 @@ div.panel.show {
     font-size:inherit;
     float: right;
     padding: 2px;
+}
+
+#searchPanel1 .row{
+    height: 50px;
 }

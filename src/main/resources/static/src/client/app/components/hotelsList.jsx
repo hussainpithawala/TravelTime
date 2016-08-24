@@ -3,12 +3,12 @@ import React from 'react';
 var HotelDetails = React.createClass({
 render: function () {
     var hotelDetails = this.props.details;
-    return (<div id="hotelInfo" className="mdl-grid">
-        <div className="mdl-cell mdl-cell--4-col">
+    return (<div id="hotelInfo" className="row">
+        <div className="col-sm-4">
             <h6> <b>Address: </b> </h6>
             <p> {this.props.details.address.line1} {hotelDetails.address.city}</p>
         </div>
-        <div className="mdl-cell mdl-cell--8-col">
+        <div className="col-sm-8">
             <h6> <b>Contact: </b> </h6>
             <p> {this.props.details.contacts[0].detail}</p>
         </div>
@@ -24,11 +24,11 @@ var Room = React.createClass({
         for (var i = 0; i < this.props.data.descriptions.length; i++) {
             text = text  + this.props.data.descriptions[i] + ". ";
         }
-        return (<div className="mdl-grid">
-                <input className="mdl-cell mdl-cell--4-col" type="radio" name="room" value={this.props.data.total_amount.amount} onChange={this.handleChange} />
+        return (<div className="row">
+                <input className="col-sm-4" type="radio" name="room" value={this.props.data.total_amount.amount} onChange={this.handleChange} />
                 <p id="price">{this.props.data.total_amount.amount} "$"</p>
-                <p className="mdl-cell mdl-cell--7-col" id="roomType"> {this.props.data.room_type_info.room_type} </p>
-                <p className="mdl-cell mdl-cell--7-col" id="roomDescription">{text}</p>
+                <p className="col-sm-7" id="roomType"> {this.props.data.room_type_info.room_type} </p>
+                <p className="col-sm-7" id="roomDescription">{text}</p>
             </div>
         );
     }
@@ -90,9 +90,9 @@ var Section = React.createClass({
     render: function() {
         return (
           <div>
-              <div className="accordion tooltip" title={this.props.data.min_daily_rate.amount}>{this.props.data.property_name}
-                  <i className="material-icons" onMouseEnter={this.cardShow}
-                     onMouseLeave={this.cardHide}>info</i>
+              <div className="accordion" title={this.props.data.min_daily_rate.amount}>{this.props.data.property_name}
+                  <i className="fa fa-info" aria-hidden="true" onMouseEnter={this.cardShow}
+                     onMouseLeave={this.cardHide}></i>
                   {this.state.showToolTip? <Tooltip data={this.props.data}/>:null}
               </div>
               <div className="panel">
@@ -162,7 +162,7 @@ var HotelSearchResult = React.createClass({
     },
     render: function() {
         return (
-          <div className="mdl-cell mdl-cell--8-col" id="mainPanel">
+          <div className="col-sm-8" id="mainPanel">
               <p className="flow-text" id="mainText">Shop Results </p>
               <h5 id="note">LOWEST AVAILABLE NIGHTLY RATE PER ROOM</h5>
               <Container data={this.state.backendData}></Container>

@@ -1,5 +1,4 @@
 import React from 'react';
-
 var inputstyles = {width:"130px"};
 var paddingInitial = {padding: 'initial'};
 var NumberSelector = React.createClass({
@@ -16,7 +15,7 @@ var NumberSelector = React.createClass({
   },
   render: function () {
     return (
-      <select className="browser-default" id={this.props.id}>
+        <select className="selectpicker" id={this.props.id}>
         {this.getOptions()}
       </select>
     );
@@ -59,7 +58,7 @@ var TextInput = React.createClass({
                           style={inputstyles} id={this.props.name} data-type="date" min={this.props.min}/>
     }
     return (
-      <div className="mdl-cell mdl-cell--6-col">
+      <div className="col-sm-6">
         <span className="field">{this.props.name} :</span>
         {inputField}
         <span className="error"></span>
@@ -168,20 +167,11 @@ var HotelSearchForm = React.createClass({
   },
   render: function() {
     return (
-      <div className="collapsible" id="generalSearchPanel">
-        <button id="collapsibleBtn"></button>
+      <div className="collapsible col-sm-4" id="generalSearchPanel">
         <div id="searchPanel">
           <form onSubmit={this.handleSubmit}>
             <div id="searchPanel1">
-              <label className="mdl-checkbox" htmlFor="checkbox1">
-                <input type="checkbox" id="checkbox1" className="mdl-checkbox__input" defaultChecked/>
-                <span className="mdl-checkbox__label">Hotel</span>
-              </label>
-              <div className="mdl-grid" style={ paddingInitial }>
-                <div className="mdl-cell mdl-cell--12-col">
-                  <span>Standard Hotel Shipping</span>
-                  <br/>
-                </div>
+              <div className="row">
                 <TextInput type="text" value={this.state.location} label={Location} name={'Location'}
                            htmlFor={'Location'} isRequired={true} onChange={this.onChangeLocation}
                            onComponentMounted={this.register} messageRequired={'Location Required'}
@@ -189,42 +179,41 @@ var HotelSearchForm = React.createClass({
                 <TextInput type="text" value={this.state.referencePoint} label={'Reference Point'} name={'ReferencePoint'}
                            htmlhtmlFor={'ReferencePoint'} isRequired={false} messageRequired={''}
                 />
-                  <TextInput type="date" value={this.state.checkIn} label={'Check-In'} name={'CheckIn'}
-                             htmlFor={'CheckIn'} isRequired={true} onChange={this.onChangeFromDate}
-                             onComponentMounted={this.register} messageRequired={'Check-in required'}
-                  />
-                  <TextInput type="date" value={this.state.checkOut} label={'Check-Out'} name={'CheckOut'}
-                             htmlFor={'CheckOut'} isRequired={true} onChange={this.onChangeToDate}
-                             onComponentMounted={this.register} messageRequired={'Check-out required'}
-                             min={this.state.checkIn}
-                  />
-                <div className="mdl-cell mdl-cell--6-col">
+              </div>
+              <div className="row">
+                <TextInput type="date" value={this.state.checkIn} label={'Check-In'} name={'CheckIn'}
+                           htmlFor={'CheckIn'} isRequired={true} onChange={this.onChangeFromDate}
+                           onComponentMounted={this.register} messageRequired={'Check-in required'}
+                />
+                <TextInput type="date" value={this.state.checkOut} label={'Check-Out'} name={'CheckOut'}
+                           htmlFor={'CheckOut'} isRequired={true} onChange={this.onChangeToDate}
+                           onComponentMounted={this.register} messageRequired={'Check-out required'}
+                           min={this.state.checkIn}
+                />
+              </div>
+              <div className="row">
+                <div className="col-sm-6">
                   <span className="field">Rooms:</span>
-                  <div className="mdl-selectfield">
-                    <label>Standard Select</label>
-                    <NumberSelector from="1" to="9" id="Rooms"/>
-                  </div>
+                  <NumberSelector from="1" to="9" id="Rooms"/>
                 </div>
-                <div className="mdl-cell mdl-cell--6-col">
+                <div className="col-sm-6">
                   <span className="field">Max Wait:</span>
                   <input type="text" name="MaxWt" placeholder="16000 ms" style={inputstyles} />
                 </div>
-                <div className="mdl-cell mdl-cell--3-col">
+              </div>
+              <div className="row">
+                <div className="col-sm-3">
                   <span className="field">Cribs:</span>
-                  <div className="mdl-selectfield">
-                    <label>Standard Select</label>
-                    <NumberSelector from="0" to="9" id="Cribs"/>
-                  </div>
+                  <NumberSelector from="0" to="9" id="Cribs"/>
                 </div>
-                <div className="mdl-cell mdl-cell--8-col">
+                <div className="col-sm-6">
                   <span className="field">Rollaway Beds:</span>
-                  <div className="mdl-selectfield">
-                    <label>Standard Select</label>
-                    <NumberSelector from="0" to="9" id="RollawayBeds"/>
-                  </div>
+                  <NumberSelector from="0" to="9" id="RollawayBeds"/>
                 </div>
-                <div className="mdl-cell mdl-cell--4-col">
-                  <button className="mdl-button mdl-button--raised" id="submit">Search</button>
+              </div>
+              <div className="row">
+                <div className="col-sm-4">
+                  <button type="submit" className="btn btn-primary" id="submit">Search</button>
                 </div>
               </div>
             </div>
