@@ -18,4 +18,19 @@ export function reloadHotels(requestJSON) {
   .catch(function (error) {
     console.log(error);
   });
-}
+};
+
+export function reloadLocations(key) {
+  console.log('reloading locations...', key);
+  axios({
+    method: 'get',
+    url: 'rest/get/airportAutocomplete?term=' + key,
+  })
+  .then(function (response) {
+    console.log("got the location list!");
+    dispatcher.dispatch({type: "RECEIVE_LOCATIONS", locations: response.data});
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+};

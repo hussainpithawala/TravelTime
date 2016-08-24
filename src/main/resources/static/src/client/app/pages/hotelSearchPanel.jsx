@@ -31,6 +31,10 @@ var HotelSearchPanel = React.createClass({
     HotelsActions.reloadHotels(requestJSON);
   },
 
+  reloadLocations: function(locationKey) {
+    HotelsActions.reloadLocations(locationKey);
+  },
+  
   render: function () {
     if(this.state.hotels) {
       var SearchResultOption = <HotelSearchResult searchResult={this.state.hotels}></HotelSearchResult>
@@ -39,7 +43,7 @@ var HotelSearchPanel = React.createClass({
     }
     return(
       <div className="row">
-        <HotelSearchForm updateSearchResult = {this.reloadHotels}></HotelSearchForm>
+        <HotelSearchForm updateSearchResult = {this.reloadHotels} updateLocations = {this.reloadLocations}></HotelSearchForm>
         {SearchResultOption}
       </div>
     );

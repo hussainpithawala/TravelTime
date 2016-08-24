@@ -1,4 +1,6 @@
 import React from 'react';
+import LocationsDataList from '../components/locationList.jsx';
+
 var inputstyles = {width:"130px"};
 var paddingInitial = {padding: 'initial'};
 var NumberSelector = React.createClass({
@@ -48,7 +50,11 @@ var TextInput = React.createClass({
   },
   render: function() {
     var inputField;
-    if (this.props.type == 'text') {
+    if (this.props.type == 'text' && this.props.list) {
+      inputField = <input value={this.props.value} name={this.props.name} placeholder={this.props.name}
+        ref={this.props.name} required = {this.props.isrequired} onChange = {this.handleChange}
+        style={inputstyles} id={this.props.name} list={this.props.list}/>
+    } else if (this.props.type == 'text') {
       inputField = <input value={this.props.value} name={this.props.name} placeholder={this.props.name}
         ref={this.props.name} required = {this.props.isrequired} onChange = {this.handleChange}
         style={inputstyles} id={this.props.name}/>
@@ -123,28 +129,7 @@ var HotelSearchForm = React.createClass({
   // handle location change here
   onChangeLocation: function (location) {
     var me = this;
-    $(function () {
-      var getData = function (request, response) {
-        $.getJSON(
-          "rest/get/airportAutocomplete?term=" + location,
-          function (data) {
-            response(data);
-          });
-      };
-
-      var selectItem = function (event, ui) {
-        $("#Location").val(ui.item.value);
-        console.log(ui.item.value);
-        me.setState({location: ui.item.value});
-        return true;
-      };
-
-      $("#Location").autocomplete({
-        source: getData,
-        select: selectItem,
-        minLength: 2
-      });
-    });
+    this.props.updateLocations(location);
     this.setState({
       location: location
     });
@@ -175,7 +160,9 @@ var HotelSearchForm = React.createClass({
                 <TextInput type="text" value={this.state.location} label={Location} name={'Location'}
                            htmlFor={'Location'} isRequired={true} onChange={this.onChangeLocation}
                            onComponentMounted={this.register} messageRequired={'Location Required'}
+                           list={'locations'}
                 />
+                <LocationsDataList id="locations"/>
                 <TextInput type="text" value={this.state.referencePoint} label={'Reference Point'} name={'ReferencePoint'}
                            htmlhtmlFor={'ReferencePoint'} isRequired={false} messageRequired={''}
                 />
