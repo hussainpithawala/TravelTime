@@ -426,3 +426,6 @@ div.panel.show {
 .nav-tabs>li>a {
     color: white;
 }
+.nav-tabs>li>a:hover{
+    color: black;
+}
