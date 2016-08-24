@@ -2,6 +2,7 @@ package com.synerzip.supplier.utilities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,21 +36,20 @@ public class SabrePricedItinerariesTransformer {
 		AirItinerary airItinerary = airItineraryTransformer.getAirItinerary(pricedItinerary);
 		List<OriginDestinationOption> originDestinationOptions = airItineraryTransformer
 				.getoriginDestinationOptionList(airItinerary);
-		for (int iternary_index = 0; iternary_index < originDestinationOptions.size(); ++iternary_index) {
-			OriginDestinationOption originDestinationOption = originDestinationOptions.get(iternary_index);
-			List<FlightSegment> flightSegmentlist = airItineraryTransformer.getFlightSegment(originDestinationOption);
-			if (iternary_index == 0) {
-				Outbound outBound = new Outbound();
-				List<Flight> flightList = airItineraryTransformer.getFlightList(flightSegmentlist, pricedItinerary);
-				outBound.setFlights(flightList);
-				itinerary.setOutbound(outBound);
-			} else if (iternary_index == 1) {
-				Inbound inBound = new Inbound();
-				List<Flight> flightList = airItineraryTransformer.getFlightList(flightSegmentlist, pricedItinerary);
-				inBound.setFlights(flightList);
-				itinerary.setInbound(inBound);
+
+		Stream.of(0, 1).forEach(index -> {
+			List<FlightSegment> flightSegmentList = airItineraryTransformer
+					.getFlightSegment(originDestinationOptions.get(index));
+			List<Flight> flightList = airItineraryTransformer.getFlightList(flightSegmentList, pricedItinerary);
+			if (index == 0) {
+				// 1st position refers to outbound flights
+				itinerary.setOutbound(Outbound.getBuilder().flights(flightList).instance());
+			} else if (index == 1) {
+				// 2nd position refers to inbound flights
+				itinerary.setInbound(Inbound.getBuilder().flights(flightList).instance());
 			}
-		}
+		});
+				
 		itineraries.add(itinerary);
 		return itineraries;
 	}

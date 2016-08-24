@@ -16,66 +16,82 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-"flights",
-"duration"
-})
+@JsonPropertyOrder({ "flights", "duration" })
 public class Outbound {
 
-@JsonProperty("flights")
-private List<Flight> flights = new ArrayList<Flight>();
-@JsonProperty("duration")
-private String duration;
-@JsonIgnore
-private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+	@JsonProperty("flights")
+	private List<Flight> flights = new ArrayList<Flight>();
+	@JsonProperty("duration")
+	private String duration;
+	@JsonIgnore
+	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-/**
-* 
-* @return
-* The flights
-*/
-@JsonProperty("flights")
-public List<Flight> getFlights() {
-return flights;
-}
+	/**
+	 * 
+	 * @return The flights
+	 */
+	@JsonProperty("flights")
+	public List<Flight> getFlights() {
+		return flights;
+	}
 
-/**
-* 
-* @param flights
-* The flights
-*/
-@JsonProperty("flights")
-public void setFlights(List<Flight> flights) {
-this.flights = flights;
-}
+	/**
+	 * 
+	 * @param flights
+	 *            The flights
+	 */
+	@JsonProperty("flights")
+	public void setFlights(List<Flight> flights) {
+		this.flights = flights;
+	}
 
-/**
- * 
- * @return The duration
- */
-@JsonProperty("duration")
-public String getDuration() {
-    return duration;
-}
+	/**
+	 * 
+	 * @return The duration
+	 */
+	@JsonProperty("duration")
+	public String getDuration() {
+		return duration;
+	}
 
-/**
- * 
- * @param duration
- *       The duration
- */
-@JsonProperty("duration")
-public void setDuration(String duration) {
-    this.duration = duration;
-}
+	/**
+	 * 
+	 * @param duration
+	 *            The duration
+	 */
+	@JsonProperty("duration")
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
 
-@JsonAnyGetter
-public Map<String, Object> getAdditionalProperties() {
-return this.additionalProperties;
-}
+	@JsonAnyGetter
+	public Map<String, Object> getAdditionalProperties() {
+		return this.additionalProperties;
+	}
 
-@JsonAnySetter
-public void setAdditionalProperty(String name, Object value) {
-this.additionalProperties.put(name, value);
-}
+	@JsonAnySetter
+	public void setAdditionalProperty(String name, Object value) {
+		this.additionalProperties.put(name, value);
+	}
 
+	public static class Builder {
+		private Outbound instance;
+		
+		Builder(Outbound outbound){
+			this.instance = outbound;
+		}
+		
+		public Builder flights(List<Flight> flights) {
+			this.instance.setFlights(flights);
+			return this;
+		}
+		
+		public Outbound instance(){
+			return this.instance;
+		}
+	}
+	
+	public static Builder getBuilder() {
+		return new Builder(new Outbound());
+	}
 }

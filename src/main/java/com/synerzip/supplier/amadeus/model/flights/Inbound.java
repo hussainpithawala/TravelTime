@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "flights","duration" })
+@JsonPropertyOrder({ "flights", "duration" })
 public class Inbound {
 
 	@JsonProperty("flights")
@@ -51,18 +51,18 @@ public class Inbound {
 	 */
 	@JsonProperty("duration")
 	public String getDuration() {
-        return duration;
+		return duration;
 	}
 
 	/**
 	 * 
 	 * @param duration
-	 *       The duration
+	 *            The duration
 	 */
 	@JsonProperty("duration")
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
 
 	@JsonAnyGetter
 	public Map<String, Object> getAdditionalProperties() {
@@ -72,5 +72,26 @@ public class Inbound {
 	@JsonAnySetter
 	public void setAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
+	}
+	
+	public static class Builder {
+		private Inbound instance;
+		
+		Builder(Inbound inbound) {
+			this.instance = inbound;
+		}
+		
+		public Builder flights(List<Flight> flights) {
+			this.instance.setFlights(flights);
+			return this;
+		}
+		
+		public Inbound instance() {
+			return instance;
+		}
+	}
+	
+	public static Builder getBuilder() {
+		return new Builder(new Inbound());
 	}
 }
