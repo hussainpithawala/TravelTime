@@ -1,6 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import HotelSearchPanel from './pages/hotelSearchPanel.jsx';
+import FlightsSearchPanel from './pages/flightsSearchPanel.jsx';
 
 class App extends React.Component {
     render () {
@@ -33,9 +34,7 @@ class App extends React.Component {
                             </div>
                             <div className="tab-pane" id="FLIGHTS">
                                 <section className="panel" id="scroll-tab-2">
-                                    <div className="row">
-                                        FLIGHTS
-                                    </div>
+                                    <FlightsSearchPanel></FlightsSearchPanel>
                                 </section>
                             </div>
                         </div>
