@@ -12,6 +12,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.sabre.model.flights.visitors.PTCFareBreakDownsElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.PTCFareBreakdownsVisitor;
+import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -20,14 +24,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "PassengerTypeQuantity",
     "PassengerFare"
 })
-public class PTC_FareBreakdown {
+public class PTCFareBreakDown implements PTCFareBreakDownsElement {
 
     @JsonProperty("FareBasisCodes")
     private FareBasisCodes FareBasisCodes;
     @JsonProperty("PassengerTypeQuantity")
     private PassengerTypeQuantity PassengerTypeQuantity;
     @JsonProperty("PassengerFare")
-    private PassengerFare PassengerFare;
+    private PassengerFare passengerFare;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -78,7 +82,7 @@ public class PTC_FareBreakdown {
      */
     @JsonProperty("PassengerFare")
     public PassengerFare getPassengerFare() {
-        return PassengerFare;
+        return passengerFare;
     }
 
     /**
@@ -88,7 +92,7 @@ public class PTC_FareBreakdown {
      */
     @JsonProperty("PassengerFare")
     public void setPassengerFare(PassengerFare PassengerFare) {
-        this.PassengerFare = PassengerFare;
+        this.passengerFare = PassengerFare;
     }
 
     @JsonAnyGetter
@@ -100,5 +104,11 @@ public class PTC_FareBreakdown {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+	@Override
+	public void accept(PTCFareBreakdownsVisitor visitor) {
+		visitor.visit(this);
+		passengerFare.accept(visitor);
+	}
 
 }

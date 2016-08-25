@@ -12,6 +12,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.sabre.model.flights.visitors.FareInfosVisitor;
+import com.synerzip.supplier.sabre.model.flights.visitors.PTCFareBreakdownsVisitor;
+import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -21,12 +25,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "TPA_Extensions",
     "ItinTotalFare"
 })
-public class AirItineraryPricingInfo {
+public class AirItineraryPricingInfo implements PricedItineraryElement {
 
     @JsonProperty("PTC_FareBreakdowns")
-    private PTC_FareBreakdowns PTC_FareBreakdowns;
+    private PTCFareBreakDowns ptcFareBreakDowns;
     @JsonProperty("FareInfos")
-    private FareInfos FareInfos;
+    private FareInfos fareInfos;
     @JsonProperty("TPA_Extensions")
     private TPA_Extensions___ TPA_Extensions;
     @JsonProperty("ItinTotalFare")
@@ -40,8 +44,8 @@ public class AirItineraryPricingInfo {
      *     The PTC_FareBreakdowns
      */
     @JsonProperty("PTC_FareBreakdowns")
-    public PTC_FareBreakdowns getPTC_FareBreakdowns() {
-        return PTC_FareBreakdowns;
+    public PTCFareBreakDowns getPTC_FareBreakdowns() {
+        return ptcFareBreakDowns;
     }
 
     /**
@@ -50,8 +54,8 @@ public class AirItineraryPricingInfo {
      *     The PTC_FareBreakdowns
      */
     @JsonProperty("PTC_FareBreakdowns")
-    public void setPTC_FareBreakdowns(PTC_FareBreakdowns PTC_FareBreakdowns) {
-        this.PTC_FareBreakdowns = PTC_FareBreakdowns;
+    public void setPTC_FareBreakdowns(PTCFareBreakDowns PTC_FareBreakdowns) {
+        this.ptcFareBreakDowns = PTC_FareBreakdowns;
     }
 
     /**
@@ -61,7 +65,7 @@ public class AirItineraryPricingInfo {
      */
     @JsonProperty("FareInfos")
     public FareInfos getFareInfos() {
-        return FareInfos;
+        return fareInfos;
     }
 
     /**
@@ -71,7 +75,7 @@ public class AirItineraryPricingInfo {
      */
     @JsonProperty("FareInfos")
     public void setFareInfos(FareInfos FareInfos) {
-        this.FareInfos = FareInfos;
+        this.fareInfos = FareInfos;
     }
 
     /**
@@ -123,5 +127,18 @@ public class AirItineraryPricingInfo {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+	@Override
+	public void accept(PricedItineraryVisitor visitor) {
+		visitor.visit(this);
+
+		if (visitor instanceof PTCFareBreakdownsVisitor) {
+			ptcFareBreakDowns.accept(((PTCFareBreakdownsVisitor)visitor));
+		}
+
+		if (visitor instanceof FareInfosVisitor) {
+			fareInfos.accept((FareInfosVisitor)visitor);
+		}
+	}
 
 }

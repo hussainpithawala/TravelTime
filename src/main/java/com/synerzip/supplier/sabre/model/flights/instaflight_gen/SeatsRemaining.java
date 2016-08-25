@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.sabre.model.flights.visitors.FareInfosElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.FareInfosVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -19,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "BelowMin",
     "Number"
 })
-public class SeatsRemaining {
+public class SeatsRemaining implements FareInfosElement {
 
     @JsonProperty("BelowMin")
     private Boolean BelowMin;
@@ -78,4 +80,8 @@ public class SeatsRemaining {
         this.additionalProperties.put(name, value);
     }
 
+	@Override
+	public void accept(FareInfosVisitor visitor) {
+		visitor.visit(this);
+	}
 }

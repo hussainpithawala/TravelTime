@@ -14,16 +14,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.sabre.model.flights.visitors.FareInfosElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.FareInfosVisitor;
+import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "FareInfo"
 })
-public class FareInfos {
+public class FareInfos implements FareInfosElement {
 
     @JsonProperty("FareInfo")
-    private List<FareInfo> FareInfo = new ArrayList<FareInfo>();
+    private List<FareInfo> fareInfoList = new ArrayList<FareInfo>();
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -34,7 +38,7 @@ public class FareInfos {
      */
     @JsonProperty("FareInfo")
     public List<FareInfo> getFareInfo() {
-        return FareInfo;
+        return fareInfoList;
     }
 
     /**
@@ -44,7 +48,7 @@ public class FareInfos {
      */
     @JsonProperty("FareInfo")
     public void setFareInfo(List<FareInfo> FareInfo) {
-        this.FareInfo = FareInfo;
+        this.fareInfoList = FareInfo;
     }
 
     @JsonAnyGetter
@@ -57,4 +61,9 @@ public class FareInfos {
         this.additionalProperties.put(name, value);
     }
 
+	@Override
+	public void accept(FareInfosVisitor visitor) {
+		visitor.visit(this);
+		fareInfoList.stream().forEach(fareInfo -> fareInfo.accept(visitor));
+	}
 }

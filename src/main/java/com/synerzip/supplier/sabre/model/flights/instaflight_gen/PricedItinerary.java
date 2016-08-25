@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -22,18 +24,18 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "AirItineraryPricingInfo",
     "TicketingInfo"
 })
-public class PricedItinerary {
+public class PricedItinerary implements PricedItineraryElement {
 
     @JsonProperty("AirItinerary")
-    private AirItinerary AirItinerary;
+    private AirItinerary airItinerary;
     @JsonProperty("TPA_Extensions")
-    private TPA_Extensions_ TPA_Extensions;
+    private TPA_Extensions_ tpaExtensions;
     @JsonProperty("SequenceNumber")
-    private Integer SequenceNumber;
+    private Integer sequenceNumber;
     @JsonProperty("AirItineraryPricingInfo")
-    private AirItineraryPricingInfo AirItineraryPricingInfo;
+    private AirItineraryPricingInfo airItineraryPricingInfo;
     @JsonProperty("TicketingInfo")
-    private TicketingInfo TicketingInfo;
+    private TicketingInfo ticketingInfo;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -44,7 +46,7 @@ public class PricedItinerary {
      */
     @JsonProperty("AirItinerary")
     public AirItinerary getAirItinerary() {
-        return AirItinerary;
+        return airItinerary;
     }
 
     /**
@@ -54,7 +56,7 @@ public class PricedItinerary {
      */
     @JsonProperty("AirItinerary")
     public void setAirItinerary(AirItinerary AirItinerary) {
-        this.AirItinerary = AirItinerary;
+        this.airItinerary = AirItinerary;
     }
 
     /**
@@ -64,7 +66,7 @@ public class PricedItinerary {
      */
     @JsonProperty("TPA_Extensions")
     public TPA_Extensions_ getTPA_Extensions() {
-        return TPA_Extensions;
+        return tpaExtensions;
     }
 
     /**
@@ -74,7 +76,7 @@ public class PricedItinerary {
      */
     @JsonProperty("TPA_Extensions")
     public void setTPA_Extensions(TPA_Extensions_ TPA_Extensions) {
-        this.TPA_Extensions = TPA_Extensions;
+        this.tpaExtensions = TPA_Extensions;
     }
 
     /**
@@ -84,7 +86,7 @@ public class PricedItinerary {
      */
     @JsonProperty("SequenceNumber")
     public Integer getSequenceNumber() {
-        return SequenceNumber;
+        return sequenceNumber;
     }
 
     /**
@@ -94,7 +96,7 @@ public class PricedItinerary {
      */
     @JsonProperty("SequenceNumber")
     public void setSequenceNumber(Integer SequenceNumber) {
-        this.SequenceNumber = SequenceNumber;
+        this.sequenceNumber = SequenceNumber;
     }
 
     /**
@@ -104,7 +106,7 @@ public class PricedItinerary {
      */
     @JsonProperty("AirItineraryPricingInfo")
     public AirItineraryPricingInfo getAirItineraryPricingInfo() {
-        return AirItineraryPricingInfo;
+        return airItineraryPricingInfo;
     }
 
     /**
@@ -114,7 +116,7 @@ public class PricedItinerary {
      */
     @JsonProperty("AirItineraryPricingInfo")
     public void setAirItineraryPricingInfo(AirItineraryPricingInfo AirItineraryPricingInfo) {
-        this.AirItineraryPricingInfo = AirItineraryPricingInfo;
+        this.airItineraryPricingInfo = AirItineraryPricingInfo;
     }
 
     /**
@@ -124,7 +126,7 @@ public class PricedItinerary {
      */
     @JsonProperty("TicketingInfo")
     public TicketingInfo getTicketingInfo() {
-        return TicketingInfo;
+        return ticketingInfo;
     }
 
     /**
@@ -134,7 +136,7 @@ public class PricedItinerary {
      */
     @JsonProperty("TicketingInfo")
     public void setTicketingInfo(TicketingInfo TicketingInfo) {
-        this.TicketingInfo = TicketingInfo;
+        this.ticketingInfo = TicketingInfo;
     }
 
     @JsonAnyGetter
@@ -146,5 +148,11 @@ public class PricedItinerary {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+	@Override
+	public void accept(PricedItineraryVisitor visitor) {
+		visitor.visit(this);
+		airItineraryPricingInfo.accept(visitor);
+	}
 
 }

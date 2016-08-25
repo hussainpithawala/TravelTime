@@ -14,25 +14,23 @@ import com.synerzip.supplier.amadeus.model.flights.Itinerary;
 import com.synerzip.supplier.amadeus.model.flights.Outbound;
 import com.synerzip.supplier.amadeus.model.flights.PricePerAdult;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.AirItinerary;
-import com.synerzip.supplier.sabre.model.flights.instaflight_gen.AirItineraryPricingInfo;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.FlightSegment;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.OriginDestinationOption;
-import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PTC_FareBreakdown;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PassengerFare;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PricedItinerary;
+import com.synerzip.supplier.sabre.model.flights.visitors.AbstractPTCFareBreakdownsVisitor;
+import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryVisitor;
 
 @Component
 public class SabrePricedItinerariesTransformer {
 	@Autowired
 	private SabreAirItineraryTransformer airItineraryTransformer;
 	
-	@Autowired
-	private AirItineraryPricingInfoTransformer airItineraryPricingInfoTransformer;
-	
 	// this function mapped itinerary object
 	public List<Itinerary> mappedPricedItinerarywithItineraries(PricedItinerary pricedItinerary) {
 		List<Itinerary> itineraries = new ArrayList<Itinerary>();
 		Itinerary itinerary = new Itinerary();
+		
 		AirItinerary airItinerary = airItineraryTransformer.getAirItinerary(pricedItinerary);
 		List<OriginDestinationOption> originDestinationOptions = airItineraryTransformer
 				.getoriginDestinationOptionList(airItinerary);
@@ -58,15 +56,17 @@ public class SabrePricedItinerariesTransformer {
 	public Fare mappedPricedItinerarywithFare(PricedItinerary pricedItinerary){	
 		Fare fare = new Fare();
 		PricePerAdult pricePerAdult= new PricePerAdult();
-//		String totalFare = airItineraryPricingInfoTransformer.getTotalFare(airItineraryPricingInfoTransformer.getPassengerFare(airItineraryPricingInfoTransformer.getPTCBreakdown(airItineraryPricingInfoTransformer.getAirItineraryPricingInfo(pricedItinerary))));
-		AirItineraryPricingInfo airItineraryPricingInfo = airItineraryPricingInfoTransformer.getAirItineraryPricingInfo(pricedItinerary);
-		PTC_FareBreakdown PTC_FareBreakdown = airItineraryPricingInfoTransformer.getPTCBreakdown(airItineraryPricingInfo);
-		PassengerFare passengerFare = airItineraryPricingInfoTransformer.getPassengerFare(PTC_FareBreakdown);
-		String totalFare = airItineraryPricingInfoTransformer.getTotalFare(passengerFare);
-		String totalTax = airItineraryPricingInfoTransformer.getTaxAmount(passengerFare);
-		fare.setTotalPrice(totalFare);
-		pricePerAdult.setTax(totalTax);
+		
+		PricedItineraryVisitor visitor = new AbstractPTCFareBreakdownsVisitor() {
+			@Override
+			public void visit(PassengerFare passengerFare) {
+				fare.setTotalPrice(passengerFare.getTotalFare().getAmount());
+				pricePerAdult.setTax(passengerFare.getTaxes().getTotalTax().getAmount());
+			}
+		};		
+		pricedItinerary.accept(visitor);
 		fare.setPricePerAdult(pricePerAdult);
+		
 		return fare;
 	}
 }

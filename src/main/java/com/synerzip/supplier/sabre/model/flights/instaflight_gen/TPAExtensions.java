@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.sabre.model.flights.visitors.FareInfosElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.FareInfosVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -19,12 +21,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "Cabin",
     "SeatsRemaining"
 })
-public class TPA_Extensions__ {
+public class TPAExtensions implements FareInfosElement {
 
     @JsonProperty("Cabin")
     private Cabin Cabin;
     @JsonProperty("SeatsRemaining")
-    private SeatsRemaining SeatsRemaining;
+    private SeatsRemaining seatsRemaining;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -55,7 +57,7 @@ public class TPA_Extensions__ {
      */
     @JsonProperty("SeatsRemaining")
     public SeatsRemaining getSeatsRemaining() {
-        return SeatsRemaining;
+        return seatsRemaining;
     }
 
     /**
@@ -65,7 +67,7 @@ public class TPA_Extensions__ {
      */
     @JsonProperty("SeatsRemaining")
     public void setSeatsRemaining(SeatsRemaining SeatsRemaining) {
-        this.SeatsRemaining = SeatsRemaining;
+        this.seatsRemaining = SeatsRemaining;
     }
 
     @JsonAnyGetter
@@ -77,5 +79,11 @@ public class TPA_Extensions__ {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+	@Override
+	public void accept(FareInfosVisitor visitor) {
+		visitor.visit(this);
+		seatsRemaining.accept(visitor);
+	}
 
 }

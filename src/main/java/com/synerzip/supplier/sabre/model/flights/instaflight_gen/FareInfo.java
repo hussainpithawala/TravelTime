@@ -12,6 +12,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.sabre.model.flights.visitors.FareInfosElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.FareInfosVisitor;
+import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -19,10 +23,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "TPA_Extensions",
     "FareReference"
 })
-public class FareInfo {
+public class FareInfo implements FareInfosElement {
 
     @JsonProperty("TPA_Extensions")
-    private TPA_Extensions__ TPA_Extensions;
+    private TPAExtensions tpaExtensions;
     @JsonProperty("FareReference")
     private String FareReference;
     @JsonIgnore
@@ -34,8 +38,8 @@ public class FareInfo {
      *     The TPA_Extensions
      */
     @JsonProperty("TPA_Extensions")
-    public TPA_Extensions__ getTPA_Extensions() {
-        return TPA_Extensions;
+    public TPAExtensions getTPA_Extensions() {
+        return tpaExtensions;
     }
 
     /**
@@ -44,8 +48,8 @@ public class FareInfo {
      *     The TPA_Extensions
      */
     @JsonProperty("TPA_Extensions")
-    public void setTPA_Extensions(TPA_Extensions__ TPA_Extensions) {
-        this.TPA_Extensions = TPA_Extensions;
+    public void setTPA_Extensions(TPAExtensions TPA_Extensions) {
+        this.tpaExtensions = TPA_Extensions;
     }
 
     /**
@@ -77,5 +81,11 @@ public class FareInfo {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+	@Override
+	public void accept(FareInfosVisitor visitor) {
+		visitor.visit(this);
+		tpaExtensions.accept(visitor);
+	}
 
 }
