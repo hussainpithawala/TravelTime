@@ -28,5 +28,4 @@ public class ResultItineraryWriter {
 				.fare(fareWriter.write(pricedItinerary))
 				.getInstance();
 	}
-
 }

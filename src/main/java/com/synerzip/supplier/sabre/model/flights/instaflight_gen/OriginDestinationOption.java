@@ -14,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.sabre.model.flights.visitors.AirItineraryElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.AirItineraryVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -21,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "FlightSegment",
     "ElapsedTime"
 })
-public class OriginDestinationOption {
+public class OriginDestinationOption implements AirItineraryElement {
 
     @JsonProperty("FlightSegment")
     private List<FlightSegment> FlightSegment = new ArrayList<FlightSegment>();
@@ -79,5 +81,10 @@ public class OriginDestinationOption {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+	@Override
+	public void accept(AirItineraryVisitor visitor) {
+		visitor.visit(this);
+	}
 
 }

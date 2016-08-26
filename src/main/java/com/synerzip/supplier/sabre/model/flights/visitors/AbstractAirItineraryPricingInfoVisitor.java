@@ -3,7 +3,7 @@ package com.synerzip.supplier.sabre.model.flights.visitors;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.AirItineraryPricingInfo;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PricedItinerary;
 
-public abstract class AbstractPricedItineraryVisitor implements PricedItineraryVisitor {
+public abstract class AbstractAirItineraryPricingInfoVisitor implements AirItineraryPricingInfoVisitor {
 
 	@Override
 	public void visit(PricedItinerary pricedItinerary) {

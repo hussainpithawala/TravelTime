@@ -12,6 +12,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.sabre.model.flights.visitors.AirItineraryPricingInfoElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.AirItineraryPricingInfoVisitor;
+import com.synerzip.supplier.sabre.model.flights.visitors.AirItineraryVisitor;
 import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryElement;
 import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryVisitor;
 
@@ -152,7 +155,12 @@ public class PricedItinerary implements PricedItineraryElement {
 	@Override
 	public void accept(PricedItineraryVisitor visitor) {
 		visitor.visit(this);
-		airItineraryPricingInfo.accept(visitor);
+		if(visitor instanceof AirItineraryPricingInfoVisitor) {
+			airItineraryPricingInfo.accept((AirItineraryPricingInfoVisitor)visitor);
+		}
+		if(visitor instanceof AirItineraryVisitor) {
+			airItinerary.accept((AirItineraryVisitor)visitor);
+		}
 	}
 
 }

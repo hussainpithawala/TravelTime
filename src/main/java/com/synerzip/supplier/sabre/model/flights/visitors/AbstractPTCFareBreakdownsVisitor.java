@@ -9,7 +9,7 @@ import com.synerzip.supplier.sabre.model.flights.instaflight_gen.Taxes;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.TotalFare;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.TotalTax;
 
-public abstract class AbstractPTCFareBreakdownsVisitor extends AbstractPricedItineraryVisitor
+public abstract class AbstractPTCFareBreakdownsVisitor extends AbstractAirItineraryPricingInfoVisitor
 		implements PTCFareBreakdownsVisitor {
 
 	@Override

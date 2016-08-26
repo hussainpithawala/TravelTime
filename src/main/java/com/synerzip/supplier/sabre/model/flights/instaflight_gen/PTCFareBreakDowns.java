@@ -14,8 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.synerzip.supplier.sabre.model.flights.visitors.PTCFareBreakDownsElement;
 import com.synerzip.supplier.sabre.model.flights.visitors.PTCFareBreakdownsVisitor;
-import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryElement;
-import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryVisitor;
+import com.synerzip.supplier.sabre.model.flights.visitors.AirItineraryPricingInfoElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.AirItineraryPricingInfoVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")

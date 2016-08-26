@@ -15,8 +15,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.synerzip.supplier.sabre.model.flights.visitors.FareInfosVisitor;
 import com.synerzip.supplier.sabre.model.flights.visitors.ItinTotalFareVisitor;
 import com.synerzip.supplier.sabre.model.flights.visitors.PTCFareBreakdownsVisitor;
-import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryElement;
-import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryVisitor;
+import com.synerzip.supplier.sabre.model.flights.visitors.AirItineraryPricingInfoElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.AirItineraryPricingInfoVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -26,7 +26,7 @@ import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryVisitor
     "TPA_Extensions",
     "ItinTotalFare"
 })
-public class AirItineraryPricingInfo implements PricedItineraryElement {
+public class AirItineraryPricingInfo implements AirItineraryPricingInfoElement {
 
     @JsonProperty("PTC_FareBreakdowns")
     private PTCFareBreakDowns ptcFareBreakDowns;
@@ -130,7 +130,7 @@ public class AirItineraryPricingInfo implements PricedItineraryElement {
     }
 
 	@Override
-	public void accept(PricedItineraryVisitor visitor) {
+	public void accept(AirItineraryPricingInfoVisitor visitor) {
 		visitor.visit(this);
 
 		if (visitor instanceof PTCFareBreakdownsVisitor) {

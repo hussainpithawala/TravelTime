@@ -8,7 +8,7 @@ import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PricedItinerary
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.TotalFare;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.TotalTax;
 import com.synerzip.supplier.sabre.model.flights.visitors.AbstractPTCFareBreakdownsVisitor;
-import com.synerzip.supplier.sabre.model.flights.visitors.PricedItineraryVisitor;
+import com.synerzip.supplier.sabre.model.flights.visitors.AirItineraryPricingInfoVisitor;
 
 @Component
 public class FareWriter {
@@ -17,7 +17,7 @@ public class FareWriter {
 		Fare fare = new Fare();
 		PricePerAdult pricePerAdult= new PricePerAdult();
 		
-		PricedItineraryVisitor visitor = new AbstractPTCFareBreakdownsVisitor() {
+		AirItineraryPricingInfoVisitor visitor = new AbstractPTCFareBreakdownsVisitor() {
 			@Override
 			public void visit(TotalFare totalFare) {
 				fare.setTotalPrice(totalFare.getAmount());

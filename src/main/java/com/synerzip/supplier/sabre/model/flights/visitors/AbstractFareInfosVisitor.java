@@ -6,7 +6,7 @@ import com.synerzip.supplier.sabre.model.flights.instaflight_gen.FareInfos;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.SeatsRemaining;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.TPAExtensions;
 
-public abstract class AbstractFareInfosVisitor extends AbstractPricedItineraryVisitor implements FareInfosVisitor {
+public abstract class AbstractFareInfosVisitor extends AbstractAirItineraryPricingInfoVisitor implements FareInfosVisitor {
 
 	@Override
 	public void visit(FareInfos fareInfos) {
