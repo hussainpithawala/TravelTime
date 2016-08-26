@@ -35,16 +35,30 @@ var HotelSearchPanel = React.createClass({
     HotelsActions.reloadLocations(locationKey);
   },
   
+  backToHotelsSearch() { 
+    this.setState({
+      hotels: ''
+    });
+  }, 
+
   render: function () {
     if(this.state.hotels) {
       var SearchResultOption = <HotelSearchResult searchResult={this.state.hotels}></HotelSearchResult>
+      return(
+        <div className="row">
+          <div className="col-sm-4">
+            <button className="btn btn-primary" onClick= {this.backToHotelsSearch}>Back</button>
+          </div>
+          {SearchResultOption}
+        </div>
+      );
+    } else {
+      return (
+        <div className="row">
+          <HotelSearchForm updateSearchResult = {this.reloadHotels} updateLocations = {this.reloadLocations}></HotelSearchForm>
+        </div>
+      );
     }
-    return(
-      <div className="row">
-        <HotelSearchForm updateSearchResult = {this.reloadHotels} updateLocations = {this.reloadLocations}></HotelSearchForm>
-        {SearchResultOption}
-      </div>
-    );
   }
 });
 export default HotelSearchPanel;

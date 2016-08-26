@@ -1,7 +1,7 @@
 import React from 'react';
 import LocationsDataList from '../components/locationList.jsx';
 
-var inputstyles = {width:"130px"};
+var inputstyles = {width:"350px"};
 var paddingInitial = {padding: 'initial'};
 var NumberSelector = React.createClass({
   getInitialState: function() {
@@ -153,7 +153,6 @@ var HotelSearchForm = React.createClass({
   render: function() {
     return (
       <div className="collapsible col-sm-4" id="generalSearchPanel">
-        <div id="searchPanel">
           <form onSubmit={this.handleSubmit}>
             <div id="searchPanel1">
               <div className="row">
@@ -164,7 +163,7 @@ var HotelSearchForm = React.createClass({
                 />
                 <LocationsDataList id="locations"/>
                 <TextInput type="text" value={this.state.referencePoint} label={'Reference Point'} name={'ReferencePoint'}
-                           htmlhtmlFor={'ReferencePoint'} isRequired={false} messageRequired={''}
+                           htmlFor={'ReferencePoint'} isRequired={false} messageRequired={''}
                 />
               </div>
               <div className="row">
@@ -205,7 +204,6 @@ var HotelSearchForm = React.createClass({
               </div>
             </div>
           </form>
-        </div>
       </div>
     );
   }
