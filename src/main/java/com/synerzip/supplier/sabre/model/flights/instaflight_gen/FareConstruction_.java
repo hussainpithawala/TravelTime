@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.sabre.model.flights.visitors.ItinTotalFareElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.ItinTotalFareVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -20,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "DecimalPlaces",
     "Amount"
 })
-public class FareConstruction_ {
+public class FareConstruction_ implements ItinTotalFareElement {
 
     @JsonProperty("CurrencyCode")
     private String CurrencyCode;
@@ -100,5 +102,10 @@ public class FareConstruction_ {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+	@Override
+	public void accept(ItinTotalFareVisitor visitor) {
+		visitor.visit(this);
+	}
 
 }

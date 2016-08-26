@@ -34,7 +34,7 @@ public class AirItineraryPricingInfo implements PricedItineraryElement {
     @JsonProperty("TPA_Extensions")
     private TPA_Extensions___ TPA_Extensions;
     @JsonProperty("ItinTotalFare")
-    private ItinTotalFare ItinTotalFare;
+    private ItinTotalFare itinTotalFare;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -105,17 +105,17 @@ public class AirItineraryPricingInfo implements PricedItineraryElement {
      */
     @JsonProperty("ItinTotalFare")
     public ItinTotalFare getItinTotalFare() {
-        return ItinTotalFare;
+        return itinTotalFare;
     }
 
     /**
      * 
-     * @param ItinTotalFare
+     * @param itinTotalFare
      *     The ItinTotalFare
      */
     @JsonProperty("ItinTotalFare")
-    public void setItinTotalFare(ItinTotalFare ItinTotalFare) {
-        this.ItinTotalFare = ItinTotalFare;
+    public void setItinTotalFare(ItinTotalFare itinTotalFare) {
+        this.itinTotalFare = itinTotalFare;
     }
 
     @JsonAnyGetter

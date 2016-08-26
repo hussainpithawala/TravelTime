@@ -9,10 +9,8 @@ import com.synerzip.supplier.amadeus.model.flights.BookingInfo;
 import com.synerzip.supplier.amadeus.model.flights.Destination;
 import com.synerzip.supplier.amadeus.model.flights.Flight;
 import com.synerzip.supplier.amadeus.model.flights.Origin;
-import com.synerzip.supplier.sabre.model.flights.instaflight_gen.AirItinerary;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.FareBasisCode;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.FlightSegment;
-import com.synerzip.supplier.sabre.model.flights.instaflight_gen.OriginDestinationOption;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PricedItinerary;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.SeatsRemaining;
 import com.synerzip.supplier.sabre.model.flights.visitors.AbstractFareInfosVisitor;
@@ -22,34 +20,14 @@ import com.synerzip.supplier.sabre.model.flights.visitors.PTCFareBreakdownsVisit
 
 @Component
 public class SabreAirItineraryTransformer {
-	public AirItinerary getAirItinerary(PricedItinerary pricedItinerary) {
-		return pricedItinerary.getAirItinerary();
-	}
-
-	public List<OriginDestinationOption> getoriginDestinationOptionList(AirItinerary airItinerary) {
-		return airItinerary.getOriginDestinationOptions().getOriginDestinationOption();
-	}
-
-	public List<FlightSegment> getFlightSegment(OriginDestinationOption originDestinationOption) {
-		return originDestinationOption.getFlightSegment();
-	}
-
-	public String getOriginCode(FlightSegment flightSegment) {
-		return flightSegment.getDepartureAirport().getLocationCode();
-	}
-
-	public String getDestinationCode(FlightSegment flightSegment) {
-		return flightSegment.getArrivalAirport().getLocationCode();
-	}
-
 	public Flight getFlightObject(FlightSegment flightSegment, PricedItinerary pricedItinerary) {
 		Flight flight = new Flight();
 		Origin Origin = new Origin();
 		Destination Destination = new Destination();
 		BookingInfo bookingInfo = new BookingInfo();
 		// set destination origin object
-		Origin.setAirport(getOriginCode(flightSegment));
-		Destination.setAirport(getDestinationCode(flightSegment));
+		Origin.setAirport(flightSegment.getDepartureAirport().getLocationCode());
+		Destination.setAirport(flightSegment.getArrivalAirport().getLocationCode());
 
 		FareInfosVisitor fareInfosVisitor = new AbstractFareInfosVisitor() {
 			@Override
@@ -66,7 +44,7 @@ public class SabreAirItineraryTransformer {
 				bookingInfo.setBookingCode(fareBasisCode.getBookingCode());
 			}
 		};
-		pricedItinerary.accept(ptcFareBreakdownsVisitor);
+		pricedItinerary.accept(ptcFareBreakdownsVisitor);	
 
 		// set Flight object
 		flight.setOrigin(Origin);

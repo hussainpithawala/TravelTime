@@ -25,9 +25,9 @@ public class PassengerFare implements PTCFareBreakDownsElement {
 	@JsonProperty("FareConstruction")
 	private FareConstruction FareConstruction;
 	@JsonProperty("TotalFare")
-	private TotalFare TotalFare;
+	private TotalFare totalFare;
 	@JsonProperty("Taxes")
-	private Taxes Taxes;
+	private Taxes taxes;
 	@JsonProperty("BaseFare")
 	private BaseFare BaseFare;
 	@JsonProperty("EquivFare")
@@ -60,17 +60,17 @@ public class PassengerFare implements PTCFareBreakDownsElement {
 	 */
 	@JsonProperty("TotalFare")
 	public TotalFare getTotalFare() {
-		return TotalFare;
+		return totalFare;
 	}
 
 	/**
 	 * 
-	 * @param TotalFare
+	 * @param totalFare
 	 *            The TotalFare
 	 */
 	@JsonProperty("TotalFare")
-	public void setTotalFare(TotalFare TotalFare) {
-		this.TotalFare = TotalFare;
+	public void setTotalFare(TotalFare totalFare) {
+		this.totalFare = totalFare;
 	}
 
 	/**
@@ -79,17 +79,17 @@ public class PassengerFare implements PTCFareBreakDownsElement {
 	 */
 	@JsonProperty("Taxes")
 	public Taxes getTaxes() {
-		return Taxes;
+		return taxes;
 	}
 
 	/**
 	 * 
-	 * @param Taxes
-	 *            The Taxes
+	 * @param taxes
+	 * The Taxes
 	 */
 	@JsonProperty("Taxes")
-	public void setTaxes(Taxes Taxes) {
-		this.Taxes = Taxes;
+	public void setTaxes(Taxes taxes) {
+		this.taxes = taxes;
 	}
 
 	/**
@@ -143,5 +143,7 @@ public class PassengerFare implements PTCFareBreakDownsElement {
 	@Override
 	public void accept(PTCFareBreakdownsVisitor visitor) {
 		visitor.visit(this);
+		totalFare.accept(visitor);
+		taxes.accept(visitor);
 	}
 }

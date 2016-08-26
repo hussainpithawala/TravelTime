@@ -14,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.sabre.model.flights.visitors.PTCFareBreakDownsElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.PTCFareBreakdownsVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -21,10 +23,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "TotalTax",
     "Tax"
 })
-public class Taxes {
+public class Taxes implements PTCFareBreakDownsElement {
 
     @JsonProperty("TotalTax")
-    private TotalTax TotalTax;
+    private TotalTax totalTax;
     @JsonProperty("Tax")
     private List<Tax> Tax = new ArrayList<Tax>();
     @JsonIgnore
@@ -37,17 +39,17 @@ public class Taxes {
      */
     @JsonProperty("TotalTax")
     public TotalTax getTotalTax() {
-        return TotalTax;
+        return totalTax;
     }
 
     /**
      * 
-     * @param TotalTax
+     * @param totalTax
      *     The TotalTax
      */
     @JsonProperty("TotalTax")
-    public void setTotalTax(TotalTax TotalTax) {
-        this.TotalTax = TotalTax;
+    public void setTotalTax(TotalTax totalTax) {
+        this.totalTax = totalTax;
     }
 
     /**
@@ -79,5 +81,11 @@ public class Taxes {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+	@Override
+	public void accept(PTCFareBreakdownsVisitor visitor) {
+		// TODO Auto-generated method stub
+		visitor.visit(this);
+	}
 
 }

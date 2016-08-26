@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.sabre.model.flights.visitors.PTCFareBreakDownsElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.PTCFareBreakdownsVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -19,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "CurrencyCode",
     "Amount"
 })
-public class TotalFare {
+public class TotalFare implements PTCFareBreakDownsElement {
 
     @JsonProperty("CurrencyCode")
     private String CurrencyCode;
@@ -77,5 +79,10 @@ public class TotalFare {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+	@Override
+	public void accept(PTCFareBreakdownsVisitor visitor) {
+		visitor.visit(this);
+	}
 
 }

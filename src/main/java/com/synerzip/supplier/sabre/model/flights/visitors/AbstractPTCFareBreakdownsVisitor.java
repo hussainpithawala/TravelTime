@@ -5,6 +5,9 @@ import com.synerzip.supplier.sabre.model.flights.instaflight_gen.FareBasisCodes;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PTCFareBreakDown;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PTCFareBreakDowns;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PassengerFare;
+import com.synerzip.supplier.sabre.model.flights.instaflight_gen.Taxes;
+import com.synerzip.supplier.sabre.model.flights.instaflight_gen.TotalFare;
+import com.synerzip.supplier.sabre.model.flights.instaflight_gen.TotalTax;
 
 public abstract class AbstractPTCFareBreakdownsVisitor extends AbstractPricedItineraryVisitor
 		implements PTCFareBreakdownsVisitor {
@@ -39,4 +42,18 @@ public abstract class AbstractPTCFareBreakdownsVisitor extends AbstractPricedIti
 
 	}
 
+	@Override
+	public void visit(TotalFare totalFare) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void visit(Taxes taxes) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void visit(TotalTax totalTax) {
+		// TODO Auto-generated method stub
+	}
 }

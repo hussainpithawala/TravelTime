@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.sabre.model.flights.visitors.ItinTotalFareElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.ItinTotalFareVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -22,10 +24,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "BaseFare",
     "EquivFare"
 })
-public class ItinTotalFare {
+public class ItinTotalFare implements ItinTotalFareElement {
 
     @JsonProperty("FareConstruction")
-    private FareConstruction_ FareConstruction;
+    private FareConstruction_ fareConstruction;
     @JsonProperty("TotalFare")
     private TotalFare_ TotalFare;
     @JsonProperty("Taxes")
@@ -44,17 +46,17 @@ public class ItinTotalFare {
      */
     @JsonProperty("FareConstruction")
     public FareConstruction_ getFareConstruction() {
-        return FareConstruction;
+        return fareConstruction;
     }
 
     /**
      * 
-     * @param FareConstruction
+     * @param fareConstruction
      *     The FareConstruction
      */
     @JsonProperty("FareConstruction")
-    public void setFareConstruction(FareConstruction_ FareConstruction) {
-        this.FareConstruction = FareConstruction;
+    public void setFareConstruction(FareConstruction_ fareConstruction) {
+        this.fareConstruction = fareConstruction;
     }
 
     /**
@@ -146,5 +148,11 @@ public class ItinTotalFare {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+	@Override
+	public void accept(ItinTotalFareVisitor visitor) {
+		visitor.visit(this);
+		fareConstruction.accept(visitor);
+	}
 
 }
