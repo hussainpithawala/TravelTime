@@ -149,13 +149,13 @@
     /*box-shadow: 0px 0px 3px 0px #aaa;*/
 }
 #Rooms {
-    width: 130px;
+    /*width: 130px;*/
 }
 #Cribs{
-    width: 60px;
+    /*width: 60px;*/
 }
 #RollawayBeds{
-    width: 60px;
+    /*width: 60px;*/
 }
 #submit {
     height: initial;
@@ -199,7 +199,7 @@ select:focus {
     margin:2px;
     font: 30px Verdana, sans-serif;
     font-weight:100 !important;
-    color: grey;
+    color: white;
 }
 
 input[type='radio'] {
@@ -277,7 +277,8 @@ input[type='radio']:checked:before {
 
 #mainPanel h5 {
     float: right;
-    color: darkgray;
+    color: white;
+    text-align: center;
 }
 div.accordion {
     background-color: white;
@@ -285,7 +286,7 @@ div.accordion {
     cursor: pointer;
     padding: 12px;
     border: 1px dotted;
-    text-align: left;
+    /*text-align: left;*/
     outline: none;
     font-size: 15px;
     transition: 0.4s;
@@ -370,6 +371,11 @@ div.panel.show {
 #note {
     margin-top: auto;
 }
+
+#backendData {
+    /*align-content: center;*/
+}
+
 #roomType{
     background-color: #ddd;
 }

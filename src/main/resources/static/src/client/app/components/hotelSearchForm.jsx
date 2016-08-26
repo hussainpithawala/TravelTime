@@ -180,7 +180,7 @@ var HotelSearchForm = React.createClass({
               <div className="row">
                 <div className="col-sm-6">
                   <span className="field">Rooms:</span>
-                  <NumberSelector from="1" to="9" id="Rooms"/>
+                  <NumberSelector from="1" to="9" id="Rooms" style={inputstyles} />
                 </div>
                 <div className="col-sm-6">
                   <span className="field">Max Wait:</span>
@@ -188,13 +188,13 @@ var HotelSearchForm = React.createClass({
                 </div>
               </div>
               <div className="row">
-                <div className="col-sm-3">
+                <div className="col-sm-6">
                   <span className="field">Cribs:</span>
-                  <NumberSelector from="0" to="9" id="Cribs"/>
+                  <NumberSelector from="0" to="9" id="Cribs" style={inputstyles} />
                 </div>
                 <div className="col-sm-6">
                   <span className="field">Rollaway Beds:</span>
-                  <NumberSelector from="0" to="9" id="RollawayBeds"/>
+                  <NumberSelector from="0" to="9" id="RollawayBeds" style={inputstyles} />
                 </div>
               </div>
               <div className="row">

@@ -165,7 +165,7 @@ var HotelSearchResult = React.createClass({
           <div className="col-sm-8" id="mainPanel">
               <p className="flow-text" id="mainText">Shop Results </p>
               <h5 id="note">LOWEST AVAILABLE NIGHTLY RATE PER ROOM</h5>
-              <Container data={this.state.backendData}></Container>
+              <Container id = "backendData" data={this.state.backendData}></Container>
           </div>
         );
     }
