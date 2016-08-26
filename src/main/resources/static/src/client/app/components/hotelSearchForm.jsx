@@ -17,7 +17,7 @@ var NumberSelector = React.createClass({
   },
   render: function () {
     return (
-        <select className="selectpicker" id={this.props.id}>
+        <select className="selectpicker" id={this.props.id} style={inputstyles}>
         {this.getOptions()}
       </select>
     );
@@ -180,7 +180,7 @@ var HotelSearchForm = React.createClass({
               <div className="row">
                 <div className="col-sm-6">
                   <span className="field">Rooms:</span>
-                  <NumberSelector from="1" to="9" id="Rooms" style={inputstyles} />
+                  <NumberSelector from="1" to="9" id="Rooms"/>
                 </div>
                 <div className="col-sm-6">
                   <span className="field">Max Wait:</span>
@@ -190,11 +190,11 @@ var HotelSearchForm = React.createClass({
               <div className="row">
                 <div className="col-sm-6">
                   <span className="field">Cribs:</span>
-                  <NumberSelector from="0" to="9" id="Cribs" style={inputstyles} />
+                  <NumberSelector from="0" to="9" id="Cribs"/>
                 </div>
                 <div className="col-sm-6">
                   <span className="field">Rollaway Beds:</span>
-                  <NumberSelector from="0" to="9" id="RollawayBeds" style={inputstyles} />
+                  <NumberSelector from="0" to="9" id="RollawayBeds"/>
                 </div>
               </div>
               <div className="row">
