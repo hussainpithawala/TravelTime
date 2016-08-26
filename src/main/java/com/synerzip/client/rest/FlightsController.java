@@ -62,7 +62,7 @@ public class FlightsController {
 	
 	
 	@RequestMapping(value = "/rest/searchFlights", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<LowFareFlightSearchRS[]> searchFlights(
+	public ResponseEntity<LowFareFlightSearchRS> searchFlights(
 			@RequestBody LowFareFlightSearchRQ flightSearchRequest) {
 		ConcurrentLinkedDeque<LowFareFlightSearchRS> collection = new ConcurrentLinkedDeque<>();
 		
@@ -98,9 +98,13 @@ public class FlightsController {
 			e.printStackTrace();
 		}
 
-		LowFareFlightSearchRS[] responses = new LowFareFlightSearchRS[2];
-		collection.toArray(responses);
-		return new ResponseEntity<LowFareFlightSearchRS[]>(responses, HttpStatus.OK);
+		// the two responses are from amadeus and sabre. we just merge them into the one
+		LowFareFlightSearchRS first = collection.getFirst();
+		LowFareFlightSearchRS second = collection.getLast();
+		
+		first.getResults().addAll(second.getResults());
+		
+		return new ResponseEntity<LowFareFlightSearchRS>(first, HttpStatus.OK);
 	}
 
 	// This service retrieves the best price for flights.

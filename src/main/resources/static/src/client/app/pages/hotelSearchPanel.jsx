@@ -46,9 +46,7 @@ var HotelSearchPanel = React.createClass({
       var SearchResultOption = <HotelSearchResult searchResult={this.state.hotels}></HotelSearchResult>
       return(
         <div className="row">
-          <div className="col-sm-4">
-            <button className="btn btn-primary" onClick= {this.backToHotelsSearch}>Back</button>
-          </div>
+          <button className="btn btn-primary pull-right" id = "submit" onClick= {this.backToHotelsSearch}>Back</button>
           {SearchResultOption}
         </div>
       );
