@@ -97,56 +97,55 @@ public class BookingInfo {
 	public String getCabinCode() {
 		return cabinCode;
 	}
-	
+
 	/**
 	 * 
 	 * @param cabinCode
 	 *            The cabin_code
 	 */
-    @JsonProperty("cabin_code")
-    public void setCabinCode(String cabinCode) {
+	@JsonProperty("cabin_code")
+	public void setCabinCode(String cabinCode) {
 		this.cabinCode = cabinCode;
-    }
-    
-    /**
+	}
+
+	/**
 	 * 
 	 * @return The fareBasis
 	 */
-    @JsonProperty("fare_basis")
-    public String getFareBasis() {
-        return fareBasis;
-    }
-    
-    /**
+	@JsonProperty("fare_basis")
+	public String getFareBasis() {
+		return fareBasis;
+	}
+
+	/**
 	 * 
 	 * @param fareBasis
 	 *            The fare_basis
 	 */
-    @JsonProperty("fare_basis")
-    public void setFareBasis(String fareBasis) {
-        this.fareBasis = fareBasis;
-    }
-    
-    /**
-     * 
-     * @return
-     *     The fareFamily
-     */
-    @JsonProperty("fare_family")
-    public String getFareFamily() {
-        return fareFamily;
-    }
+	@JsonProperty("fare_basis")
+	public void setFareBasis(String fareBasis) {
+		this.fareBasis = fareBasis;
+	}
 
-    /**
-     * 
-     * @param fareFamily
-     *     The fare_family
-     */
-    @JsonProperty("fare_family")
-    public void setFareFamily(String fareFamily) {
-        this.fareFamily = fareFamily;
-    }
-    
+	/**
+	 * 
+	 * @return The fareFamily
+	 */
+	@JsonProperty("fare_family")
+	public String getFareFamily() {
+		return fareFamily;
+	}
+
+	/**
+	 * 
+	 * @param fareFamily
+	 *            The fare_family
+	 */
+	@JsonProperty("fare_family")
+	public void setFareFamily(String fareFamily) {
+		this.fareFamily = fareFamily;
+	}
+
 	@JsonAnyGetter
 	public Map<String, Object> getAdditionalProperties() {
 		return this.additionalProperties;
@@ -155,5 +154,31 @@ public class BookingInfo {
 	@JsonAnySetter
 	public void setAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
+	}
+
+	public static class Builder {
+		private BookingInfo instance;
+
+		private Builder(BookingInfo instance) {
+			this.instance = instance;
+		}
+
+		public Builder seatsRemaining(Integer seatsRemaining) {
+			this.instance.seatsRemaining = seatsRemaining;
+			return this;
+		}
+
+		public Builder bookingCode(String bookingCode) {
+			this.instance.bookingCode = bookingCode;
+			return this;
+		}
+
+		public BookingInfo getInstance() {
+			return this.instance;
+		}
+	}
+
+	public static Builder getBuilder() {
+		return new Builder(new BookingInfo());
 	}
 }

@@ -74,4 +74,29 @@ public class LowFareFlightSearchRS {
 		this.additionalProperties.put(name, value);
 	}
 
+	public static class Builder {
+		private LowFareFlightSearchRS instance;
+		
+		private Builder(LowFareFlightSearchRS instance){
+			this.instance = instance;
+		}
+		
+		public Builder results(List<ResultItinerary> results) {
+			this.instance.results = results;
+			return this;
+		}
+		
+		public Builder currency(String currency){
+			this.instance.currency = currency;
+			return this;
+		}
+		
+		public LowFareFlightSearchRS getInstance(){
+			return this.instance;
+		}
+	}
+	
+	public static Builder getBuilder() {
+		return new Builder(new LowFareFlightSearchRS());
+	}
 }

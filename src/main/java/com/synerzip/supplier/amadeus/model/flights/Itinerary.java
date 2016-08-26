@@ -14,55 +14,78 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-"outbound"
-})
+@JsonPropertyOrder({ "outbound" })
 public class Itinerary {
 
-@JsonProperty("outbound")
-private Outbound outbound;
-@JsonProperty("inbound")
-private Inbound inbound;
-@JsonIgnore
-private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+	@JsonProperty("outbound")
+	private Outbound outbound;
+	@JsonProperty("inbound")
+	private Inbound inbound;
+	@JsonIgnore
+	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-/**
-* 
-* @return
-* The outbound
-*/
-@JsonProperty("outbound")
-public Outbound getOutbound() {
-return outbound;
-}
+	/**
+	 * 
+	 * @return The outbound
+	 */
+	@JsonProperty("outbound")
+	public Outbound getOutbound() {
+		return outbound;
+	}
 
-/**
-* 
-* @param outbound
-* The outbound
-*/
-@JsonProperty("outbound")
-public void setOutbound(Outbound outbound) {
-this.outbound = outbound;
-}
+	/**
+	 * 
+	 * @param outbound
+	 *            The outbound
+	 */
+	@JsonProperty("outbound")
+	public void setOutbound(Outbound outbound) {
+		this.outbound = outbound;
+	}
 
-@JsonProperty("inbound")
-public Inbound getInbound() {
-	return inbound;
-}
+	@JsonProperty("inbound")
+	public Inbound getInbound() {
+		return inbound;
+	}
 
-@JsonProperty("inbound")
-public void setInbound(Inbound inbound) {
-	this.inbound = inbound;
-}
+	@JsonProperty("inbound")
+	public void setInbound(Inbound inbound) {
+		this.inbound = inbound;
+	}
 
-@JsonAnyGetter
-public Map<String, Object> getAdditionalProperties() {
-return this.additionalProperties;
-}
+	@JsonAnyGetter
+	public Map<String, Object> getAdditionalProperties() {
+		return this.additionalProperties;
+	}
 
-@JsonAnySetter
-public void setAdditionalProperty(String name, Object value) {
-this.additionalProperties.put(name, value);
-}
+	@JsonAnySetter
+	public void setAdditionalProperty(String name, Object value) {
+		this.additionalProperties.put(name, value);
+	}
+
+	public static class Builder {
+		private Itinerary instance;
+
+		private Builder(Itinerary instance) {
+			this.instance = instance;
+		}
+
+		public Builder outBound(Outbound outbound) {
+			this.instance.outbound = outbound;
+			return this;
+		}
+
+		public Builder inBound(Inbound inbound) {
+			this.instance.inbound = inbound;
+			return this;
+		}
+
+		public Itinerary getInstance() {
+			return this.instance;
+		}
+	}
+
+	public static Builder getBuilder() {
+		return new Builder(new Itinerary());
+	}
 }

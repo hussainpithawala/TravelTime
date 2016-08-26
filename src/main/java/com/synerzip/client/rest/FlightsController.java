@@ -30,8 +30,8 @@ import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRS;
 import com.synerzip.supplier.amadeus.model.flights.NearestAirportSearchRS;
 import com.synerzip.supplier.service.AmadeusFlightService;
 import com.synerzip.supplier.service.SabreFlightService;
-import com.synerzip.supplier.utilities.RequestTransformer;
-import com.synerzip.supplier.utilities.ResponseTransformer;
+import com.synerzip.utilities.sabre2amadeus.writers.InstaFlightRequestBuilder;
+import com.synerzip.utilities.sabre2amadeus.writers.LowFareFlightSearchRSWriter;
 
 @RestController
 public class FlightsController {
@@ -46,10 +46,10 @@ public class FlightsController {
 	private Logger logger = LoggerFactory.getLogger(FlightsController.class);
 
 	@Autowired
-	private RequestTransformer requestTransformer;
+	private InstaFlightRequestBuilder requestBuilder;
 
 	@Autowired
-	private ResponseTransformer responseTransformer;
+	private LowFareFlightSearchRSWriter responseWriter;
 
 	@Autowired
 	private AmadeusFlightService amadeusService;
@@ -71,8 +71,8 @@ public class FlightsController {
 		executor.execute(() -> {
 			try {
 				LowFareFlightSearchRS response =
-						responseTransformer.convert.apply(
-								sabreFlightService.doInstaFlightSearch(requestTransformer.convert.apply(flightSearchRequest)));
+						responseWriter.write.apply(
+								sabreFlightService.doInstaFlightSearch(requestBuilder.build.apply(flightSearchRequest)));
 						collection.add(response);
 			} catch(Exception e) {
 				logger.error("An error has occured while processing Sabre Request", e);

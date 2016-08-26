@@ -72,4 +72,24 @@ public class Destination {
 		this.additionalProperties.put(name, value);
 	}
 
+	public static class Builder {
+		private Destination instance;
+
+		private Builder(Destination instance) {
+			this.instance = instance;
+		}
+
+		public Builder airport(String airport) {
+			this.instance.airport = airport;
+			return this;
+		}
+
+		public Destination getInstance() {
+			return this.instance;
+		}
+	}
+
+	public static Builder getBuilder() {
+		return new Builder(new Destination());
+	}
 }

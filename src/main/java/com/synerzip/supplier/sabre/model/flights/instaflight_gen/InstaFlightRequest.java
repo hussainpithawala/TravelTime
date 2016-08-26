@@ -625,4 +625,44 @@ public class InstaFlightRequest extends BaseDomainRequest {
 		this.additionalProperties.put(name, value);
 	}
 
+	public static class Builder {
+		private InstaFlightRequest instance;
+
+		private Builder(InstaFlightRequest instance) {
+			this.instance = instance;
+		}
+
+		public Builder origin(String origin) {
+			this.instance.origin = origin;
+			return this;
+		}
+
+		public Builder destination(String destination) {
+			this.instance.destination = destination;
+			return this;
+		}
+
+		public Builder departureDate(String departureDate) {
+			this.instance.departuredate = departureDate;
+			return this;
+		}
+
+		public Builder returnDate(String returnDate) {
+			this.instance.returndate = returnDate;
+			return this;
+		}
+
+		public Builder limit(int limit) {
+			this.instance.limit = limit;
+			return this;
+		}
+
+		public InstaFlightRequest getInstance() {
+			return this.instance;
+		}
+	}
+
+	public static Builder getBuilder() {
+		return new Builder(new InstaFlightRequest());
+	}
 }

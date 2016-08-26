@@ -16,67 +16,87 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-"itineraries",
-"fare"
-})
+@JsonPropertyOrder({ "itineraries", "fare" })
 public class ResultItinerary {
 
-@JsonProperty("itineraries")
-private List<Itinerary> itineraries = new ArrayList<Itinerary>();
-@JsonProperty("fare")
-private Fare fare;
-@JsonIgnore
-private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+	@JsonProperty("itineraries")
+	private List<Itinerary> itineraries = new ArrayList<Itinerary>();
+	@JsonProperty("fare")
+	private Fare fare;
+	@JsonIgnore
+	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-/**
-* 
-* @return
-* The itineraries
-*/
-@JsonProperty("itineraries")
-public List<Itinerary> getItineraries() {
-return itineraries;
-}
+	/**
+	 * 
+	 * @return The itineraries
+	 */
+	@JsonProperty("itineraries")
+	public List<Itinerary> getItineraries() {
+		return itineraries;
+	}
 
-/**
-* 
-* @param itineraries
-* The itineraries
-*/
-@JsonProperty("itineraries")
-public void setItineraries(List<Itinerary> itineraries) {
-this.itineraries = itineraries;
-}
+	/**
+	 * 
+	 * @param itineraries
+	 *            The itineraries
+	 */
+	@JsonProperty("itineraries")
+	public void setItineraries(List<Itinerary> itineraries) {
+		this.itineraries = itineraries;
+	}
 
-/**
-* 
-* @return
-* The fare
-*/
-@JsonProperty("fare")
-public Fare getFare() {
-return fare;
-}
+	/**
+	 * 
+	 * @return The fare
+	 */
+	@JsonProperty("fare")
+	public Fare getFare() {
+		return fare;
+	}
 
-/**
-* 
-* @param fare
-* The fare
-*/
-@JsonProperty("fare")
-public void setFare(Fare fare) {
-this.fare = fare;
-}
+	/**
+	 * 
+	 * @param fare
+	 *            The fare
+	 */
+	@JsonProperty("fare")
+	public void setFare(Fare fare) {
+		this.fare = fare;
+	}
 
-@JsonAnyGetter
-public Map<String, Object> getAdditionalProperties() {
-return this.additionalProperties;
-}
+	@JsonAnyGetter
+	public Map<String, Object> getAdditionalProperties() {
+		return this.additionalProperties;
+	}
 
-@JsonAnySetter
-public void setAdditionalProperty(String name, Object value) {
-this.additionalProperties.put(name, value);
-}
+	@JsonAnySetter
+	public void setAdditionalProperty(String name, Object value) {
+		this.additionalProperties.put(name, value);
+	}
+	
+	public static class Builder {
+		private ResultItinerary instance;
+		
+		private Builder(ResultItinerary instance) {
+			this.instance = instance;
+		}
+		
+		public ResultItinerary getInstance() {
+			return this.instance;
+		}
+		
+		public Builder fare(Fare fare) {
+			this.instance.fare = fare;
+			return this;
+		}
+		
+		public Builder itineraries(List<Itinerary> itineraries){
+			this.instance.itineraries = itineraries;
+			return this;
+		}
+	}
 
+	public static Builder getBuilder() {
+		return new Builder(new ResultItinerary());
+	}
 }
