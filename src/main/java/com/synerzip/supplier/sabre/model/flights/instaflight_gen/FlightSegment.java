@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.sabre.model.flights.visitors.AirItineraryElement;
+import com.synerzip.supplier.sabre.model.flights.visitors.AirItineraryVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -32,14 +34,14 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "OperatingAirline",
     "DepartureTimeZone"
 })
-public class FlightSegment {
+public class FlightSegment implements AirItineraryElement {
 
     @JsonProperty("DepartureAirport")
-    private DepartureAirport DepartureAirport;
+    private DepartureAirport departureAirport;
     @JsonProperty("ArrivalAirport")
-    private ArrivalAirport ArrivalAirport;
+    private ArrivalAirport arrivalAirport;
     @JsonProperty("MarketingAirline")
-    private MarketingAirline MarketingAirline;
+    private MarketingAirline marketingAirline;
     @JsonProperty("ArrivalTimeZone")
     private ArrivalTimeZone ArrivalTimeZone;
     @JsonProperty("TPA_Extensions")
@@ -61,7 +63,7 @@ public class FlightSegment {
     @JsonProperty("FlightNumber")
     private Integer FlightNumber;
     @JsonProperty("OperatingAirline")
-    private OperatingAirline OperatingAirline;
+    private OperatingAirline operatingAirline;
     @JsonProperty("DepartureTimeZone")
     private DepartureTimeZone DepartureTimeZone;
     @JsonIgnore
@@ -74,7 +76,7 @@ public class FlightSegment {
      */
     @JsonProperty("DepartureAirport")
     public DepartureAirport getDepartureAirport() {
-        return DepartureAirport;
+        return departureAirport;
     }
 
     /**
@@ -84,7 +86,7 @@ public class FlightSegment {
      */
     @JsonProperty("DepartureAirport")
     public void setDepartureAirport(DepartureAirport DepartureAirport) {
-        this.DepartureAirport = DepartureAirport;
+        this.departureAirport = DepartureAirport;
     }
 
     /**
@@ -94,7 +96,7 @@ public class FlightSegment {
      */
     @JsonProperty("ArrivalAirport")
     public ArrivalAirport getArrivalAirport() {
-        return ArrivalAirport;
+        return arrivalAirport;
     }
 
     /**
@@ -104,7 +106,7 @@ public class FlightSegment {
      */
     @JsonProperty("ArrivalAirport")
     public void setArrivalAirport(ArrivalAirport ArrivalAirport) {
-        this.ArrivalAirport = ArrivalAirport;
+        this.arrivalAirport = ArrivalAirport;
     }
 
     /**
@@ -114,7 +116,7 @@ public class FlightSegment {
      */
     @JsonProperty("MarketingAirline")
     public MarketingAirline getMarketingAirline() {
-        return MarketingAirline;
+        return marketingAirline;
     }
 
     /**
@@ -124,7 +126,7 @@ public class FlightSegment {
      */
     @JsonProperty("MarketingAirline")
     public void setMarketingAirline(MarketingAirline MarketingAirline) {
-        this.MarketingAirline = MarketingAirline;
+        this.marketingAirline = MarketingAirline;
     }
 
     /**
@@ -334,7 +336,7 @@ public class FlightSegment {
      */
     @JsonProperty("OperatingAirline")
     public OperatingAirline getOperatingAirline() {
-        return OperatingAirline;
+        return operatingAirline;
     }
 
     /**
@@ -344,7 +346,7 @@ public class FlightSegment {
      */
     @JsonProperty("OperatingAirline")
     public void setOperatingAirline(OperatingAirline OperatingAirline) {
-        this.OperatingAirline = OperatingAirline;
+        this.operatingAirline = OperatingAirline;
     }
 
     /**
@@ -376,5 +378,14 @@ public class FlightSegment {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+	@Override
+	public void accept(AirItineraryVisitor visitor) {
+		visitor.visit(this);
+		arrivalAirport.accept(visitor);
+		departureAirport.accept(visitor);
+		marketingAirline.accept(visitor);
+		operatingAirline.accept(visitor);
+	}
 
 }

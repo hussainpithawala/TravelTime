@@ -26,7 +26,7 @@ import com.synerzip.supplier.sabre.model.flights.visitors.AirItineraryVisitor;
 public class OriginDestinationOption implements AirItineraryElement {
 
     @JsonProperty("FlightSegment")
-    private List<FlightSegment> FlightSegment = new ArrayList<FlightSegment>();
+    private List<FlightSegment> flightSegments = new ArrayList<FlightSegment>();
     @JsonProperty("ElapsedTime")
     private Integer ElapsedTime;
     @JsonIgnore
@@ -39,17 +39,17 @@ public class OriginDestinationOption implements AirItineraryElement {
      */
     @JsonProperty("FlightSegment")
     public List<FlightSegment> getFlightSegment() {
-        return FlightSegment;
+        return flightSegments;
     }
 
     /**
      * 
-     * @param FlightSegment
+     * @param flightSegments
      *     The FlightSegment
      */
     @JsonProperty("FlightSegment")
-    public void setFlightSegment(List<FlightSegment> FlightSegment) {
-        this.FlightSegment = FlightSegment;
+    public void setFlightSegment(List<FlightSegment> flightSegments) {
+        this.flightSegments = flightSegments;
     }
 
     /**
@@ -85,6 +85,7 @@ public class OriginDestinationOption implements AirItineraryElement {
 	@Override
 	public void accept(AirItineraryVisitor visitor) {
 		visitor.visit(this);
+		flightSegments.stream().forEach(flightSegment -> flightSegment.accept(visitor));
 	}
 
 }

@@ -6,18 +6,28 @@ import com.synerzip.supplier.amadeus.model.flights.BookingInfo;
 import com.synerzip.supplier.amadeus.model.flights.Destination;
 import com.synerzip.supplier.amadeus.model.flights.Flight;
 import com.synerzip.supplier.amadeus.model.flights.Origin;
+import com.synerzip.supplier.sabre.model.flights.instaflight_gen.ArrivalAirport;
+import com.synerzip.supplier.sabre.model.flights.instaflight_gen.DepartureAirport;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.FareBasisCode;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.FlightSegment;
+import com.synerzip.supplier.sabre.model.flights.instaflight_gen.MarketingAirline;
+import com.synerzip.supplier.sabre.model.flights.instaflight_gen.OperatingAirline;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PricedItinerary;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.SeatsRemaining;
+import com.synerzip.supplier.sabre.model.flights.visitors.AbstractAirItineraryVisitor;
 import com.synerzip.supplier.sabre.model.flights.visitors.AbstractFareInfosVisitor;
 import com.synerzip.supplier.sabre.model.flights.visitors.AbstractPTCFareBreakdownsVisitor;
+import com.synerzip.supplier.sabre.model.flights.visitors.AirItineraryVisitor;
 import com.synerzip.supplier.sabre.model.flights.visitors.FareInfosVisitor;
 import com.synerzip.supplier.sabre.model.flights.visitors.PTCFareBreakdownsVisitor;
 
 @Component
 public class FlightWriter {
 	public Flight write(FlightSegment flightSegment, PricedItinerary pricedItinerary) {
+		Flight.Builder flightBuilder = Flight.getBuilder();
+		Origin.Builder originBuilder = Origin.getBuilder();
+		Destination.Builder destinationBuilder = Destination.getBuilder();
+		
 		BookingInfo.Builder bookingInfoBuilder = BookingInfo.getBuilder();
 
 		FareInfosVisitor fareInfosVisitor = new AbstractFareInfosVisitor() {
@@ -36,16 +46,32 @@ public class FlightWriter {
 		};
 		pricedItinerary.accept(ptcFareBreakdownsVisitor);
 
+		AirItineraryVisitor airItineraryVisitor = new AbstractAirItineraryVisitor(){
+			@Override
+			public void visit(ArrivalAirport arrivalAirport) {
+				destinationBuilder.airport(arrivalAirport.getLocationCode());
+			}
+			@Override
+			public void visit(DepartureAirport departureAirport){
+				originBuilder.airport(departureAirport.getLocationCode());
+			}
+			@Override
+			public void visit(MarketingAirline marketingAirline) {
+				flightBuilder.marketingAirline(marketingAirline.getCode());
+			}
+			@Override
+			public void visit(OperatingAirline operatingAirline) {
+				flightBuilder.operatingAirline(operatingAirline.getCode())
+						.flightNumber(operatingAirline.getFlightNumber().toString());
+			}
+		};
+		flightSegment.accept(airItineraryVisitor);
+		
 		// set Flight object
-		return Flight.getBuilder()
-				.origin(Origin.getBuilder().airport(flightSegment.getDepartureAirport().getLocationCode())
-						.getInstance())
-				.destination(Destination.getBuilder().airport(flightSegment.getArrivalAirport().getLocationCode())
-						.getInstance())
+		return flightBuilder
+				.origin(originBuilder.getInstance())
+				.destination(destinationBuilder.getInstance())
 				.bookingInfo(bookingInfoBuilder.getInstance())
-				.marketingAirline(flightSegment.getMarketingAirline().getCode())
-				.operatingAirline(flightSegment.getOperatingAirline().getCode())
-				.flightNumber(flightSegment.getOperatingAirline().getFlightNumber().toString())
 				.getInstance();
 	}
 }
