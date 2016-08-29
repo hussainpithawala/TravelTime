@@ -154,7 +154,7 @@ var HotelSearchForm = React.createClass({
     return (
       <div className="collapsible col-sm-4" id="generalSearchPanel">
           <form onSubmit={this.handleSubmit}>
-            <div id="searchPanel1">
+            <div id="searchPanel">
               <div className="row">
                 <TextInput type="text" value={this.state.location} label={Location} name={'Location'}
                            htmlFor={'Location'} isRequired={true} onChange={this.onChangeLocation}
