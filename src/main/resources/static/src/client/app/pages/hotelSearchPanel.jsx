@@ -1,22 +1,23 @@
 import React from 'react';
 
 import HotelSearchForm from '../components/hotelSearchForm.jsx';
-import HotelSearchResult from '../components/hotelsList.jsx';
+import HotelSearchResultView from '../components/hotelSearchResultView.jsx';
 import * as HotelsActions from '../actions/HotelsActions.jsx';
 import HotelsStore from '../stores/HotelsStore.jsx';
 
 var HotelSearchPanel = React.createClass({
   getInitialState: function() {
     return {
+      defualtView: 'FORMVIEW',
       hotels: HotelsStore.getAllHotels()
     };
   },
-  // update search result
 
+  // update search result
   componentWillMount: function() {
     HotelsStore.on("change", this.getHotels);
   },
-
+  
   componentWillUnmount: function() {
     HotelsStore.removeListener("change", this.getHotels);
   },
@@ -24,6 +25,7 @@ var HotelSearchPanel = React.createClass({
   getHotels: function() {
     this.setState({
       hotels: HotelsStore.getAllHotels(),
+      defualtView: 'RESULTSVIEW'
     });
   },
 
@@ -37,20 +39,24 @@ var HotelSearchPanel = React.createClass({
   
   backToHotelsSearch() { 
     this.setState({
-      hotels: ''
+      defualtView: 'FORMVIEW'
     });
-  }, 
+  },
+
+  getHotelsResult: function() {
+    return this.state.hotels;
+  },
 
   render: function () {
-    if(this.state.hotels) {
-      var SearchResultOption = <HotelSearchResult searchResult={this.state.hotels}></HotelSearchResult>
+    if(this.state.defualtView === 'RESULTSVIEW') {
+      console.log('loading result view...');
       return(
         <div className="row">
-          <button className="btn btn-primary pull-right" id = "submit" onClick= {this.backToHotelsSearch}>Back</button>
-          {SearchResultOption}
+          <HotelSearchResultView onClick= {this.backToHotelsSearch} getHotelsResult={this.getHotelsResult}></HotelSearchResultView>
         </div>
       );
     } else {
+      console.log('loading form view...');
       return (
         <div className="row">
           <HotelSearchForm updateSearchResult = {this.reloadHotels} updateLocations = {this.reloadLocations}></HotelSearchForm>
