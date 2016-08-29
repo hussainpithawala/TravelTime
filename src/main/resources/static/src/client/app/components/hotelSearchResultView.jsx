@@ -9,8 +9,8 @@ var hotelSearchResultView = React.createClass({
 			defaultView: 'LISTVIEW'
 		}
 	},
-	onViewClick: function() {
-		if (this.props.name === 'MAPVIEW') {
+	onViewClick: function(event) {
+		if (event.target.name === 'MAPVIEW') {
 			this.setState({
 				defaultView: 'MAPVIEW'
 			});
