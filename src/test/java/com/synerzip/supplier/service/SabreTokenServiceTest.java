@@ -1,4 +1,4 @@
-package com.synerzip;
+package com.synerzip.supplier.service;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,6 +11,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.synerzip.TravelTimeApplication;
 import com.synerzip.supplier.service.SabreTokenService;
 
 @RunWith(SpringRunner.class)

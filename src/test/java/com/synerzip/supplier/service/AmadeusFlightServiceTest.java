@@ -1,4 +1,4 @@
-package com.synerzip;
+package com.synerzip.supplier.service;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.synerzip.TravelTimeApplication;
 import com.synerzip.client.rest.FlightsController;
 import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRQ;
 
@@ -31,7 +32,7 @@ import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRQ;
 @WebAppConfiguration
 @ContextConfiguration(classes = { TravelTimeApplication.class })
 @TestPropertySource(locations = { "classpath:supplier.properties", "classpath:application.properties"})
-public class FlightsServiceTest {
+public class AmadeusFlightServiceTest {
 	@Autowired
 	private Environment env;
 	@Autowired

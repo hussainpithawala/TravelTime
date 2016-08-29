@@ -1,4 +1,4 @@
-package com.synerzip;
+package com.synerzip.supplier.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +8,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.synerzip.TravelTimeApplication;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.InstaFlightRequest;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.InstaFlightResponse;
 import com.synerzip.supplier.service.SabreFlightService;
