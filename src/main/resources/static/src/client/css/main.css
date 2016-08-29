@@ -416,6 +416,7 @@ div.panel.show {
 .material-icons{
     font-size:inherit;
     float: right;
+    float: right;
     padding: 2px;
 }
 
@@ -437,4 +438,33 @@ div.panel.show {
 }
 .nav-tabs>li>a:hover{
     color: black;
+}
+
+
+
+#flightsearch div{
+    margin-top: 1% !important;
+}
+#flightsearch{
+    color: white;
+    border: 1px solid #CCCCCC;
+    margin-left: inherit;
+    margin-top: 2%;
+    padding-bottom: 2%;
+}
+.adultCount{
+    padding: 0 12px;
+}
+.segmented_controls, .segmented_controls .form-control {
+    display: table-cell;
+    width: 100%;
+    font-size: 15px;
+    vertical-align: middle;
+    -webkit-box-sizing: border-box;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.segmented_controls a{
+    text-decoration: none !important;
 }

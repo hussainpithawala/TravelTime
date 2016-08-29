@@ -1,5 +1,6 @@
 import React from 'react';
 import FlightsStore from '../stores/FlightsStore.jsx';
+import FlightsSearchForm from '../components/flightsSearchForm.jsx';
 
 var FLightsSearchPanel = React.createClass({
     getInitialState:function() {
@@ -11,7 +12,7 @@ var FLightsSearchPanel = React.createClass({
     render:function () {
         var renderComponent;
         if(!this.state.flights) {
-            renderComponent = <h1> Flights search Form</h1>
+            renderComponent = <FlightsSearchForm></FlightsSearchForm>
         }
         else {
             renderComponent = <h1> Flights Result Display</h1>
