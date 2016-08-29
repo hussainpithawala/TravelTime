@@ -77,8 +77,8 @@ var HotelSearchForm = React.createClass({
   // get initial state event
   getInitialState: function() {
     return {
-      checkIn:'',
-      checkOut:'',
+      check_in:'',
+      check_out:'',
       location:'',
       rooms:0,
       serverMessage:'',
@@ -100,8 +100,8 @@ var HotelSearchForm = React.createClass({
     // send post request to server
     if (validForm) {
       var requestJSON = {
-        "checkIn"  : this.state.checkIn,
-        "checkOut" : this.state.checkOut,
+        "check_in"  : this.state.check_in,
+        "check_out" : this.state.check_out,
         "location" : this.state.location
       };
       this.props.updateSearchResult(requestJSON);
@@ -111,18 +111,18 @@ var HotelSearchForm = React.createClass({
   // handle change from-date
   onChangeFromDate: function (date) {
     this.setState({
-      checkIn: date
+      check_in: date
     });
-    if (new Date(date) > new Date(this.state.checkOut)) {
+    if (new Date(date) > new Date(this.state.check_out)) {
       this.setState({
-        checkOut: date
+        check_out: date
       });
     }
   },
   // handle change to-date
   onChangeToDate: function (date) {
     this.setState({
-      checkOut: date
+      check_out: date
     });
   },
 
@@ -167,14 +167,14 @@ var HotelSearchForm = React.createClass({
                 />
               </div>
               <div className="row">
-                <TextInput type="date" value={this.state.checkIn} label={'Check-In'} name={'CheckIn'}
+                <TextInput type="date" value={this.state.check_in} label={'Check-In'} name={'CheckIn'}
                            htmlFor={'CheckIn'} isRequired={true} onChange={this.onChangeFromDate}
                            onComponentMounted={this.register} messageRequired={'Check-in required'}
                 />
-                <TextInput type="date" value={this.state.checkOut} label={'Check-Out'} name={'CheckOut'}
+                <TextInput type="date" value={this.state.check_out} label={'Check-Out'} name={'CheckOut'}
                            htmlFor={'CheckOut'} isRequired={true} onChange={this.onChangeToDate}
                            onComponentMounted={this.register} messageRequired={'Check-out required'}
-                           min={this.state.checkIn}
+                           min={this.state.check_in}
                 />
               </div>
               <div className="row">

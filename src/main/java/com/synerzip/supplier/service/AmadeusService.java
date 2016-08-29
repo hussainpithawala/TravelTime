@@ -3,6 +3,8 @@ package com.synerzip.supplier.service;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
@@ -18,8 +20,10 @@ public abstract class AmadeusService {
 	@Autowired
 	private RestTemplate restTemplate;
 
+	private static final Logger logger = LoggerFactory.getLogger(AmadeusService.class);
 	public <RQ,RS> RS getResponseObject(String subUrl, RQ request, Class<RS> response) {
 		String url = prepareUrl(subUrl, request);
+		logger.info("URL for request " + url);
 		return restTemplate.getForObject(url, response);
 	}
 	
@@ -53,7 +57,6 @@ public abstract class AmadeusService {
 				}
 			}
 		}
-		
 		return parameterBuilder.toString();
 	}
 }

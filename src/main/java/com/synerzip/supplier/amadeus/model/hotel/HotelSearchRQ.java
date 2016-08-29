@@ -14,15 +14,15 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "location", "checkIn", "checkOut", "radius", "lang", "currency", "maxRate", "numberOfResults",
-		"allRooms", "showSoldOut", "amenities" })
+@JsonPropertyOrder({ "location", "check_in", "check_out", "radius", "lang", "currency", "max_rate", "number_of_results",
+		"all_rooms", "show_sold_out", "amenities" })
 public class HotelSearchRQ {
 
 	@JsonProperty("location")
 	private String location;
-	@JsonProperty("checkIn")
+	@JsonProperty("check_in")
 	private String checkIn;
-	@JsonProperty("checkOut")
+	@JsonProperty("check_out")
 	private String checkOut;
 	@JsonProperty("radius")
 	private String radius;
@@ -30,13 +30,13 @@ public class HotelSearchRQ {
 	private String lang;
 	@JsonProperty("currency")
 	private String currency;
-	@JsonProperty("maxRate")
+	@JsonProperty("max_rate")
 	private String maxRate;
-	@JsonProperty("numberOfResults")
+	@JsonProperty("number_of_results")
 	private String numberOfResults;
-	@JsonProperty("allRooms")
+	@JsonProperty("all_rooms")
 	private String allRooms;
-	@JsonProperty("showSoldOut")
+	@JsonProperty("show_sold_out")
 	private String showSoldOut;
 	@JsonProperty("amenities")
 	private String amenities;
@@ -66,7 +66,7 @@ public class HotelSearchRQ {
 	 * 
 	 * @return The checkIn
 	 */
-	@JsonProperty("checkIn")
+	@JsonProperty("check_in")
 	public String getCheckIn() {
 		return checkIn;
 	}
@@ -76,7 +76,7 @@ public class HotelSearchRQ {
 	 * @param checkIn
 	 *            The checkIn
 	 */
-	@JsonProperty("checkIn")
+	@JsonProperty("check_in")
 	public void setCheckIn(String checkIn) {
 		this.checkIn = checkIn;
 	}
@@ -85,7 +85,7 @@ public class HotelSearchRQ {
 	 * 
 	 * @return The checkOut
 	 */
-	@JsonProperty("checkOut")
+	@JsonProperty("check_out")
 	public String getCheckOut() {
 		return checkOut;
 	}
@@ -95,7 +95,7 @@ public class HotelSearchRQ {
 	 * @param checkOut
 	 *            The checkOut
 	 */
-	@JsonProperty("checkOut")
+	@JsonProperty("check_out")
 	public void setCheckOut(String checkOut) {
 		this.checkOut = checkOut;
 	}
@@ -161,7 +161,7 @@ public class HotelSearchRQ {
 	 * 
 	 * @return The maxRate
 	 */
-	@JsonProperty("maxRate")
+	@JsonProperty("max_rate")
 	public String getMaxRate() {
 		return maxRate;
 	}
@@ -171,7 +171,7 @@ public class HotelSearchRQ {
 	 * @param maxRate
 	 *            The maxRate
 	 */
-	@JsonProperty("maxRate")
+	@JsonProperty("max_rate")
 	public void setMaxRate(String maxRate) {
 		this.maxRate = maxRate;
 	}
@@ -180,7 +180,7 @@ public class HotelSearchRQ {
 	 * 
 	 * @return The numberOfResults
 	 */
-	@JsonProperty("numberOfResults")
+	@JsonProperty("number_of_results")
 	public String getNumberOfResults() {
 		return numberOfResults;
 	}
@@ -190,7 +190,7 @@ public class HotelSearchRQ {
 	 * @param numberOfResults
 	 *            The numberOfResults
 	 */
-	@JsonProperty("numberOfResults")
+	@JsonProperty("number_of_results")
 	public void setNumberOfResults(String numberOfResults) {
 		this.numberOfResults = numberOfResults;
 	}
@@ -199,7 +199,7 @@ public class HotelSearchRQ {
 	 * 
 	 * @return The allRooms
 	 */
-	@JsonProperty("allRooms")
+	@JsonProperty("all_rooms")
 	public String getAllRooms() {
 		return allRooms;
 	}
@@ -209,7 +209,7 @@ public class HotelSearchRQ {
 	 * @param allRooms
 	 *            The allRooms
 	 */
-	@JsonProperty("allRooms")
+	@JsonProperty("all_rooms")
 	public void setAllRooms(String allRooms) {
 		this.allRooms = allRooms;
 	}
@@ -218,7 +218,7 @@ public class HotelSearchRQ {
 	 * 
 	 * @return The showSoldOut
 	 */
-	@JsonProperty("showSoldOut")
+	@JsonProperty("show_sold_out")
 	public String getShowSoldOut() {
 		return showSoldOut;
 	}
@@ -228,7 +228,7 @@ public class HotelSearchRQ {
 	 * @param showSoldOut
 	 *            The showSoldOut
 	 */
-	@JsonProperty("showSoldOut")
+	@JsonProperty("show_sold_out")
 	public void setShowSoldOut(String showSoldOut) {
 		this.showSoldOut = showSoldOut;
 	}
