@@ -9,8 +9,8 @@ import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRQ;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.InstaFlightRequest;
 
 @Component
-public class InstaFlightRequestBuilder {
-	public final Function<LowFareFlightSearchRQ, InstaFlightRequest> build = new Function<LowFareFlightSearchRQ, InstaFlightRequest>() {
+public class InstaFlightRequestWriter {
+	public final Function<LowFareFlightSearchRQ, InstaFlightRequest> write = new Function<LowFareFlightSearchRQ, InstaFlightRequest>() {
 		@Override
 		public InstaFlightRequest apply(LowFareFlightSearchRQ lowFareFlightSearchRQ) {
 			return InstaFlightRequest.getBuilder()

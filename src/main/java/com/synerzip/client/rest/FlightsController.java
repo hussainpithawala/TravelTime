@@ -28,9 +28,11 @@ import com.synerzip.supplier.amadeus.model.flights.LocationInformationSearchRS;
 import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRQ;
 import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRS;
 import com.synerzip.supplier.amadeus.model.flights.NearestAirportSearchRS;
+import com.synerzip.supplier.sabre.model.flights.instaflight_gen.InstaFlightRequest;
+import com.synerzip.supplier.sabre.model.flights.instaflight_gen.InstaFlightResponse;
 import com.synerzip.supplier.service.AmadeusFlightService;
 import com.synerzip.supplier.service.SabreFlightService;
-import com.synerzip.utilities.sabre2amadeus.writers.InstaFlightRequestBuilder;
+import com.synerzip.utilities.sabre2amadeus.writers.InstaFlightRequestWriter;
 import com.synerzip.utilities.sabre2amadeus.writers.LowFareFlightSearchRSWriter;
 
 @RestController
@@ -46,10 +48,10 @@ public class FlightsController {
 	private Logger logger = LoggerFactory.getLogger(FlightsController.class);
 
 	@Autowired
-	private InstaFlightRequestBuilder requestBuilder;
+	private InstaFlightRequestWriter instaFlightRequestWriter;
 
 	@Autowired
-	private LowFareFlightSearchRSWriter responseWriter;
+	private LowFareFlightSearchRSWriter lowFareFlightSearchRSWriter;
 
 	@Autowired
 	private AmadeusFlightService amadeusService;
@@ -63,17 +65,23 @@ public class FlightsController {
 	
 	@RequestMapping(value = "/rest/searchFlights", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<LowFareFlightSearchRS> searchFlights(
-			@RequestBody LowFareFlightSearchRQ flightSearchRequest) {
+			@RequestBody LowFareFlightSearchRQ lowFareFlightSearchRQ) {
 		ConcurrentLinkedDeque<LowFareFlightSearchRS> collection = new ConcurrentLinkedDeque<>();
 		
-		CountDownLatch latch = new CountDownLatch(2); // countdown of two, one for sabre and other for amadeus.
+		CountDownLatch latch = new CountDownLatch(2); // count-down of two, one for Sabre and other for Amadeus.
 		
 		executor.execute(() -> {
 			try {
-				LowFareFlightSearchRS response =
-						responseWriter.write.apply(
-								sabreFlightService.doInstaFlightSearch(requestBuilder.build.apply(flightSearchRequest)));
-						collection.add(response);
+				// prepare a Sabre's InstaFlightRequest from Amadeus's LowFareFlightSearchRQ
+				InstaFlightRequest instaFlightRequest = instaFlightRequestWriter.write.apply(lowFareFlightSearchRQ);
+				
+				// fetch the response from Sabre's service
+				InstaFlightResponse instaFlightResponse = sabreFlightService.doInstaFlightSearch(instaFlightRequest);
+				
+				// write Amadeus's LowFareFlightSearchRS using Sabre's InstaFlightResponse
+				LowFareFlightSearchRS response = lowFareFlightSearchRSWriter.write.apply(instaFlightResponse);
+				
+				collection.add(response);
 			} catch(Exception e) {
 				logger.error("An error has occured while processing Sabre Request", e);
 			} finally {
@@ -83,7 +91,7 @@ public class FlightsController {
 
 		executor.execute(() -> {
 			try {
-				collection.add(amadeusService.fetchLowFareFlights(flightSearchRequest));
+				collection.add(amadeusService.fetchLowFareFlights(lowFareFlightSearchRQ));
 			} catch (Exception e) {
 				logger.error("An error has occured while processing Amadeus Request", e);
 			} finally {
@@ -98,7 +106,7 @@ public class FlightsController {
 			e.printStackTrace();
 		}
 
-		// the two responses are from amadeus and sabre. we just merge them into the one
+		// the two responses are from Amadeus and Sabre. we just merge them into the one
 		LowFareFlightSearchRS first = collection.getFirst();
 		LowFareFlightSearchRS second = collection.getLast();
 		
