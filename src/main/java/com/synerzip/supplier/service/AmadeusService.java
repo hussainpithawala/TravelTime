@@ -1,15 +1,34 @@
-package com.synerzip.supplier.amadeus.model.flights;
+package com.synerzip.supplier.service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.env.Environment;
+import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Component
-public class AmadeusRequest {
-	public <RQ> String generateQuery(RQ request) {
+public abstract class AmadeusService {
+	@Autowired
+	private Environment env;
+
+	@Qualifier("basic")
+	@Autowired
+	private RestTemplate restTemplate;
+
+	public <RQ,RS> RS getResponseObject(String subUrl, RQ request, Class<RS> response) {
+		String url = prepareUrl(subUrl, request);
+		return restTemplate.getForObject(url, response);
+	}
+	
+	private <RQ> String prepareUrl(String subUrl, RQ request) {
+		return new StringBuilder(env.getProperty("amadeus.url")).append(subUrl)
+				.append(generateQuery(request)).append("apikey=").append(env.getProperty("amadeus.api.key")).toString();
+	}
+
+	private <RQ> String generateQuery(RQ request) {
 		
 		@SuppressWarnings("unchecked")
 		Class<RQ> clazz = (Class<RQ>) request.getClass();
