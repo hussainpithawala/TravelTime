@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Generated;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -18,28 +19,42 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 		"all_rooms", "show_sold_out", "amenities" })
 public class HotelSearchRQ {
 
+	@NotNull
 	@JsonProperty("location")
 	private String location;
+	
+	@NotNull
 	@JsonProperty("check_in")
 	private String checkIn;
+	
+	@NotNull
 	@JsonProperty("check_out")
 	private String checkOut;
+	
 	@JsonProperty("radius")
 	private String radius;
+	
 	@JsonProperty("lang")
 	private String lang;
+	
 	@JsonProperty("currency")
 	private String currency;
+	
 	@JsonProperty("max_rate")
 	private String maxRate;
+	
 	@JsonProperty("number_of_results")
 	private String numberOfResults;
+	
 	@JsonProperty("all_rooms")
 	private String allRooms;
+	
 	@JsonProperty("show_sold_out")
 	private String showSoldOut;
+	
 	@JsonProperty("amenities")
 	private String amenities;
+	
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -261,5 +276,4 @@ public class HotelSearchRQ {
 	public void setAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
 	}
-
 }
