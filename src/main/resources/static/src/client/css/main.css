@@ -442,8 +442,11 @@ div.panel.show {
 
 
 
-#flightsearch div{
-    margin-top: 1% !important;
+#flightsearch div {
+    margin-top: 0.5% !important;
+}
+#flightsearch h1{
+    margin-top: 0.5% !important;
 }
 #flightsearch{
     color: white;
@@ -467,4 +470,8 @@ div.panel.show {
 
 .segmented_controls a{
     text-decoration: none !important;
+}
+.col-centered{
+    float: none;
+    margin: 0 auto;
 }
