@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.synerzip.supplier.amadeus.model.flights.AffiliateFlightSearchRS;
 import com.synerzip.supplier.amadeus.model.flights.AirportAutocompleteRS;
+import com.synerzip.supplier.amadeus.model.flights.ExtensiveSearchRQ;
 import com.synerzip.supplier.amadeus.model.flights.ExtensiveSearchRS;
 import com.synerzip.supplier.amadeus.model.flights.FlightInspirationSearchRS;
 import com.synerzip.supplier.amadeus.model.flights.LocationInformationSearchRS;
@@ -54,13 +55,15 @@ public class FlightsController {
 	private LowFareFlightSearchRSWriter lowFareFlightSearchRSWriter;
 
 	@Autowired
-	private AmadeusFlightService amadeusService;
+	private AmadeusFlightService amadeusFlightService;
 
 	@Autowired
 	private SabreFlightService sabreFlightService;
 
 	@Autowired
 	private ThreadPoolTaskExecutor executor;
+	
+	private boolean lowfareSearchAsync = false;
 	
 	
 	@RequestMapping(value = "/rest/searchFlights", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -91,7 +94,7 @@ public class FlightsController {
 
 		executor.execute(() -> {
 			try {
-				collection.add(amadeusService.fetchLowFareFlights(lowFareFlightSearchRQ));
+				collection.add(amadeusFlightService.fetchLowFareFlights(lowFareFlightSearchRQ,lowfareSearchAsync));
 			} catch (Exception e) {
 				logger.error("An error has occured while processing Amadeus Request", e);
 			} finally {
@@ -106,7 +109,7 @@ public class FlightsController {
 			e.printStackTrace();
 		}
 
-		// the two responses are from Amadeus and Sabre. we just merge them into the one
+		// the two responses are from Amadeus's and Sabre's. we just merge them into the one
 		LowFareFlightSearchRS first = collection.getFirst();
 		LowFareFlightSearchRS second = collection.getLast();
 		
@@ -114,53 +117,18 @@ public class FlightsController {
 		
 		return new ResponseEntity<LowFareFlightSearchRS>(first, HttpStatus.OK);
 	}
-
-	// This service retrieves the best price for flights.
-	@RequestMapping(value = "/rest/searchLowFare", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<LowFareFlightSearchRS> searchLowFareFlights() {
-		StringBuilder url = new StringBuilder(
-				"http://api.sandbox.amadeus.com/v1.2/flights/low-fare-search?origin=LHR&destination=JFK&departure_date=2016-08-30&return_date=2016-09-07&number_of_results=3&apikey=");
-		url.append(env.getProperty("amadeus.api.key"));
-
-		logger.info(url.toString());
-
-		return new ResponseEntity<LowFareFlightSearchRS>(
-				restTemplate.getForObject(url.toString(), LowFareFlightSearchRS.class), HttpStatus.OK);
+	
+	//this is asynchronous search call for low fare 
+	//not tested
+	@RequestMapping(value = "/rest/async/searchLowFare", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public AsyncResult<LowFareFlightSearchRS> searchLowFareFlightsAsync(@RequestBody LowFareFlightSearchRQ lowFareFlightSearchRQ) {
+		return new AsyncResult<LowFareFlightSearchRS>(amadeusFlightService.fetchLowFareFlights(lowFareFlightSearchRQ,lowfareSearchAsync));
 	}
-
-	@RequestMapping(value = "/rest/post/searchLowFare", method = RequestMethod.POST)
-	public ResponseEntity<LowFareFlightSearchRS> searchLowFareFlightsWithPost(
-			@RequestBody LowFareFlightSearchRQ lowFareFlightRequest) {
-		StringBuilder url = new StringBuilder(
-				"http://api.sandbox.amadeus.com/v1.2/flights/low-fare-search?origin=LHR&destination=JFK&departure_date=2016-08-30&return_date=2016-09-07&number_of_results=3&apikey=");
-		url.append(env.getProperty("amadeus.api.key"));
-
-		logger.info(url.toString());
-
-		return new ResponseEntity<LowFareFlightSearchRS>(
-				restTemplate.getForObject(url.toString(), LowFareFlightSearchRS.class), HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/rest/async/searchLowFare", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public AsyncResult<LowFareFlightSearchRS> searchLowFareFlightsAsync() {
-		StringBuilder url = new StringBuilder(
-				"http://api.sandbox.amadeus.com/v1.2/flights/low-fare-search?origin=LHR&destination=JFK&departure_date=2016-08-30&return_date=2016-09-07&number_of_results=3&apikey=");
-		url.append(env.getProperty("amadeus.api.key"));
-
-		logger.info(url.toString());
-		return new AsyncResult<LowFareFlightSearchRS>(
-				restTemplate.getForObject(url.toString(), LowFareFlightSearchRS.class));
-	}
-
+	
 	// This service retrieves prices of flights over a large number of days.
-	@RequestMapping(value = "/rest/searchExtensive", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ExtensiveSearchRS> searchFlightExtensive() {
-		StringBuilder url = new StringBuilder(
-				"http://api.sandbox.amadeus.com/v1.2/flights/extensive-search?origin=FRA&destination=LON&departure_date=2016-09-07--2016-09-16&one-way=false&duration=3&direct=false&max_price=450&aggregation_mode=DAY&apikey=");
-		url.append(env.getProperty("amadeus.api.key"));
-
-		logger.info(url.toString());
-		return new ResponseEntity<ExtensiveSearchRS>(restTemplate.getForObject(url.toString(), ExtensiveSearchRS.class),
+	@RequestMapping(value = "/rest/searchExtensive", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ExtensiveSearchRS> searchFlightExtensive(@RequestBody ExtensiveSearchRQ extensiveSearchRQ) {
+		return new ResponseEntity<ExtensiveSearchRS>(amadeusFlightService.fetchExtensiveFlights(extensiveSearchRQ),
 				HttpStatus.OK);
 	}
 
