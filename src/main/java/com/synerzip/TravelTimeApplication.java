@@ -1,5 +1,6 @@
 package com.synerzip;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +11,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import com.synerzip.infra.security.ApplicationSecurity;
@@ -28,7 +31,18 @@ public class TravelTimeApplication {
 	
 	@Bean(name="basic")
 	public RestTemplate provideRestTemplate(){
-		return new RestTemplate();
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.setErrorHandler(new ResponseErrorHandler() {
+			@Override
+			public boolean hasError(ClientHttpResponse response) throws IOException {
+				return false;
+			}
+			
+			@Override
+			public void handleError(ClientHttpResponse response) throws IOException {
+			}
+		});
+		return restTemplate;
 	}
 
 	@Autowired

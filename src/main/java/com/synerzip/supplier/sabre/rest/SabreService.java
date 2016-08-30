@@ -15,8 +15,8 @@ import com.synerzip.supplier.sabre.model.flights.BaseDomainRequest;
 import com.synerzip.supplier.service.SabreTokenService;
 
 @Component
-public class GenericRestGetCall {
-	private static final Logger logger = LoggerFactory.getLogger(GenericRestGetCall.class);
+public class SabreService {
+	private static final Logger logger = LoggerFactory.getLogger(SabreService.class);
 	
 	// Need to restrict number of concurrent calls to Sabre Test API, current limit is 2 calls per second
 	private final Semaphore semaphore = new Semaphore(2, true); // A fair semaphore with only 2 permits
