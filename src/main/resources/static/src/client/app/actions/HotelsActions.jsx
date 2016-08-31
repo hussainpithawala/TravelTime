@@ -23,8 +23,14 @@ export function reloadHotels(requestJSON) {
 export function reloadLocations(key) {
   console.log('reloading locations...', key);
   axios({
-    method: 'get',
-    url: 'rest/get/airportAutocomplete?term=' + key,
+    method: 'post',
+    url: 'rest/airportAutocomplete',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: {
+      term:key
+    }
   })
   .then(function (response) {
     console.log("got the location list!");

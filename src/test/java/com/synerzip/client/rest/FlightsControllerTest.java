@@ -20,8 +20,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.synerzip.TravelTimeApplication;
+import com.synerzip.supplier.amadeus.model.flights.AffiliateFlightSearchRQ;
+import com.synerzip.supplier.amadeus.model.flights.AirportAutocompleteRQ;
 import com.synerzip.supplier.amadeus.model.flights.ExtensiveSearchRQ;
+import com.synerzip.supplier.amadeus.model.flights.FlightInspirationSearchRQ;
+import com.synerzip.supplier.amadeus.model.flights.LocationInformationSearchRQ;
 import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRQ;
+import com.synerzip.supplier.amadeus.model.flights.NearestAirportSearchRQ;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -56,8 +61,8 @@ public class FlightsControllerTest {
     	mockMvc.perform(MockMvcRequestBuilders.post("/rest/searchFlights")
     			.content(requestJson)
     			.contentType(MediaType.APPLICATION_JSON_VALUE))
-          .andExpect(status().isOk())
-          .andDo(print());
+          		.andExpect(status().isOk())
+				.andDo(print());
     }	
 	
 	@Test
@@ -78,34 +83,97 @@ public class FlightsControllerTest {
 				.andExpect(status().isOk());
 	}
 	
-    @Test
-    // Tests the response status of Flight Inspiration request.
-    public void searchFilghtInspiration() throws Exception {
-      mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchFlightInspiration").accept(MediaType.APPLICATION_JSON))
-          .andExpect(status().isOk())
-          .andDo(print());
-    }
+	@Test
+	// Tests the response status of Flight Inspiration request.
+	public void searchFilghtInspiration() throws Exception {
+		FlightInspirationSearchRQ flightSearchRequest = new FlightInspirationSearchRQ();
+		flightSearchRequest.setOrigin("NYC");
+		flightSearchRequest.setDestination("PAR");
+		flightSearchRequest.setDepartureDate("2016-09-11--2016-09-26");
+		flightSearchRequest.setOneWay(false);
+		flightSearchRequest.setDuration(2);
+		flightSearchRequest.setDirect(false);
+		flightSearchRequest.setMaxPrice(900);
+		flightSearchRequest.setAggregationMode("WEEK");
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+		ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson = writer.writeValueAsString(flightSearchRequest);
+		mockMvc.perform(MockMvcRequestBuilders.post("/rest/searchFlightInspiration")
+				.content(requestJson)
+				.contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk());
+	}
 
     @Test
     // Tests the response status of Location Information request.
     public void searchLocationInformation() throws Exception {
-      mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchLocationInformation")
-          .accept(MediaType.APPLICATION_JSON))
-          .andExpect(status().isOk())
-          .andDo(print());
+    	LocationInformationSearchRQ airportSearchRequest = new LocationInformationSearchRQ();
+		airportSearchRequest.setCode("DUB");
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+		ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson = writer.writeValueAsString(airportSearchRequest);
+		mockMvc.perform(MockMvcRequestBuilders.post("/rest/searchLocationInformation")
+				.content(requestJson)
+				.contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk());
     }
 
 	@Test
+	// Tests the response status of Affiliate search request.
 	public void searchAffiliateFlight() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/rest/searchAffiliate").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andDo(print());
+		AffiliateFlightSearchRQ flightSearchRequest = new AffiliateFlightSearchRQ();
+		flightSearchRequest.setOrigin("LON");
+		flightSearchRequest.setDestination("DUB");
+		flightSearchRequest.setDepartureDate("2016-11-25");
+		flightSearchRequest.setReturnDate("2016-11-28");
+		flightSearchRequest.setAdults(1);
+		flightSearchRequest.setChildren(0);
+		flightSearchRequest.setInfants(0);
+		flightSearchRequest.setMaxPrice(980);
+		flightSearchRequest.setCurrency("EUR");
+		flightSearchRequest.setMobile(false);
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+		ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson = writer.writeValueAsString(flightSearchRequest);
+		mockMvc.perform(MockMvcRequestBuilders.post("/rest/searchAffiliate")
+				.content(requestJson)
+				.contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk());
 	}
 	
 	@Test
+	// Tests the response status of nearest airport request.
+	public void searchNearestAirport() throws Exception {
+		NearestAirportSearchRQ airportSearchRequest = new NearestAirportSearchRQ();
+		airportSearchRequest.setLatitude(54.9501);
+		airportSearchRequest.setLongitude(-7.737);
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+		ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson = writer.writeValueAsString(airportSearchRequest);
+		mockMvc.perform(MockMvcRequestBuilders.post("/rest/searchNearestAirport")
+				.content(requestJson)
+				.contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk());
+	}
+	
+	@Test
+	// Tests the response status of airport auto complete request.
 	public void airportAutocomplete() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("/rest/airportAutocomplete").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andDo(print());
+		AirportAutocompleteRQ airportAutocompleteRequest = new AirportAutocompleteRQ();
+		airportAutocompleteRequest.setTerm("LON");
+		airportAutocompleteRequest.setCountry("US");
+		airportAutocompleteRequest.setAllAirports(false);
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+		ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson = writer.writeValueAsString(airportAutocompleteRequest);
+		mockMvc.perform(MockMvcRequestBuilders.post("/rest/airportAutocomplete")
+				.content(requestJson)
+				.contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk());				
 	}
 }
