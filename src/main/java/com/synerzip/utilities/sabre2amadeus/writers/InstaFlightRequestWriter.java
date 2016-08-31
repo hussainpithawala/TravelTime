@@ -18,7 +18,6 @@ public class InstaFlightRequestWriter {
 					.destination(Objects.requireNonNull(lowFareFlightSearchRQ.getDestination(), "Destination cannot be null"))
 					.departureDate(Objects.requireNonNull(lowFareFlightSearchRQ.getDepartureDate(), "Departure date cannot be null"))
 					.returnDate(Objects.requireNonNull(lowFareFlightSearchRQ.getReturnDate(), "Return date cannot be null"))
-					.limit(lowFareFlightSearchRQ.getNumberOfResults())
 					.getInstance();
 		}
 	};

@@ -46,7 +46,10 @@ public class SabreService {
 		try {
 			semaphore.acquire();
 			logger.info("Acquired permit to place request to Sabre");
-			response = restTemplate.getForObject(getRequestString(url, request), clazz, new Object[] {});
+			String finalUrl = getRequestString(url, request);
+			logger.info("Request to Sabre " + finalUrl);
+			response = restTemplate.getForObject(finalUrl, clazz, new Object[] {});
+			logger.info("Response from Sabre " + response.toString());
 		} catch (HttpClientErrorException e) {
 			if (e.getStatusCode().equals(HttpStatus.UNAUTHORIZED))
 				sabreTokenService.setInvalid();

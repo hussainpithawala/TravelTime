@@ -1,9 +1,13 @@
 package com.synerzip.supplier.sabre.model.flights;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 /**
@@ -21,25 +25,32 @@ public class BaseDomainRequest {
      * the string.
      * @return query string for GET call.
      */
-    @SuppressWarnings("rawtypes")
     public String toRequestQuery() {
         StringBuilder requestQuery = new StringBuilder("?");
         try {
-            Class c = Class.forName(this.getClass().getName());
-            Method m[] = c.getDeclaredMethods();
-            Object oo;
-            for (int i = 0; i < m.length; i++)
-                if (m[i].getName().startsWith("get")) {
-                    oo = m[i].invoke(this, (Object[])null);
-                    if (oo != null) {
-                        requestQuery.append(m[i].getName().substring(3).toLowerCase() + "="
-                                + String.valueOf(oo) + "&");
-                    }
-                }
+			Class<?> clazz = Class.forName(this.getClass().getName());
+
+			for (Method method : clazz.getDeclaredMethods()) {
+				Object fieldObject;
+				if (method.getName().startsWith("get")) {
+					JsonProperty jsonProperty = method.getDeclaredAnnotation(JsonProperty.class);
+					if (jsonProperty != null) {
+						try {
+							fieldObject = method.invoke(this, (Object[]) null);
+							if (fieldObject != null) {
+								String name = jsonProperty.value();
+								requestQuery.append(name).append("=").append(fieldObject).append("&");
+							}
+						} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
         } catch (Throwable e) {
         	logger.error("An exception has occurred", e);
         }
-
         return requestQuery.deleteCharAt(requestQuery.lastIndexOf("&")).toString();
     }
 }

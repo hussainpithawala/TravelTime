@@ -34,7 +34,9 @@ public class LowFareFlightSearchRSWriter {
 			};
 			
 			// pick up the first element of PricedItineraries i.e. a PricedItinerary to fetch the currency-code
-			instaFlightResponse.getPricedItineraries().get(0).accept(itinTotalFareVisitor);
+			if (!instaFlightResponse.getPricedItineraries().isEmpty()) {
+				instaFlightResponse.getPricedItineraries().get(0).accept(itinTotalFareVisitor);
+			}
 			
 			List<ResultItinerary> resultItineraries = new ArrayList<ResultItinerary>();
 			

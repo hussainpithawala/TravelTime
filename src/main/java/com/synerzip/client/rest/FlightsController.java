@@ -1,7 +1,9 @@
 package com.synerzip.client.rest;
 
-import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +24,8 @@ import com.synerzip.supplier.amadeus.model.flights.AirportAutocompleteRQ;
 import com.synerzip.supplier.amadeus.model.flights.AirportAutocompleteRS;
 import com.synerzip.supplier.amadeus.model.flights.ExtensiveSearchRQ;
 import com.synerzip.supplier.amadeus.model.flights.ExtensiveSearchRS;
-import com.synerzip.supplier.amadeus.model.flights.FlightInspirationSearchRS;
 import com.synerzip.supplier.amadeus.model.flights.FlightInspirationSearchRQ;
+import com.synerzip.supplier.amadeus.model.flights.FlightInspirationSearchRS;
 import com.synerzip.supplier.amadeus.model.flights.LocationInformationSearchRQ;
 import com.synerzip.supplier.amadeus.model.flights.LocationInformationSearchRS;
 import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRQ;
@@ -63,36 +65,43 @@ public class FlightsController {
 	@RequestMapping(value = "/rest/searchFlights", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<LowFareFlightSearchRS> searchFlights(
 			@RequestBody LowFareFlightSearchRQ lowFareFlightSearchRQ) {
-		ConcurrentLinkedDeque<LowFareFlightSearchRS> collection = new ConcurrentLinkedDeque<>();
-		
-		CountDownLatch latch = new CountDownLatch(2); // count-down of two, one for Sabre and other for Amadeus.
-		
-		executor.execute(() -> {
-			try {
-				// prepare a Sabre's InstaFlightRequest from Amadeus's LowFareFlightSearchRQ
-				InstaFlightRequest instaFlightRequest = instaFlightRequestWriter.write.apply(lowFareFlightSearchRQ);
-				
-				// fetch the response from Sabre's service
-				InstaFlightResponse instaFlightResponse = sabreFlightService.doInstaFlightSearch(instaFlightRequest);
-				
-				// write Amadeus's LowFareFlightSearchRS using Sabre's InstaFlightResponse
-				LowFareFlightSearchRS response = lowFareFlightSearchRSWriter.write.apply(instaFlightResponse);
-				
-				collection.add(response);
-			} catch(Exception e) {
-				logger.error("An error has occured while processing Sabre Request", e);
-			} finally {
-				latch.countDown();
-			}
-		});
 
-		executor.execute(() -> {
-			try {
-				collection.add(amadeusFlightService.fetchLowFareFlights(lowFareFlightSearchRQ,lowfareSearchAsync));
-			} catch (Exception e) {
-				logger.error("An error has occured while processing Amadeus Request", e);
-			} finally {
-				latch.countDown();
+		CountDownLatch latch = new CountDownLatch(2); // count-down of two, one for Sabre and other for Amadeus.
+
+		Future<LowFareFlightSearchRS> sabreResponse = executor.submit(new Callable<LowFareFlightSearchRS>() {
+			@Override
+			public LowFareFlightSearchRS call() throws Exception {
+				LowFareFlightSearchRS response = null;
+				try {
+					// prepare a Sabre's InstaFlightRequest from Amadeus's LowFareFlightSearchRQ
+					InstaFlightRequest instaFlightRequest = instaFlightRequestWriter.write.apply(lowFareFlightSearchRQ);
+					
+					// fetch the response from Sabre's service
+					InstaFlightResponse instaFlightResponse = sabreFlightService.doInstaFlightSearch(instaFlightRequest);
+					
+					// write Amadeus's LowFareFlightSearchRS using Sabre's InstaFlightResponse
+					response = lowFareFlightSearchRSWriter.write.apply(instaFlightResponse);
+				} catch(Exception e) {
+					logger.error("An error has occured while processing Sabre Request", e);
+				} finally {
+					latch.countDown();
+				}
+				return response;
+			}
+		});		
+
+		Future<LowFareFlightSearchRS> amadeusResponse = executor.submit(new Callable<LowFareFlightSearchRS>(){
+			@Override
+			public LowFareFlightSearchRS call() throws Exception {
+				LowFareFlightSearchRS response = null;
+				try {
+					response = amadeusFlightService.fetchLowFareFlights(lowFareFlightSearchRQ,lowfareSearchAsync);
+				} catch (Exception e) {
+					logger.error("An error has occured while processing Amadeus Request", e);
+				} finally {
+					latch.countDown();
+				}
+				return response;
 			}
 		});
 		
@@ -103,13 +112,26 @@ public class FlightsController {
 			e.printStackTrace();
 		}
 
-		// the two responses are from Amadeus's and Sabre's. we just merge them into the one
-		LowFareFlightSearchRS first = collection.getFirst();
-		LowFareFlightSearchRS second = collection.getLast();
+		LowFareFlightSearchRS result = null;
 		
-		first.getResults().addAll(second.getResults());
+		try {
+			LowFareFlightSearchRS amadeusResult = amadeusResponse.get();
+			LowFareFlightSearchRS sabreResult = sabreResponse.get();
+			
+			if (amadeusResult != null && sabreResult != null) {
+				amadeusResult.getResults().addAll(sabreResult.getResults());
+				result = amadeusResult;
+			} else if (amadeusResult == null && sabreResult != null) {
+				result = sabreResult;
+			} else if (amadeusResult != null && sabreResult == null) {
+				result = amadeusResult;
+			}
+		} catch (InterruptedException | ExecutionException e) {
+			// TODO Auto-generated catch block
+			logger.error(e.getMessage());
+		}
 		
-		return new ResponseEntity<LowFareFlightSearchRS>(first, HttpStatus.OK);
+		return new ResponseEntity<LowFareFlightSearchRS>(result, HttpStatus.OK);
 	}
 	
 	//this is asynchronous search call for low fare 
