@@ -2,8 +2,12 @@ import React from 'react';
 import {render} from 'react-dom';
 import HotelSearchPanel from './pages/hotelSearchPanel.jsx';
 import FlightsSearchPanel from './pages/flightsSearchPanel.jsx';
+import GoogleMaps from './components/googleMap.jsx';
 
 class App extends React.Component {
+    componentDidMount() {
+      GoogleMaps.load();
+    };
     render () {
         return (
             <div id="mainPage">

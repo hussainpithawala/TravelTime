@@ -2,6 +2,7 @@ import React from 'react';
 
 import HotelsStore from '../stores/HotelsStore.jsx';
 import HotelSearchResult from '../components/hotelsList.jsx';
+import MapPage from '../components/hotelsMap.jsx';
 
 var hotelSearchResultView = React.createClass({
 	getInitialState: function() {
@@ -23,11 +24,15 @@ var hotelSearchResultView = React.createClass({
 	render: function(){
 		var hotelResultViewType = '';
 		var hotelsList = this.props.getHotelsResult();
+		var hotelInfoStyle = {height: 500};
 		if (hotelsList) {
 			if (this.state.defaultView === 'MAPVIEW') {
-				hotelResultViewType = <div> Loading map view... </div>
+				var initialCenter = {lng: hotelsList[0].location.longitude, lat:hotelsList[0].location.latitude};
+				hotelResultViewType = <div className="col-md-12" style={hotelInfoStyle}> 
+																<MapPage initialCenter={initialCenter} searchResult={hotelsList}></MapPage>
+															</div>;
 			} else if(this.state.defaultView === 'LISTVIEW') {
-				hotelResultViewType = <HotelSearchResult searchResult={hotelsList}></HotelSearchResult>
+				hotelResultViewType = <HotelSearchResult searchResult={hotelsList}></HotelSearchResult>;
 			} else {
 				console.log('Something went wrong!! No view registered.');
 			}
@@ -36,11 +41,15 @@ var hotelSearchResultView = React.createClass({
 		}
 		return (
 			<div className="collapsible col-sm-4" id="generalSearchPanel">
-        		<div className="row">
-					<span className="flow-text" id="mainText">Hotel Results </span>
-					<button id = "backButton" className="btn btn-primary pull-right" onClick= {this.props.onClick}>
-						Back
-					</button>
+        <div className="row">
+          <div className="col-md-6">
+						<span className="flow-text" id="mainText">Hotel Results </span>
+					</div>
+					<div className="col-md-6">
+						<button id = "backButton" className="btn btn-primary pull-right" onClick= {this.props.onClick}>
+							Back
+						</button>
+					</div>
 				</div>
 				<div id="searchPanel">
 					<div className = "row">
@@ -54,7 +63,9 @@ var hotelSearchResultView = React.createClass({
 						</div>
 						<span id="note">LOWEST AVAILABLE NIGHTLY RATE PER ROOM</span>
 					</div>
-					{hotelResultViewType}
+					<div className = "row">
+						{hotelResultViewType}
+					</div>
 				</div>
 			</div>	
 		);
