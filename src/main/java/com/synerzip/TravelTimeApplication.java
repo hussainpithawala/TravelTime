@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,7 +25,9 @@ import com.synerzip.supplier.sabre.rest.interceptor.AuthenticatingGetInterceptor
 @SpringBootApplication
 @Configuration
 @PropertySource("classpath:supplier.properties")
-public class TravelTimeApplication {	
+public class TravelTimeApplication {
+	private static final Logger logger = LoggerFactory.getLogger(TravelTimeApplication.class);
+	
 	@Bean
     public WebSecurityConfigurerAdapter webSecurityConfigurerAdapter(){
     	return new ApplicationSecurity();
@@ -55,6 +59,17 @@ public class TravelTimeApplication {
 		ris.add(authInterceptor);
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.setInterceptors(ris);
+		restTemplate.setErrorHandler(new ResponseErrorHandler() {
+			@Override
+			public boolean hasError(ClientHttpResponse response) throws IOException {
+				return false;
+			}
+			
+			@Override
+			public void handleError(ClientHttpResponse response) throws IOException {
+				logger.info(response.toString());
+			}
+		});
 		return restTemplate;
 	}
 	

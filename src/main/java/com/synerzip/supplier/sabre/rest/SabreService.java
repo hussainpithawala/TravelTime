@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.synerzip.supplier.sabre.model.flights.BaseDomainRequest;
 import com.synerzip.supplier.service.SabreTokenService;
 
@@ -49,13 +50,19 @@ public class SabreService {
 			String finalUrl = getRequestString(url, request);
 			logger.info("Request to Sabre " + finalUrl);
 			response = restTemplate.getForObject(finalUrl, clazz, new Object[] {});
-			logger.info("Response from Sabre " + response.toString());
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+			logger.info("Response from sabre " + objectMapper.writeValueAsString(response));
+			
 		} catch (HttpClientErrorException e) {
 			if (e.getStatusCode().equals(HttpStatus.UNAUTHORIZED))
 				sabreTokenService.setInvalid();
 		} catch (InterruptedException e) {
 			logger.error("Thread interrupted during permit acquisition", e);
-		} finally {
+		} catch (Exception e){
+			e.printStackTrace();
+			logger.error(e.getMessage());
+		}finally {
 			semaphore.release();
 			logger.info("Released permit back");
 		}

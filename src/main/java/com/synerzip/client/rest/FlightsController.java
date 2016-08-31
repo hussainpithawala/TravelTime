@@ -127,7 +127,7 @@ public class FlightsController {
 				result = amadeusResult;
 			}
 		} catch (InterruptedException | ExecutionException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
 			logger.error(e.getMessage());
 		}
 		

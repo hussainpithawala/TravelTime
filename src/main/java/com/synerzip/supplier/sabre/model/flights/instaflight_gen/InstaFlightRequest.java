@@ -65,7 +65,7 @@ public class InstaFlightRequest extends BaseDomainRequest {
 	@JsonProperty("maxfare")
 	private Double maxfare;
 	@JsonProperty("limit")
-	private int limit;
+	private Integer limit;
 	@JsonProperty("offset")
 	private Double offset;
 	@JsonProperty("sortby")
@@ -468,7 +468,7 @@ public class InstaFlightRequest extends BaseDomainRequest {
 	 * @return The limit
 	 */
 	@JsonProperty("limit")
-	public int getLimit() {
+	public Integer getLimit() {
 		return limit;
 	}
 
@@ -478,7 +478,7 @@ public class InstaFlightRequest extends BaseDomainRequest {
 	 *            The limit
 	 */
 	@JsonProperty("limit")
-	public void setLimit(int limit) {
+	public void setLimit(Integer limit) {
 		this.limit = limit;
 	}
 
