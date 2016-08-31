@@ -26,7 +26,8 @@ public class LowFareFlightSearchRSWriter {
 	private Boolean hasError(InstaFlightResponse response) {
 		logger.info("Checking for error(s) in InstaFlightResponse ");
 		boolean result = false;
-		String errorCode = response.getAdditionalProperties().get("errorCode").toString();
+		
+		String errorCode = (String)response.getAdditionalProperties().get("errorCode");
 		if (Objects.nonNull(errorCode)) {
 			result = true;
 			logger.info("Error code " + errorCode);
