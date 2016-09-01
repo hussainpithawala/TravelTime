@@ -355,11 +355,13 @@ div.panel.show {
     margin-top: 20px;
 }
 #heading{
-    border: 1px solid white;
+    border: 1px solid black;
     height: 100%;
     text-align: center;
     padding: 1%;
-    color: whitesmoke;
+    color: black;
+    background-color: white;
+    opacity: 0.8;
 }
 
 .flightList{
@@ -367,11 +369,13 @@ div.panel.show {
 }
 
 #flightInfo{
-    border: 1px solid white;
+    border: 1px solid black;
     text-align: center;
     margin-top: 1%;
     padding: 1%;
-    color: white;
+    color: black;
+    background-color: white;
+    opacity: 0.8;
 }
 
 #details {
@@ -379,7 +383,7 @@ div.panel.show {
 }
 
 .flightDetails {
-    border-top:1px solid white;
+    border-top:1px solid black;
     margin-top: 2%;
     padding: inherit;
 }

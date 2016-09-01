@@ -15,7 +15,12 @@ var FlightsSearchForm = React.createClass({
 
     handleSearch: function (e) {
         e.preventDefault();
-        this.props.reloadFlights();
+        var requestJson = {
+            "origin":"PNQ",
+            "destination":"CCU",
+            "departure_date":"2016-09-08"
+        };
+        this.props.reloadFlights(requestJson);
     },
     render: function() {
         return (

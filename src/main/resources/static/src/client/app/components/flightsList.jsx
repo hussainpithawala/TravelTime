@@ -28,8 +28,7 @@ var List = React.createClass({
         return(
             <div className="flightList">
                 {this.props.data.map(function(flightData, index) {
-                    console.log(flightData);
-                    return (<Flight key={flightData.itineraries[0].outbound.flights[0].flight_number} index={index} flightdata={flightData}/>)
+                    return (<Flight key={index} index={index} flightdata={flightData}/>)
                 })}
 
             </div>
@@ -57,7 +56,7 @@ var FlightsList = React.createClass({
         return (<div className="flightsPanel">
             <div id="flightsContent">
                 <ListHeading></ListHeading>
-                <List data={this.props.flightsData[0].results}></List>
+                <List data={this.props.flightsData.results}></List>
             </div>
         </div>)
     }

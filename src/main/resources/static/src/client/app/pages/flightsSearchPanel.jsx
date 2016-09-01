@@ -26,8 +26,8 @@ var FLightsSearchPanel = React.createClass({
             flights: FlightsStore.getAllFlights(),
         });
     },
-    reloadFlights: function(e) {
-        FlightsActions.reloadFlights({data:"xyz"});
+    reloadFlights: function(jsonRequest) {
+        FlightsActions.reloadFlights(jsonRequest);
     },
 
     render:function () {
