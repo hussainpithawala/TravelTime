@@ -24,193 +24,242 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 })
 public class ExtensiveSearchRQ {
 
-@JsonProperty("origin")
-private String origin;
-@JsonProperty("destination")
-private String destination;
-@JsonProperty("departure_date")
-private String departureDate;
-@JsonProperty("one-way")
-private Boolean oneWay;
-@JsonProperty("duration")
-private Object duration;
-@JsonProperty("direct")
-private Boolean direct;
-@JsonProperty("max_price")
-private Object maxPrice;
-@JsonProperty("aggregation_mode")
-private String aggregationMode;
-@JsonIgnore
-private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+	@JsonProperty("origin")
+	private String origin;
+	@JsonProperty("destination")
+	private String destination;
+	@JsonProperty("departure_date")
+	private String departureDate;
+	@JsonProperty("one-way")
+	private Boolean oneWay;
+	@JsonProperty("duration")
+	private Integer duration;
+	@JsonProperty("direct")
+	private Boolean direct;
+	@JsonProperty("max_price")
+	private Integer maxPrice;
+	@JsonProperty("aggregation_mode")
+	private String aggregationMode;
+	@JsonIgnore
+	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-/**
-*
-* @return
-* The origin
-*/
-@JsonProperty("origin")
-public String getOrigin() {
-return origin;
-}
+	/**
+	 *
+	 * @return The origin
+	 */
+	@JsonProperty("origin")
+	public String getOrigin() {
+		return origin;
+	}
 
-/**
-*
-* @param origin
-* The origin
-*/
-@JsonProperty("origin")
-public void setOrigin(String origin) {
-this.origin = origin;
-}
+	/**
+	 *
+	 * @param origin
+	 *            The origin
+	 */
+	@JsonProperty("origin")
+	public void setOrigin(String origin) {
+		this.origin = origin;
+	}
 
-/**
-*
-* @return
-* The destination
-*/
-@JsonProperty("destination")
-public String getDestination() {
-return destination;
-}
+	/**
+	 *
+	 * @return The destination
+	 */
+	@JsonProperty("destination")
+	public String getDestination() {
+		return destination;
+	}
 
-/**
-*
-* @param destination
-* The destination
-*/
-@JsonProperty("destination")
-public void setDestination(String destination) {
-this.destination = destination;
-}
+	/**
+	 *
+	 * @param destination
+	 *            The destination
+	 */
+	@JsonProperty("destination")
+	public void setDestination(String destination) {
+		this.destination = destination;
+	}
 
-/**
-*
-* @return
-* The departureDate
-*/
-@JsonProperty("departure_date")
-public String getDepartureDate() {
-return departureDate;
-}
+	/**
+	 *
+	 * @return The departureDate
+	 */
+	@JsonProperty("departure_date")
+	public String getDepartureDate() {
+		return departureDate;
+	}
 
-/**
-*
-* @param departureDate
-* The departure_date
-*/
-@JsonProperty("departure_date")
-public void setDepartureDate(String departureDate) {
-this.departureDate = departureDate;
-}
+	/**
+	 *
+	 * @param departureDate
+	 *            The departure_date
+	 */
+	@JsonProperty("departure_date")
+	public void setDepartureDate(String departureDate) {
+		this.departureDate = departureDate;
+	}
 
-/**
-*
-* @return
-* The oneWay
-*/
-@JsonProperty("one-way")
-public Boolean getOneWay() {
-return oneWay;
-}
+	/**
+	 *
+	 * @return The oneWay
+	 */
+	@JsonProperty("one-way")
+	public Boolean getOneWay() {
+		return oneWay;
+	}
 
-/**
-*
-* @param oneWay
-* The one-way
-*/
-@JsonProperty("one-way")
-public void setOneWay(Boolean oneWay) {
-this.oneWay = oneWay;
-}
+	/**
+	 *
+	 * @param oneWay
+	 *            The one-way
+	 */
+	@JsonProperty("one-way")
+	public void setOneWay(Boolean oneWay) {
+		this.oneWay = oneWay;
+	}
 
-/**
-*
-* @return
-* The duration
-*/
-@JsonProperty("duration")
-public Object getDuration() {
-return duration;
-}
+	/**
+	 *
+	 * @return The duration
+	 */
+	@JsonProperty("duration")
+	public Object getDuration() {
+		return duration;
+	}
 
-/**
-*
-* @param duration
-* The duration
-*/
-@JsonProperty("duration")
-public void setDuration(Object duration) {
-this.duration = duration;
-}
+	/**
+	 *
+	 * @param duration
+	 *            The duration
+	 */
+	@JsonProperty("duration")
+	public void setDuration(Integer duration) {
+		this.duration = duration;
+	}
 
-/**
-*
-* @return
-* The direct
-*/
-@JsonProperty("direct")
-public Boolean getDirect() {
-return direct;
-}
+	/**
+	 *
+	 * @return The direct
+	 */
+	@JsonProperty("direct")
+	public Boolean getDirect() {
+		return direct;
+	}
 
-/**
-*
-* @param direct
-* The direct
-*/
-@JsonProperty("direct")
-public void setDirect(Boolean direct) {
-this.direct = direct;
-}
+	/**
+	 *
+	 * @param direct
+	 *            The direct
+	 */
+	@JsonProperty("direct")
+	public void setDirect(Boolean direct) {
+		this.direct = direct;
+	}
 
-/**
-*
-* @return
-* The maxPrice
-*/
-@JsonProperty("max_price")
-public Object getMaxPrice() {
-return maxPrice;
-}
+	/**
+	 *
+	 * @return The maxPrice
+	 */
+	@JsonProperty("max_price")
+	public Object getMaxPrice() {
+		return maxPrice;
+	}
 
-/**
-*
-* @param maxPrice
-* The max_price
-*/
-@JsonProperty("max_price")
-public void setMaxPrice(Object maxPrice) {
-this.maxPrice = maxPrice;
-}
+	/**
+	 *
+	 * @param maxPrice
+	 *            The max_price
+	 */
+	@JsonProperty("max_price")
+	public void setMaxPrice(Integer maxPrice) {
+		this.maxPrice = maxPrice;
+	}
 
-/**
-*
-* @return
-* The aggregationMode
-*/
-@JsonProperty("aggregation_mode")
-public String getAggregationMode() {
-return aggregationMode;
-}
+	/**
+	 *
+	 * @return The aggregationMode
+	 */
+	@JsonProperty("aggregation_mode")
+	public String getAggregationMode() {
+		return aggregationMode;
+	}
 
-/**
-*
-* @param aggregationMode
-* The aggregation_mode
-*/
-@JsonProperty("aggregation_mode")
-public void setAggregationMode(String aggregationMode) {
-this.aggregationMode = aggregationMode;
-}
+	/**
+	 *
+	 * @param aggregationMode
+	 *            The aggregation_mode
+	 */
+	@JsonProperty("aggregation_mode")
+	public void setAggregationMode(String aggregationMode) {
+		this.aggregationMode = aggregationMode;
+	}
 
-@JsonAnyGetter
-public Map<String, Object> getAdditionalProperties() {
-return this.additionalProperties;
-}
+	@JsonAnyGetter
+	public Map<String, Object> getAdditionalProperties() {
+		return this.additionalProperties;
+	}
 
-@JsonAnySetter
-public void setAdditionalProperty(String name, Object value) {
-this.additionalProperties.put(name, value);
-}
+	@JsonAnySetter
+	public void setAdditionalProperty(String name, Object value) {
+		this.additionalProperties.put(name, value);
+	}
+
+	public static class Builder {
+		private ExtensiveSearchRQ instance;
+
+		private Builder(ExtensiveSearchRQ instance) {
+			this.instance = instance;
+		}
+
+		public Builder origin(String origin) {
+			this.instance.origin = origin;
+			return this;
+		}
+
+		public Builder destination(String destination) {
+			this.instance.destination = destination;
+			return this;
+		}
+
+		public Builder departureDate(String departureDate) {
+			this.instance.departureDate = departureDate;
+			return this;
+		}
+
+		public Builder oneWay(Boolean oneWayOption) {
+			this.instance.oneWay = oneWayOption;
+			return this;
+		}
+
+		public Builder duration(Integer duration) {
+			this.instance.duration = duration;
+			return this;
+		}
+
+		public Builder direct(Boolean direct) {
+			this.instance.direct = direct;
+			return this;
+		}
+
+		public Builder maxPrice(Integer maxPrice) {
+			this.instance.maxPrice = maxPrice;
+			return this;
+		}
+		
+		public Builder aggregationMode(String aggregationMode) {
+			this.instance.aggregationMode = aggregationMode;
+			return this;
+		}
+
+
+		public ExtensiveSearchRQ getInstance() {
+			return this.instance;
+		}
+	}
+
+	public static Builder getBuilder() {
+		return new Builder(new ExtensiveSearchRQ());
+	}
 
 }

@@ -48,5 +48,26 @@ public class LocationInformationSearchRQ {
 	public void setAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
 	}
+	
+	public static class Builder {
+		private LocationInformationSearchRQ instance;
+
+		private Builder(LocationInformationSearchRQ instance) {
+			this.instance = instance;
+		}
+
+		public Builder code(String code) {
+			this.instance.code = code;
+			return this;
+		}
+
+		public LocationInformationSearchRQ getInstance() {
+			return this.instance;
+		}
+	}
+
+	public static Builder getBuilder() {
+		return new Builder(new LocationInformationSearchRQ());
+	}
 
 }

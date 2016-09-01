@@ -177,5 +177,56 @@ public class LowFareFlightSearchRQ {
 	public void setAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
 	}
+	
+	public static class Builder {
+		private LowFareFlightSearchRQ instance;
+
+		private Builder(LowFareFlightSearchRQ instance) {
+			this.instance = instance;
+		}
+
+		public Builder origin(String origin) {
+			this.instance.origin = origin;
+			return this;
+		}
+
+		public Builder destination(String destination) {
+			this.instance.destination = destination;
+			return this;
+		}
+
+		public Builder departureDate(String departureDate) {
+			this.instance.departureDate = departureDate;
+			return this;
+		}
+
+		public Builder returnDate(String returnDate) {
+			this.instance.returnDate = returnDate;
+			return this;
+		}
+
+		public Builder numberOfResults(Integer numberOfResults) {
+			this.instance.numberOfResults = numberOfResults;
+			return this;
+		}
+		
+		public Builder adults(Integer adults) {
+			this.instance.adults = adults;
+			return this;
+		}
+
+		public Builder infants(Integer infants) {
+			this.instance.infants = infants;
+			return this;
+		}
+
+		public LowFareFlightSearchRQ getInstance() {
+			return this.instance;
+		}
+	}
+
+	public static Builder getBuilder() {
+		return new Builder(new LowFareFlightSearchRQ());
+	}
 
 }

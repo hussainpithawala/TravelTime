@@ -69,5 +69,31 @@ public class NearestAirportSearchRQ {
 	public void setAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
 	}
+	
+	public static class Builder {
+		private NearestAirportSearchRQ instance;
+
+		private Builder(NearestAirportSearchRQ instance) {
+			this.instance = instance;
+		}
+
+		public Builder latitude(Double latitude) {
+			this.instance.latitude = latitude;
+			return this;
+		}
+
+		public Builder longitude(Double longitude) {
+			this.instance.longitude = longitude;
+			return this;
+		}
+
+		public NearestAirportSearchRQ getInstance() {
+			return this.instance;
+		}
+	}
+
+	public static Builder getBuilder() {
+		return new Builder(new NearestAirportSearchRQ());
+	}
 
 }

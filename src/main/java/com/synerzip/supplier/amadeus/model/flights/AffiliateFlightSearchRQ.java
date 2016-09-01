@@ -281,4 +281,80 @@ public class AffiliateFlightSearchRQ {
 		this.additionalProperties.put(name, value);
 	}
 
+	public static class Builder {
+		private AffiliateFlightSearchRQ instance;
+
+		private Builder(AffiliateFlightSearchRQ instance) {
+			this.instance = instance;
+		}
+
+		public Builder origin(String origin) {
+			this.instance.origin = origin;
+			return this;
+		}
+
+		public Builder destination(String destination) {
+			this.instance.destination = destination;
+			return this;
+		}
+
+		public Builder departureDate(String departureDate) {
+			this.instance.departureDate = departureDate;
+			return this;
+		}
+
+		public Builder returnDate(String returnDate) {
+			this.instance.returnDate = returnDate;
+			return this;
+		}
+
+		public Builder adults(Integer adults) {
+			this.instance.adults = adults;
+			return this;
+		}
+
+		public Builder children(Integer children) {
+			this.instance.children = children;
+			return this;
+		}
+
+		public Builder infants(Integer infants) {
+			this.instance.infants = infants;
+			return this;
+		}
+
+		public Builder includeMerchants(String includeMerchants) {
+			this.instance.includeMerchants = includeMerchants;
+			return this;
+		}
+
+		public Builder excludeMerchants(String excludeMerchants) {
+			this.instance.excludeMerchants = excludeMerchants;
+			return this;
+		}
+
+		public Builder maxPrice(Integer maxPrice) {
+			this.instance.maxPrice = maxPrice;
+			return this;
+		}
+
+		public Builder currency(String currency) {
+			this.instance.currency = currency;
+			return this;
+		}
+
+		public Builder mobile(Boolean mobile) {
+			this.instance.mobile = mobile;
+			return this;
+		}
+
+		public AffiliateFlightSearchRQ getInstance() {
+			return this.instance;
+		}
+	}
+
+	public static Builder getBuilder() {
+		return new Builder(new AffiliateFlightSearchRQ());
+	}
+
 }

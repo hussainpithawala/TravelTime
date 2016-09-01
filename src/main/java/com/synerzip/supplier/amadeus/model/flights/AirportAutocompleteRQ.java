@@ -90,5 +90,36 @@ public class AirportAutocompleteRQ {
 	public void setAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
 	}
+	
+	public static class Builder {
+		private AirportAutocompleteRQ instance;
+
+		private Builder(AirportAutocompleteRQ instance) {
+			this.instance = instance;
+		}
+
+		public Builder term(String term) {
+			this.instance.term = term;
+			return this;
+		}
+
+		public Builder country(String country) {
+			this.instance.country = country;
+			return this;
+		}
+		
+		public Builder allAirports(Boolean allAirportsOption) {
+			this.instance.allAirports = allAirportsOption;
+			return this;
+		}
+
+		public AirportAutocompleteRQ getInstance() {
+			return this.instance;
+		}
+	}
+
+	public static Builder getBuilder() {
+		return new Builder(new AirportAutocompleteRQ());
+	}
 
 }

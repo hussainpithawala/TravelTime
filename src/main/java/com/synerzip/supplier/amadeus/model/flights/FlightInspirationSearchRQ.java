@@ -196,5 +196,62 @@ public class FlightInspirationSearchRQ {
 	public void setAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
 	}
+	
+	public static class Builder {
+		private FlightInspirationSearchRQ instance;
+
+		private Builder(FlightInspirationSearchRQ instance) {
+			this.instance = instance;
+		}
+
+		public Builder origin(String origin) {
+			this.instance.origin = origin;
+			return this;
+		}
+
+		public Builder destination(String destination) {
+			this.instance.destination = destination;
+			return this;
+		}
+
+		public Builder departureDate(String departureDate) {
+			this.instance.departureDate = departureDate;
+			return this;
+		}
+
+		public Builder oneWay(Boolean oneWayOption) {
+			this.instance.oneWay = oneWayOption;
+			return this;
+		}
+
+		public Builder duration(Integer duration) {
+			this.instance.duration = duration;
+			return this;
+		}
+
+		public Builder direct(Boolean direct) {
+			this.instance.direct = direct;
+			return this;
+		}
+
+		public Builder maxPrice(Integer maxPrice) {
+			this.instance.maxPrice = maxPrice;
+			return this;
+		}
+		
+		public Builder aggregationMode(String aggregationMode) {
+			this.instance.aggregationMode = aggregationMode;
+			return this;
+		}
+
+
+		public FlightInspirationSearchRQ getInstance() {
+			return this.instance;
+		}
+	}
+
+	public static Builder getBuilder() {
+		return new Builder(new FlightInspirationSearchRQ());
+	}
 
 }
