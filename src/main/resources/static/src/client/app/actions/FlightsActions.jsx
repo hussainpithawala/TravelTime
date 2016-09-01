@@ -14,7 +14,6 @@ export function reloadFlights(requestJSON) {
         .then(function (response) {
             console.log("got the data!", response);
             dispatcher.dispatch({type: "RECEIVE_FLIGHTS", flights: response.data});
-            dispatcher.dispatch({type: "RECEIVE_FLIGHTS", flights: response.data});
         })
         .catch(function (error) {
             console.log(error);
