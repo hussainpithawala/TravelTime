@@ -1,24 +1,45 @@
 import React from 'react';
 import FlightsStore from '../stores/FlightsStore.jsx';
 import FlightsSearchForm from '../components/flightsSearchForm.jsx';
+import FlightsList from '../components/flightsList.jsx';
+import * as FlightsActions from '../actions/FlightsActions.jsx';
 
 var FLightsSearchPanel = React.createClass({
     getInitialState:function() {
+
         return {
-            flights:FlightsStore.getAllFlights()
+            flights: FlightsStore.getAllFlights()
         }
+    },
+
+    // update search result
+    componentWillMount: function() {
+        FlightsStore.on("change", this.getFlights);
+    },
+
+    componentWillUnmount: function() {
+        FlightsStore.removeListener("change", this.getFlights);
+    },
+
+    getFlights: function() {
+        this.setState({
+            flights: FlightsStore.getAllFlights(),
+        });
+    },
+    reloadFlights: function(e) {
+        FlightsActions.reloadFlights({data:"xyz"});
     },
 
     render:function () {
         var renderComponent;
         if(!this.state.flights) {
-            renderComponent = <FlightsSearchForm></FlightsSearchForm>
+            renderComponent = <FlightsSearchForm reloadFlights={this.reloadFlights}></FlightsSearchForm>
         }
         else {
-            renderComponent = <h1> Flights Result Display</h1>
+            renderComponent = <FlightsList flightsData={this.state.flights}></FlightsList>
         }
         return(
-            <div>
+            <div className="flightsSearchPanel">
                 {renderComponent}
             </div>
         );

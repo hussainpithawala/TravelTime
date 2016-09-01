@@ -13,9 +13,13 @@ var FlightsSearchForm = React.createClass({
         };
     },
 
+    handleSearch: function (e) {
+        e.preventDefault();
+        this.props.reloadFlights();
+    },
     render: function() {
         return (
-            <form id="flightsearch" className="row col-sm-12 ">
+            <form id="flightsearch" onSubmit={this.handleSearch} className="row col-sm-12 ">
                 <div className="row col-sm-12 col-centered">
                     <h1>Book Flight Tickets</h1>
                 </div>

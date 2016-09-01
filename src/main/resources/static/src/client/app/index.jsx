@@ -6,7 +6,7 @@ import FlightsSearchPanel from './pages/flightsSearchPanel.jsx';
 class App extends React.Component {
     render () {
         return (
-            <div>
+            <div id="mainPage">
                 <div>
                     <h1 id="logo"> Synerzip Travel-time </h1>
                 </div>
