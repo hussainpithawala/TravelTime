@@ -1,4 +1,4 @@
-package com.synerzip.supplier.sabre.rest.interceptor;
+package com.synerzip.supplier.sabre.service.interceptor;
 
 import java.io.IOException;
 

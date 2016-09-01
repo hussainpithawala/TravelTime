@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.InstaFlightRequest;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.InstaFlightResponse;
-import com.synerzip.supplier.sabre.rest.SabreService;
 
 @Component
 public class SabreFlightService {

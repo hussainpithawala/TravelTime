@@ -20,7 +20,7 @@ import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import com.synerzip.infra.security.ApplicationSecurity;
-import com.synerzip.supplier.sabre.rest.interceptor.AuthenticatingGetInterceptor;
+import com.synerzip.supplier.sabre.service.interceptor.AuthenticatingGetInterceptor;
 
 @SpringBootApplication
 @Configuration

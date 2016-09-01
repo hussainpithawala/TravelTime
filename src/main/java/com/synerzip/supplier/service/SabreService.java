@@ -1,4 +1,4 @@
-package com.synerzip.supplier.sabre.rest;
+package com.synerzip.supplier.service;
 
 import java.util.concurrent.Semaphore;
 
@@ -13,7 +13,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.synerzip.supplier.sabre.model.flights.BaseDomainRequest;
-import com.synerzip.supplier.service.SabreTokenService;
 
 @Component
 public class SabreService {
