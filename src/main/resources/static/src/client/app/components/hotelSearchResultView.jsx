@@ -35,26 +35,25 @@ var hotelSearchResultView = React.createClass({
 			hotelResultViewType = <div> <h1> No results found </h1> </div>;
 		}
 		return (
-			<div className="row">
-				<div className="row">
-    				<span>Results</span>
-    				<button className="btn btn-primary pull-right" onClick= {this.props.onClick}>
-    					Back
-    				</button>
+			<div className="collapsible col-sm-4" id="generalSearchPanel">
+        		<div className="row">
+					<span className="flow-text" id="mainText">Hotel Results </span>
+					<button id = "backButton" className="btn btn-primary pull-right" onClick= {this.props.onClick}>
+						Back
+					</button>
 				</div>
-				<div className="row">
-					<span>
-    					<div className="btn-group pull-right" role="group" aria-label="...">
-  							<button type="button" className="btn btn-default" name="LISTVIEW" onClick={this.onViewClick}>
-    							<span className="glyphicon glyphicon-th-list" aria-hidden="true"></span> List
-  							</button>
-  							<button type="button" className="btn btn-default" name="MAPVIEW" onClick={this.onViewClick}>
-   								<span className="glyphicon glyphicon-globe" aria-hidden="true"></span> Map
+				<div id="searchPanel">
+					<div className = "row">
+						<div id = "groupButton" className="btn-group pull-right" role="group" aria-label="...">
+							<button type="button" className="btn btn-default" name="LISTVIEW" onClick={this.onViewClick}>
+								<span className="glyphicon glyphicon-th-list" aria-hidden="true"></span> List
+							</button>
+							<button type="button" className="btn btn-default" name="MAPVIEW" onClick={this.onViewClick}>
+								<span className="glyphicon glyphicon-globe" aria-hidden="true"></span> Map
 							</button>
 						</div>
-    				</span>
-				</div>
-				<div className="row">
+						<span id="note">LOWEST AVAILABLE NIGHTLY RATE PER ROOM</span>
+					</div>
 					{hotelResultViewType}
 				</div>
 			</div>	
