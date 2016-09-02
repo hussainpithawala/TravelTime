@@ -23,7 +23,7 @@ public abstract class AmadeusService {
 	private static final Logger logger = LoggerFactory.getLogger(AmadeusService.class);
 	public <RQ,RS> RS getResponseObject(String subUrl, RQ request, Class<RS> response) {
 		String url = prepareUrl(subUrl, request);
-		logger.info("URL for request " + url);
+		logger.debug("URL for request " + url);
 		return restTemplate.getForObject(url, response);
 	}
 	

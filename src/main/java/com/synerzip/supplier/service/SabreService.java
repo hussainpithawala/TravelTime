@@ -45,13 +45,13 @@ public class SabreService {
 		
 		try {
 			semaphore.acquire();
-			logger.info("Acquired permit to place request to Sabre");
+			logger.debug("Acquired permit to place request to Sabre");
 			String finalUrl = getRequestString(url, request);
-			logger.info("Request to Sabre " + finalUrl);
+			logger.debug("Request to Sabre " + finalUrl);
 			response = restTemplate.getForObject(finalUrl, clazz, new Object[] {});
 			
 			ObjectMapper objectMapper = new ObjectMapper();
-			logger.info("Response from sabre " + objectMapper.writeValueAsString(response));
+			logger.debug("Response from sabre " + objectMapper.writeValueAsString(response));
 			
 		} catch (HttpClientErrorException e) {
 			if (e.getStatusCode().equals(HttpStatus.UNAUTHORIZED))
@@ -63,7 +63,7 @@ public class SabreService {
 			logger.error(e.getMessage());
 		}finally {
 			semaphore.release();
-			logger.info("Released permit back");
+			logger.debug("Released permit back");
 		}
 		return response;
 	}
