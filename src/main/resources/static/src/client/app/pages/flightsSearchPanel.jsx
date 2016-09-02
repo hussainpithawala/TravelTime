@@ -3,6 +3,7 @@ import FlightsStore from '../stores/FlightsStore.jsx';
 import FlightsSearchForm from '../components/flightsSearchForm.jsx';
 import FlightsList from '../components/flightsList.jsx';
 import * as FlightsActions from '../actions/FlightsActions.jsx';
+import * as HotelsActions from '../actions/HotelsActions.jsx';
 
 var FLightsSearchPanel = React.createClass({
     getInitialState:function() {
@@ -29,11 +30,14 @@ var FLightsSearchPanel = React.createClass({
     reloadFlights: function(jsonRequest) {
         FlightsActions.reloadFlights(jsonRequest);
     },
+    reloadLocations: function(locationKey) {
+        HotelsActions.reloadLocations(locationKey);
+    },
 
     render:function () {
         var renderComponent;
         if(!this.state.flights) {
-            renderComponent = <FlightsSearchForm reloadFlights={this.reloadFlights}></FlightsSearchForm>
+            renderComponent = <FlightsSearchForm reloadFlights={this.reloadFlights} updateLocations = {this.reloadLocations}></FlightsSearchForm>
         }
         else {
             renderComponent = <FlightsList flightsData={this.state.flights}></FlightsList>
