@@ -1,4 +1,4 @@
-package com.synerzip.client;
+package com.synerzip.client.rest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
