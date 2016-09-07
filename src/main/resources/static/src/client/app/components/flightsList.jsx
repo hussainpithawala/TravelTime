@@ -122,18 +122,21 @@ var FlightDetails = React.createClass({
 });
 var FlightHeading = React.createClass({
     render:function () {
+        var length = this.props.flightData.length;
+        var arrivalTime = this.props.flightData[length - 1].arrives_at;
+        var destAirport = this.props.flightData[length - 1].destination.airport;
         return (
             <div className="row" data-toggle="collapse" data-target={this.props.target}>
-                <div className="col-xs-1">{this.props.flightData.operating_airline}</div>
+                <div className="col-xs-1">{this.props.flightData[0].operating_airline}</div>
                 <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                    {this.props.flightData.departs_at}
+                    {this.props.flightData[0].departs_at}
                     <br/>
-                    <span>{this.props.flightData.origin.airport}</span>
+                    <span>{this.props.flightData[0].origin.airport}</span>
                 </div>
                 <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                    {this.props.flightData.arrives_at}
+                    {arrivalTime}
                     <br/>
-                    <span>{this.props.flightData.destination.airport}</span>
+                    <span>{destAirport}</span>
                 </div>
                 <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">DURATION</div>
                 <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">{this.props.totalPrice} USD</div>
@@ -146,7 +149,7 @@ var FlightHeading = React.createClass({
 });
 var Flight = React.createClass({
     render:function () {
-        var flightData = this.props.flightdata.itineraries[0].outbound.flights[0];
+        var flightData = this.props.flightdata.itineraries[0].outbound.flights;
         var totalPrice = this.props.flightdata.fare.total_price;
         var id = "info" + this.props.index;
         var target = "#info" + this.props.index;
