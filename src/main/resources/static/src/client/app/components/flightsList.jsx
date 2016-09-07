@@ -1,32 +1,48 @@
 import React from 'react';
 
-var ViewDetails = React.createClass({
-    render:function () {
-        var component;
-        var rowStyle = {padding: '1%'}
-        var fare = this.props.flightInfo.fare.price_per_adult.total_fare - this.props.flightInfo.fare.price_per_adult.tax;
-        if (this.props.view != 'fare') {
-            component = <div id="itineraryDetails">
+var ItineraryDetails = React.createClass({
+    render: function () {
+        return (
+            <div id="itineraryDetails">
                 <p>
                     itinerary details(coming soon).
                 </p>
             </div>
+        )
+    }
+});
+
+var FareDetails =  React.createClass({
+render: function () {
+    return (<div id="fareDetails">
+        <div className="row" style={this.props.rowStyle}>
+            <div className="col-sm-3">Price per adult</div>
+            <div className="col-sm-2">{this.props.fare}</div>
+        </div>
+        <div className="row" style={this.props.rowStyle}>
+            <div className="col-sm-3">Service Tax</div>
+            <div className="col-sm-2">{this.props.tax}</div>
+        </div>
+        <div className="row" style={this.props.rowStyle}>
+            <div className="col-sm-3">Total Price</div>
+            <div className="col-sm-2">{this.props.totalPrice}</div>
+        </div>
+    </div>)
+}
+});
+
+var ViewDetails = React.createClass({
+    render:function () {
+        var component;
+        var rowStyle = {padding: '1%'};
+        var fare = this.props.flightInfo.fare.price_per_adult.total_fare - this.props.flightInfo.fare.price_per_adult.tax;
+        var tax = this.props.flightInfo.fare.price_per_adult.tax;
+        var total_price = this.props.flightInfo.fare.total_price;
+        if (this.props.view != 'fare') {
+            component = <ItineraryDetails></ItineraryDetails>
         }
         else {
-            component = <div id="fareDetails">
-                <div className="row" style={rowStyle}>
-                    <div className="col-sm-3">Price per adult</div>
-                    <div className="col-sm-2">{fare}</div>
-                </div>
-                <div className="row" style={rowStyle}>
-                    <div className="col-sm-3">Service Tax</div>
-                    <div className="col-sm-2">{this.props.flightInfo.fare.price_per_adult.tax}</div>
-                </div>
-                <div className="row" style={rowStyle}>
-                    <div className="col-sm-3">Total Price</div>
-                    <div className="col-sm-2">{this.props.flightInfo.fare.total_price}</div>
-                </div>
-            </div>
+            component = <FareDetails rowStyle= {rowStyle} fare={fare} tax={tax} totalPrice = {total_price}></FareDetails>
         }
         return (
             <div id="viewDetails">
