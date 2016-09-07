@@ -425,3 +425,11 @@ div#fareDetails-row{
   height: 100%;
   position: absolute;
 }
+.dottedLine{
+    border-top: 1px dotted black;
+    margin-top: 1%;
+}
+
+.itinerary {
+    margin-top: 1%;
+}

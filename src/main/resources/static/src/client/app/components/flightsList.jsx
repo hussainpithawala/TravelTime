@@ -2,33 +2,59 @@ import React from 'react';
 
 var ItineraryDetails = React.createClass({
     render: function () {
+        var itinerary = this.props.itinerary;
+        var rowStyle = {top_border: '1px dotted black'};
         return (
             <div id="itineraryDetails">
-                <p>
-                    itinerary details(coming soon).
-                </p>
+                {itinerary[0].outbound.flights.map(function(flight, index) {
+                    var border;
+                    if (index != 0 ){
+                        border= <p className="col-12 dottedLine"></p>;
+                    }
+                    else  {
+                        border = null;
+                    }
+                    return (
+                        <div className="row itinerary" key={index}>
+                            <div>{border}</div>
+                            <div className="col-xs-1">{flight.operating_airline}</div>
+                            <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                {flight.departs_at}
+                                <br/>
+                                <span>{flight.origin.airport}</span>
+                            </div>
+                            <i className="col-2 col-sm-2 col-md-2 col-lg-2 fa fa-arrow-right" aria-hidden="true"></i>
+                            <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                {flight.arrives_at}
+                                <br/>
+                                <span>{flight.destination.airport}</span>
+                            </div>
+                            <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">DURATION</div>
+                        </div>
+                    )
+                })}
             </div>
         )
     }
 });
 
 var FareDetails =  React.createClass({
-render: function () {
-    return (<div id="fareDetails">
-        <div className="row" style={this.props.rowStyle}>
-            <div className="col-sm-3">Price per adult</div>
-            <div className="col-sm-2">{this.props.fare}</div>
-        </div>
-        <div className="row" style={this.props.rowStyle}>
-            <div className="col-sm-3">Service Tax</div>
-            <div className="col-sm-2">{this.props.tax}</div>
-        </div>
-        <div className="row" style={this.props.rowStyle}>
-            <div className="col-sm-3">Total Price</div>
-            <div className="col-sm-2">{this.props.totalPrice}</div>
-        </div>
-    </div>)
-}
+    render: function () {
+        return (<div id="fareDetails">
+            <div className="row" style={this.props.rowStyle}>
+                <div className="col-sm-3">Price per adult</div>
+                <div className="col-sm-2">{this.props.fare}</div>
+            </div>
+            <div className="row" style={this.props.rowStyle}>
+                <div className="col-sm-3">Service Tax</div>
+                <div className="col-sm-2">{this.props.tax}</div>
+            </div>
+            <div className="row" style={this.props.rowStyle}>
+                <div className="col-sm-3">Total Price</div>
+                <div className="col-sm-2">{this.props.totalPrice}</div>
+            </div>
+        </div>)
+    }
 });
 
 var ViewDetails = React.createClass({
@@ -39,7 +65,7 @@ var ViewDetails = React.createClass({
         var tax = this.props.flightInfo.fare.price_per_adult.tax;
         var total_price = this.props.flightInfo.fare.total_price;
         if (this.props.view != 'fare') {
-            component = <ItineraryDetails></ItineraryDetails>
+            component = <ItineraryDetails itinerary={this.props.flightInfo.itineraries}></ItineraryDetails>
         }
         else {
             component = <FareDetails rowStyle= {rowStyle} fare={fare} tax={tax} totalPrice = {total_price}></FareDetails>
