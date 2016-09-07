@@ -29,7 +29,10 @@ var ItineraryDetails = React.createClass({
                                 <br/>
                                 <span>{flight.destination.airport}</span>
                             </div>
-                            <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">DURATION</div>
+                            <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">DURATION
+                            <br/>
+                                <span className="travelClass">{flight.booking_info.travel_class}</span>
+                            </div>
                         </div>
                     )
                 })}
