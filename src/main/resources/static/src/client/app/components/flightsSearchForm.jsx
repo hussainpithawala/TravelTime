@@ -45,7 +45,7 @@ var TextInput = React.createClass({
     // onChange event handling
     handleChange: function(e) {
         this.props.onChange(e.target.value);
-       // var isValidField = this.isValid(e.target);
+        // var isValidField = this.isValid(e.target);
     },
     // validation function
     isValid: function(inputValue) {
@@ -70,11 +70,11 @@ var TextInput = React.createClass({
         if (this.props.type == 'text' && this.props.list) {
             inputField = <div>
                 <label htmlFor={this.props.name}>{this.props.name}</label>
-                            <input className="form-control" value={this.props.value} name={this.props.name}
-                                   placeholder={this.props.name} ref={this.props.name}
-                                   required = {this.props.isrequired} onChange = {this.handleChange}
-                                   id={this.props.name} list={this.props.list}/>
-                        </div>
+                <input className="form-control" value={this.props.value} name={this.props.name}
+                       placeholder={this.props.name} ref={this.props.name}
+                       required = {this.props.isrequired} onChange = {this.handleChange}
+                       id={this.props.name} list={this.props.list}/>
+            </div>
         } else if (this.props.type == 'text') {
             inputField = <div>
                 <label htmlFor={this.props.name}>{this.props.name}</label>
@@ -84,9 +84,13 @@ var TextInput = React.createClass({
                        id={this.props.name} list={this.props.list}/>
             </div>
         } else if(this.props.type == 'date' ) {
-            inputField = <input type="date" value={this.props.value} name={this.props.name} placeholder={this.props.name}
-                                ref={this.props.name} required = {this.props.isrequired} onChange = {this.handleChange}
-                                id={this.props.name} data-type="date" min={this.props.min}/>
+            inputField = <div>
+                <label htmlFor={this.props.name}>{this.props.name}</label>
+                <input type="date" className="form-control" value={this.props.value} name={this.props.name} placeholder={this.props.name}
+                       ref={this.props.name} required = {this.props.isrequired} onChange = {this.handleChange}
+                       id={this.props.name} data-type="date" min={this.props.min}/>
+                </div>
+
         }
         return (
             <div className="col-sm-6">
@@ -116,9 +120,13 @@ var FlightsSearchForm = React.createClass({
     handleSearch: function (e) {
         e.preventDefault();
         var requestJson = {
-            "origin":"PNQ",
-            "destination":"CCU",
-            "departure_date":"2016-09-08"
+            "origin": this.state.from,
+            "destination":this.state.to,
+            "departure_date": this.state.dep,
+            "return_date":this.state.return_date,
+            "adults":this.state.adult,
+            "children":this.state.child,
+            "infants":this.state.infant
         };
         this.props.reloadFlights(requestJson);
     },
@@ -157,6 +165,21 @@ var FlightsSearchForm = React.createClass({
         });
         console.log("changed location");
     },
+    onChangeDepartureDate: function (date) {
+        this.setState({
+            dep: date
+        });
+        if (new Date(date) > new Date(this.state.returnDate)) {
+            this.setState({
+                returnDate: date
+            });
+        }
+    },
+    onChangeReturnDate:function (date) {
+        this.setState({
+            returnDate: date
+        });
+    },
     render: function() {
         return (
             <form id="flightsearch" onSubmit={this.handleSearch} className="row col-sm-12 ">
@@ -177,27 +200,27 @@ var FlightsSearchForm = React.createClass({
                 </div>
                 <div className="row col-sm-12 col-centered">
                     <TextInput type="text" value={this.state.from}  name={'From'}
-                                htmlFor={'From'} isRequired={true} onChange={this.onChangeFrom}
-                                onComponentMounted={this.register} messageRequired={'Location Required'}
-                                list={'locations'}
+                               htmlFor={'From'} isRequired={true} onChange={this.onChangeFrom}
+                               onComponentMounted={this.register} messageRequired={'Location Required'}
+                               list={'locations'}
                     />
                     <LocationsDataList id="From"/>
                     <TextInput type="text" value={this.state.to}  name={'To'}
-                                htmlFor={'to'} isRequired={true} onChange={this.onChangeTo}
-                                onComponentMounted={this.register} messageRequired={'Location Required'}
-                                list={'locations'}
+                               htmlFor={'to'} isRequired={true} onChange={this.onChangeTo}
+                               onComponentMounted={this.register} messageRequired={'Location Required'}
+                               list={'locations'}
                     />
                     <LocationsDataList id="To"/>
                 </div>
                 <div className="row col-sm-12 col-centered">
-                    <div className="col-xs-6">
-                        <label htmlFor="dep">Departure</label>
-                        <input type="date" className="form-control" id="dep" />
-                    </div>
-                    <div className="col-xs-6">
-                        <label htmlFor="to">Return</label>
-                        <input className="form-control" id="to" type="date"/>
-                    </div>
+                    <TextInput type="date" value={this.state.dep} label={'Departure'} name={'Departure'}
+                               htmlFor={'Departure'} isRequired={true} onChange={this.onChangeDepartureDate}
+                               onComponentMounted={this.register} messageRequired={'Departure Date required'}
+                    />
+                    <TextInput type="date" value={this.state.returnDate} label={'Return'} name={'Return'}
+                               htmlFor={'Return'} isRequired={false} onChange={this.onChangeReturnDate}
+                               onComponentMounted={this.register}
+                    />
                 </div>
                 <div className="row col-xs-12 col-centered ">
                     <div className="col-xs-3">
