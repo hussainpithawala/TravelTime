@@ -66,8 +66,7 @@ public class FlightsControllerTest {
 		mockMvc.perform(MockMvcRequestBuilders.post("/rest/searchFlights")
 				.content(requestJson)
 				.contentType(MediaType.APPLICATION_JSON_VALUE))
-				.andExpect(status().isOk())
-				.andDo(print());
+				.andExpect(status().isOk());
 	}
 	
 	@Test
