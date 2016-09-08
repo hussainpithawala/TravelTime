@@ -4,6 +4,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import org.joda.time.LocalDateTime;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Duration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +32,70 @@ public class TimeService {
 	@Autowired
 	private TimezoneRepository timezoneRepository;
 
-	public Long getBlkTime(String departureStation, String departureDate, String departureTime, String arrivalStation,
-			String arrivalDate, String arrivalTime) {
-		// For a particular station
-		return null;
+	private DateTime getDateTimeObject(String airport, LocalDateTime travelDate) {
+		Airport departureAirport = airportRepository.findByCode(airport);
+		List<Timezone> airportZones = timezoneRepository.findByCodes(departureAirport.getCountryCode(),
+				departureAirport.getTimeZone());
+		
+		Timezone airportZone = airportZones.stream().filter(
+				timezone ->  (new LocalDateTime(timezone.getStartDate())).isBefore(travelDate) && 
+							 (new LocalDateTime(timezone.getEndDate())).isAfter(travelDate)) 
+				.findAny().orElse(null);
+		
+		String gmtAdjustment =  airportZone.getGmtAdjustment();
+		
+		if(!gmtAdjustment.startsWith("-")) {
+			if (gmtAdjustment.length() == 3) {
+				gmtAdjustment = new StringBuffer(gmtAdjustment).insert(0, "0").toString();
+			}
+			gmtAdjustment = new StringBuffer(gmtAdjustment).insert(0, "+").toString();
+		} else {
+			if (gmtAdjustment.length() == 4) {
+				gmtAdjustment = new StringBuffer(gmtAdjustment).insert(1, "0").toString();
+			}
+		}
+		
+		gmtAdjustment = new StringBuffer(gmtAdjustment).insert(gmtAdjustment.length() - 2, ":").toString();
+		
+		DateTimeZone departTimeZone = DateTimeZone.forID(gmtAdjustment);
+		return travelDate.toDateTime(departTimeZone);
+	}
+	
+	/**
+	 * 
+	 * @param departureStation
+	 *            IATA airport code for departure station
+	 * @param departureDate
+	 *            Date-Time for flight departure (local to the departing
+	 *            station)
+	 * @param arrivalStation
+	 *            IATA airport code for arrival station
+	 * @param arrivalDate
+	 *            Date-Time for flight arrival (local to the arrival station)
+	 * @return blktime in minutes
+	 */
+	public Long getBlkTime(String departureStation, LocalDateTime departureDate, String arrivalStation, LocalDateTime arrivalDate) {
+		DateTime departDateZoned = getDateTimeObject(departureStation, departureDate);
+
+		DateTime arriveDateZoned = getDateTimeObject(arrivalStation, arrivalDate);
+		
+		Duration duration = new Duration(departDateZoned, arriveDateZoned);
+		
+		return duration.getStandardMinutes();
+	}
+
+	/**
+	 * 
+	 * @param airportCode IATA airport code for which layover time needs to be calculated
+	 * @param arrivalDate Date-Time of the flight arriving to the airport
+	 * @param departureDate Date-Time of the flight departing from the airport
+	 * @return layover time in minutes
+	 */
+	public Long getLayOverTime(String airportCode, LocalDateTime arrivalDate, LocalDateTime departureDate) {
+		DateTime haltArrivalTime = getDateTimeObject(airportCode, arrivalDate);
+		DateTime haltDepartureTime = getDateTimeObject(airportCode, departureDate);
+		Duration duration = new Duration(haltArrivalTime, haltDepartureTime);
+		return duration.getStandardMinutes();
 	}
 
 	public void importTimeZoneFile(String fileName) {
@@ -43,33 +110,33 @@ public class TimeService {
 
 				Integer startYear = Integer.parseInt(values[5].substring(0, 4));
 				Integer startMonth = Integer.parseInt(values[5].substring(4, 6));
-				Integer startDay = Integer.parseInt(values[5].substring(6,8));
+				Integer startDay = Integer.parseInt(values[5].substring(6, 8));
 				Integer startHour = null;
 				Integer startMinute = null;
-				if(values[6].length() == 4) {
+				if (values[6].length() == 4) {
 					startHour = Integer.parseInt(values[6].substring(0, 2));
 					startMinute = Integer.parseInt(values[6].substring(2, 4));
-				} else if(values[6].length() == 3) {
+				} else if (values[6].length() == 3) {
 					startHour = Integer.parseInt(values[6].substring(0, 1));
 					startMinute = Integer.parseInt(values[6].substring(1, 2));
 				}
-				
+
 				Calendar startCal = Calendar.getInstance();
 				startCal.set(startYear, startMonth, startDay, startHour, startMinute);
-				
+
 				tz.setStartDate(startCal.getTime());
-				
+
 				Integer endYear = Integer.parseInt(values[8].substring(0, 4));
 				Integer endMonth = Integer.parseInt(values[8].substring(4, 6));
-				Integer endDay = Integer.parseInt(values[8].substring(6,8));
+				Integer endDay = Integer.parseInt(values[8].substring(6, 8));
 
 				Integer endHour = null;
 				Integer endMinute = null;
 
-				if(values[9].length() == 4) {
+				if (values[9].length() == 4) {
 					endHour = Integer.parseInt(values[9].substring(0, 2));
 					endMinute = Integer.parseInt(values[9].substring(2, 4));
-				} else if(values[9].length() == 3) {
+				} else if (values[9].length() == 3) {
 					endHour = Integer.parseInt(values[9].substring(0, 1));
 					endMinute = Integer.parseInt(values[9].substring(1, 2));
 				}
@@ -77,12 +144,10 @@ public class TimeService {
 				Calendar endCal = Calendar.getInstance();
 				endCal.set(endYear, endMonth, endDay, endHour, endMinute);
 				tz.setEndDate(endCal.getTime());
-				
-				Integer gmtAdjustMent = Integer.parseInt(values[10]);
-				tz.setGmtAdjustment(gmtAdjustMent);
-				
+				tz.setGmtAdjustment(values[10]);
+
 				logger.info(tz.toString());
-				
+
 				timezoneRepository.save(tz);
 			});
 		} catch (IOException e) {

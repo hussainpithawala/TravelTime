@@ -8,10 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
+@NamedQuery(name="Timezone.findByCodes", query = "SELECT t FROM Timezone t WHERE t.countryCode = ?1 AND t.timezoneCode = ?2")
 @Table(name="timezones")
 public class Timezone implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -38,7 +40,7 @@ public class Timezone implements Serializable {
 	private Date endDate;
 	
 	@Column(name="gmt_adjustment")
-	private Integer gmtAdjustment;
+	private String gmtAdjustment;
 
 	public Long getId() {
 		return id;
@@ -96,11 +98,11 @@ public class Timezone implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public Integer getGmtAdjustment() {
+	public String getGmtAdjustment() {
 		return gmtAdjustment;
 	}
 
-	public void setGmtAdjustment(Integer gmtAdjustment) {
+	public void setGmtAdjustment(String gmtAdjustment) {
 		this.gmtAdjustment = gmtAdjustment;
 	}
 

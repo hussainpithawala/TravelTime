@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.synerzip.client.orm.Timezone;
 
 @Transactional
-public interface TimezoneRepository extends CrudRepository<Timezone, Long> {
-	public List<Timezone> findByCode(String countryCode, String timezoneCode);
+public interface TimezoneRepository extends JpaRepository<Timezone, Long> {
+	public List<Timezone> findByCodes(String countryCode, String timezoneCode);
 }
