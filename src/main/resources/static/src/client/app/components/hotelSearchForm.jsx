@@ -1,77 +1,7 @@
 import React from 'react';
 import LocationsDataList from '../components/locationList.jsx';
-
-var inputstyles = {width:"350px"};
-var paddingInitial = {padding: 'initial'};
-var NumberSelector = React.createClass({
-  getInitialState: function() {
-    //this.getOptions = this.getOptions.bind(this);
-    return null;
-  },
-  getOptions : function () {
-    var options = [];
-    for(let i = this.props.from; i <= this.props.to; i++) {
-      options.push(<option key={i} value={i}>{i}</option>)
-    }
-    return options;
-  },
-  render: function () {
-    return (
-        <select className="selectpicker" id={this.props.id} style={inputstyles}>
-        {this.getOptions()}
-      </select>
-    );
-  }
-});
-
-var TextInput = React.createClass({
-  // onChange event handling
-  handleChange: function(e) {
-    this.props.onChange(e.target.value);
-    var isValidField = this.isValid(e.target);
-  },
-  // validation function
-  isValid: function(inputValue) {
-    // check required fields
-    if ((inputValue.getAttribute('required') != null) && (inputValue.value = '')) {
-      inputValue.classList.add('error'); // add error class
-      inputValue.nextSibling.textContent = this.props.messageRequired; // Show error message
-      return false;
-    } else {
-      inputValue.classList.remove('error'); // remove error class
-      inputValue.nextSibling.textContent = '';
-    }
-    return true;
-  },
-  componentDidMount: function(){
-    if (this.props.onComponentMounted) {
-      this.props.onComponentMounted(this);
-    }
-  },
-  render: function() {
-    var inputField;
-    if (this.props.type == 'text' && this.props.list) {
-      inputField = <input value={this.props.value} name={this.props.name} placeholder={this.props.name}
-        ref={this.props.name} required = {this.props.isrequired} onChange = {this.handleChange}
-        style={inputstyles} id={this.props.name} list={this.props.list}/>
-    } else if (this.props.type == 'text') {
-      inputField = <input value={this.props.value} name={this.props.name} placeholder={this.props.name}
-        ref={this.props.name} required = {this.props.isrequired} onChange = {this.handleChange}
-        style={inputstyles} id={this.props.name}/>
-    } else if(this.props.type == 'date' ) {
-      inputField = <input type="date" value={this.props.value} name={this.props.name} placeholder={this.props.name}
-                          ref={this.props.name} required = {this.props.isrequired} onChange = {this.handleChange}
-                          style={inputstyles} id={this.props.name} data-type="date" min={this.props.min}/>
-    }
-    return (
-      <div className="col-sm-6">
-        <span className="field">{this.props.name} :</span>
-        {inputField}
-        <span className="error"></span>
-      </div>
-    )
-  }
-});
+import NumberSelector from '../helpercomponents/numberSelector.jsx';
+import TextInput from '../helpercomponents/textInput.jsx';
 
 var HotelSearchForm = React.createClass({
   // get initial state event
@@ -152,21 +82,30 @@ var HotelSearchForm = React.createClass({
   },
   render: function() {
     return (
-      <div className="collapsible col-sm-4" id="generalSearchPanel">
-          <form onSubmit={this.handleSubmit}>
-            <div id="searchPanel">
-              <div className="row">
+      <div>
+          <form onSubmit={this.handleSubmit} id="flightsearch">
+            <div >
+              <div className="row col-sm-12 col-centered">
+                <h1>Book Hotels</h1>
+              </div>
+              <div className="row col-xs-12 col-centered">
                 <TextInput type="text" value={this.state.location} label={Location} name={'Location'}
                            htmlFor={'Location'} isRequired={true} onChange={this.onChangeLocation}
                            onComponentMounted={this.register} messageRequired={'Location Required'}
                            list={'locations'}
                 />
                 <LocationsDataList id="locations"/>
-                <TextInput type="text" value={this.state.referencePoint} label={'Reference Point'} name={'ReferencePoint'}
+                <div className="col-xs-3">
+                  <label htmlFor="Rooms">
+                    ROOMS
+                  </label>
+                  <NumberSelector from="1" to="9" value="1" id="rooms" onChange={this.onChangeRooms}/>
+                </div>
+                {/*<TextInput type="text" value={this.state.referencePoint} label={'Reference Point'} name={'ReferencePoint'}
                            htmlFor={'ReferencePoint'} isRequired={false} messageRequired={''}
-                />
+                />*/}
               </div>
-              <div className="row">
+              <div className="row col-xs-12 col-centered">
                 <TextInput type="date" value={this.state.check_in} label={'Check-In'} name={'CheckIn'}
                            htmlFor={'CheckIn'} isRequired={true} onChange={this.onChangeFromDate}
                            onComponentMounted={this.register} messageRequired={'Check-in required'}
@@ -177,29 +116,34 @@ var HotelSearchForm = React.createClass({
                            min={this.state.check_in}
                 />
               </div>
-              <div className="row">
-                <div className="col-sm-6">
-                  <span className="field">Rooms:</span>
-                  <NumberSelector from="1" to="9" id="Rooms"/>
+              {/*<div className="row col-xs-12 col-centered ">
+                <div className="col-xs-3">
+                  <label htmlFor="dep">Max Wait:</label>
+                  <input type="number" className="form-control" id="Max Wait:" min="1" max="1600" placeholder="Max 1600ms " />
                 </div>
-                <div className="col-sm-6">
-                  <span className="field">Max Wait:</span>
-                  <input type="text" name="MaxWt" placeholder="16000 ms" style={inputstyles} />
+                <div className="col-xs-3">
+                  <label htmlFor="Rooms">
+                    ROOMS
+                  </label>
+                  <NumberSelector from="1" to="9" value="1" id="rooms" onChange={this.onChangeRooms}/>
                 </div>
-              </div>
-              <div className="row">
-                <div className="col-sm-6">
-                  <span className="field">Cribs:</span>
-                  <NumberSelector from="0" to="9" id="Cribs"/>
+                <div className="col-xs-3">
+                  <label htmlFor="Cribs">
+                    Cribs
+                  </label>
+                  <NumberSelector from="0" to="9" value="0" id="Cribs" />
                 </div>
-                <div className="col-sm-6">
-                  <span className="field">Rollaway Beds:</span>
-                  <NumberSelector from="0" to="9" id="RollawayBeds"/>
+                <div className="col-xs-3">
+                  <label htmlFor="Rollaway Beds">
+                    Rollaway Beds
+                  </label>
+                  <NumberSelector from="0" to="9" value="0" id="Rollaway Beds"/>
                 </div>
-              </div>
-              <div className="row">
-                <div className="col-sm-4">
-                  <button type="submit" className="btn btn-primary" id="submit">Search</button>
+              </div>*/}
+
+              <div className="row col-xs-12 col-centered">
+                <div className="col-sm-3">
+                  <button type="submit" className="btn btn-primary btn-block" id="submit">Search</button>
                 </div>
               </div>
             </div>

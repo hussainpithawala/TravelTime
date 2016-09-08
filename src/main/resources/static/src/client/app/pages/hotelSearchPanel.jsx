@@ -58,9 +58,7 @@ var HotelSearchPanel = React.createClass({
     } else {
       console.log('loading form view...');
       return (
-        <div className="row">
           <HotelSearchForm updateSearchResult = {this.reloadHotels} updateLocations = {this.reloadLocations}></HotelSearchForm>
-        </div>
       );
     }
   }
