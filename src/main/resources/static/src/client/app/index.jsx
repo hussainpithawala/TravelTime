@@ -12,7 +12,7 @@ class App extends React.Component {
         return (
             <div id="mainPage">
                 <div>
-                    <h1 id="logo"> Synerzip Travel-time </h1>
+                    <h2 id="logo"> Synerzip Travel-time </h2>
                 </div>
                 <div className="container-fluid" id="content">
                     <div id="tabBar">
