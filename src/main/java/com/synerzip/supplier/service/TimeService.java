@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.joda.time.LocalDateTime;
@@ -72,16 +71,16 @@ public class TimeService {
 	 *            IATA airport code for arrival station
 	 * @param arrivalDate
 	 *            Date-Time for flight arrival (local to the arrival station)
-	 * @return blktime in minutes
+	 * @return Duration
 	 */
-	public Long getBlkTime(String departureStation, LocalDateTime departureDate, String arrivalStation, LocalDateTime arrivalDate) {
+	public Duration getBlkTime(String departureStation, LocalDateTime departureDate, String arrivalStation, LocalDateTime arrivalDate) {
 		DateTime departDateZoned = getDateTimeObject(departureStation, departureDate);
 
 		DateTime arriveDateZoned = getDateTimeObject(arrivalStation, arrivalDate);
 		
 		Duration duration = new Duration(departDateZoned, arriveDateZoned);
 		
-		return duration.getStandardMinutes();
+		return duration;
 	}
 
 	/**
@@ -89,13 +88,13 @@ public class TimeService {
 	 * @param airportCode IATA airport code for which layover time needs to be calculated
 	 * @param arrivalDate Date-Time of the flight arriving to the airport
 	 * @param departureDate Date-Time of the flight departing from the airport
-	 * @return layover time in minutes
+	 * @return Duration 
 	 */
-	public Long getLayOverTime(String airportCode, LocalDateTime arrivalDate, LocalDateTime departureDate) {
+	public Duration getLayOverTime(String airportCode, LocalDateTime arrivalDate, LocalDateTime departureDate) {
 		DateTime haltArrivalTime = getDateTimeObject(airportCode, arrivalDate);
 		DateTime haltDepartureTime = getDateTimeObject(airportCode, departureDate);
 		Duration duration = new Duration(haltArrivalTime, haltDepartureTime);
-		return duration.getStandardMinutes();
+		return duration;
 	}
 
 	public void importTimeZoneFile(String fileName) {

@@ -23,13 +23,13 @@ import com.synerzip.TravelTimeApplication;
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = { TravelTimeApplication.class })
-@TestPropertySource(locations = { "classpath:supplier.properties", "classpath:application.properties"})
+@TestPropertySource(locations = { "classpath:supplier.properties", "classpath:application.properties" })
 public class TimeServiceTest {
 	@Autowired
 	private TimeService timeService;
 
 	private static final Logger logger = LoggerFactory.getLogger(TimeServiceTest.class);
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -50,16 +50,17 @@ public class TimeServiceTest {
 	public void testGetBlkTime() {
 		String departAirportCode = "IST";
 		String departureDateTimeString = "2015-10-15T13:25";
-		
+
 		String arrivalAirportCode = "BOS";
 		String arrivalDateTimeString = "2015-10-15T17:00";
 
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm");
 
-		LocalDateTime departDateTime = LocalDateTime.parse(departureDateTimeString.replace('T',' '), formatter);
-		LocalDateTime arrivalDateTime = LocalDateTime.parse(arrivalDateTimeString.replace('T',' '), formatter);
-		
-		Long blktime = timeService.getBlkTime(departAirportCode, departDateTime, arrivalAirportCode, arrivalDateTime);
+		LocalDateTime departDateTime = LocalDateTime.parse(departureDateTimeString.replace('T', ' '), formatter);
+		LocalDateTime arrivalDateTime = LocalDateTime.parse(arrivalDateTimeString.replace('T', ' '), formatter);
+
+		Long blktime = timeService.getBlkTime(departAirportCode, departDateTime, arrivalAirportCode, arrivalDateTime)
+				.getStandardMinutes();
 
 		Assert.assertEquals(new Long(635L), blktime);
 	}
@@ -69,16 +70,17 @@ public class TimeServiceTest {
 		String airportCode = "CDG";
 		String arrivalDateTimeString = "2015-10-22T08:35";
 		String departureDateTimeString = "2015-10-22T10:00";
-		
+
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm");
 
-		LocalDateTime departDateTime = LocalDateTime.parse(departureDateTimeString.replace('T',' '), formatter);
-		LocalDateTime arrivalDateTime = LocalDateTime.parse(arrivalDateTimeString.replace('T',' '), formatter);
+		LocalDateTime departDateTime = LocalDateTime.parse(departureDateTimeString.replace('T', ' '), formatter);
+		LocalDateTime arrivalDateTime = LocalDateTime.parse(arrivalDateTimeString.replace('T', ' '), formatter);
 
-		Long layOverTime = timeService.getLayOverTime(airportCode, arrivalDateTime, departDateTime);
+		Long layOverTime = timeService.getLayOverTime(airportCode, arrivalDateTime, departDateTime)
+				.getStandardMinutes();
 		Assert.assertEquals(new Long(85L), layOverTime);
 	}
-	
+
 	public void testImportTimeZoneFile() {
 		timeService.importTimeZoneFile("src/test/resources/data-files/timezones.txt");
 	}
