@@ -74,47 +74,46 @@ var HotelSearchForm = React.createClass({
   },
   // register input controls
   register: function (field) {
-    var states = this.state.Fields;
+      var states = this.state.Fields;
     states.push(field);
     this.setState({
-      Fields: states
+        Fields: states
     })
   },
+
   render: function() {
-    return (
-      <div>
-          <form onSubmit={this.handleSubmit} id="flightsearch">
-            <div >
+      return (
+          <form id="flightsearch" onSubmit={this.handleSubmit} className="row col-sm-12 ">
               <div className="row col-sm-12 col-centered">
-                <h1>Book Hotels</h1>
+                  <h1>Book Hotels</h1>
               </div>
               <div className="row col-xs-12 col-centered">
-                <TextInput type="text" value={this.state.location} label={Location} name={'Location'}
-                           htmlFor={'Location'} isRequired={true} onChange={this.onChangeLocation}
-                           onComponentMounted={this.register} messageRequired={'Location Required'}
-                           list={'locations'}
-                />
-                <LocationsDataList id="locations"/>
-                <div className="col-xs-3">
-                  <label htmlFor="Rooms">
-                    ROOMS
-                  </label>
-                  <NumberSelector from="1" to="9" value="1" id="rooms" onChange={this.onChangeRooms}/>
-                </div>
-                {/*<TextInput type="text" value={this.state.referencePoint} label={'Reference Point'} name={'ReferencePoint'}
-                           htmlFor={'ReferencePoint'} isRequired={false} messageRequired={''}
-                />*/}
+                  <TextInput type="text" value={this.state.location} label={Location} name={'Location'}
+                             htmlFor={'Location'} isRequired={true} onChange={this.onChangeLocation}
+                             onComponentMounted={this.register} messageRequired={'Location Required'}
+                             list={'locations'}
+                  />
+                  <LocationsDataList id="locations"/>
+                  <div className="col-xs-3">
+                      <label htmlFor="Rooms">
+                          ROOMS
+                      </label>
+                      <NumberSelector from="1" to="9" value="1" id="rooms" onChange={this.onChangeRooms}/>
+                  </div>
+                  {/*<TextInput type="text" value={this.state.referencePoint} label={'Reference Point'} name={'ReferencePoint'}
+                              htmlFor={'ReferencePoint'} isRequired={false} messageRequired={''}
+                   />*/}
               </div>
               <div className="row col-xs-12 col-centered">
-                <TextInput type="date" value={this.state.check_in} label={'Check-In'} name={'CheckIn'}
-                           htmlFor={'CheckIn'} isRequired={true} onChange={this.onChangeFromDate}
-                           onComponentMounted={this.register} messageRequired={'Check-in required'}
-                />
-                <TextInput type="date" value={this.state.check_out} label={'Check-Out'} name={'CheckOut'}
-                           htmlFor={'CheckOut'} isRequired={true} onChange={this.onChangeToDate}
-                           onComponentMounted={this.register} messageRequired={'Check-out required'}
-                           min={this.state.check_in}
-                />
+                  <TextInput type="date" value={this.state.check_in} label={'Check-In'} name={'CheckIn'}
+                             htmlFor={'CheckIn'} isRequired={true} onChange={this.onChangeFromDate}
+                             onComponentMounted={this.register} messageRequired={'Check-in required'}
+                  />
+                  <TextInput type="date" value={this.state.check_out} label={'Check-Out'} name={'CheckOut'}
+                             htmlFor={'CheckOut'} isRequired={true} onChange={this.onChangeToDate}
+                             onComponentMounted={this.register} messageRequired={'Check-out required'}
+                             min={this.state.check_in}
+                  />
               </div>
               {/*<div className="row col-xs-12 col-centered ">
                 <div className="col-xs-3">
@@ -142,14 +141,12 @@ var HotelSearchForm = React.createClass({
               </div>*/}
 
               <div className="row col-xs-12 col-centered">
-                <div className="col-sm-3">
-                  <button type="submit" className="btn btn-primary btn-block" id="submit">Search</button>
-                </div>
+                  <div className="col-sm-3">
+                      <button type="submit" className="btn btn-primary btn-block" id="submit">Search</button>
+                  </div>
               </div>
-            </div>
           </form>
-      </div>
-    );
+        );
   }
 });
 export default HotelSearchForm;
