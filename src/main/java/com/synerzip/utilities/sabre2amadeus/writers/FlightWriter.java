@@ -1,5 +1,8 @@
 package com.synerzip.utilities.sabre2amadeus.writers;
 
+import org.joda.time.Duration;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
 import org.springframework.stereotype.Component;
 
 import com.synerzip.supplier.amadeus.model.flights.BookingInfo;
@@ -20,6 +23,7 @@ import com.synerzip.supplier.sabre.model.flights.visitors.AbstractPTCFareBreakdo
 import com.synerzip.supplier.sabre.model.flights.visitors.AirItineraryVisitor;
 import com.synerzip.supplier.sabre.model.flights.visitors.FareInfosVisitor;
 import com.synerzip.supplier.sabre.model.flights.visitors.PTCFareBreakdownsVisitor;
+import com.synerzip.utils.TimeUtils.TimeUtilities;
 
 @Component
 public class FlightWriter {
@@ -67,11 +71,14 @@ public class FlightWriter {
 		};
 		flightSegment.accept(airItineraryVisitor);
 		
+		Period flightPeriod = Duration.standardMinutes(flightSegment.getElapsedTime()).toPeriod();
+		
 		// set Flight object
 		return flightBuilder
 				.origin(originBuilder.getInstance())
 				.destination(destinationBuilder.getInstance())
 				.bookingInfo(bookingInfoBuilder.getInstance())
+				.additionalProperty("duration", TimeUtilities.periodToString(flightPeriod))
 				.getInstance();
 	}
 }

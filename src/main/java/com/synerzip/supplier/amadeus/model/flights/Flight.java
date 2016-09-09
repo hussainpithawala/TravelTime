@@ -259,6 +259,11 @@ public class Flight implements FlightElement {
 			return this;
 		}
 
+		public Builder additionalProperty(String string, Object object) {
+			this.instance.setAdditionalProperty(string, object);
+			return this;
+		}
+		
 		public Flight getInstance() {
 			return this.instance;
 		}

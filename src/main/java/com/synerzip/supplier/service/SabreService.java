@@ -49,10 +49,7 @@ public class SabreService {
 			String finalUrl = getRequestString(url, request);
 			logger.debug("Request to Sabre " + finalUrl);
 			response = restTemplate.getForObject(finalUrl, clazz, new Object[] {});
-			
 			ObjectMapper objectMapper = new ObjectMapper();
-			logger.debug("Response from sabre " + objectMapper.writeValueAsString(response));
-			
 		} catch (HttpClientErrorException e) {
 			if (e.getStatusCode().equals(HttpStatus.UNAUTHORIZED))
 				sabreTokenService.setInvalid();

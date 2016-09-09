@@ -91,6 +91,11 @@ public class Inbound implements BoundElement {
 			return this;
 		}
 		
+		public Builder additionalProperty(String key, Object value) {
+			this.instance.setAdditionalProperty(key, value);
+			return this;
+		}
+		
 		public Inbound instance() {
 			return instance;
 		}

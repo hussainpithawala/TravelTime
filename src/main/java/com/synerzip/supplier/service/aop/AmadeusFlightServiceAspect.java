@@ -21,6 +21,7 @@ import com.synerzip.supplier.amadeus.model.visitors.BoundElement;
 import com.synerzip.supplier.amadeus.model.visitors.BoundVisitor;
 import com.synerzip.supplier.amadeus.model.visitors.FlightVisitor;
 import com.synerzip.supplier.service.TimeService;
+import com.synerzip.utils.TimeUtils.TimeUtilities;
 
 @Component
 @Aspect
@@ -53,13 +54,6 @@ public class AmadeusFlightServiceAspect {
 	private void update(BoundElement bound) {
 		BoundVisitor visitor = new BoundVisitor() {
 			Period totalFlightPeriod = Period.ZERO;
-			
-			private String formatTime(Period period) {
-				PeriodFormatter formatter = new PeriodFormatterBuilder().printZeroNever().appendHours()
-						.appendSuffix("h").appendSeparator(":").appendMinutes().appendSuffix("m").toFormatter();
-				return formatter.print(period);
-			}
-			
 			@Override
 			public void visit(BoundElement bound) {
 				Map<String, String> layovers = new HashMap<>();
@@ -72,7 +66,8 @@ public class AmadeusFlightServiceAspect {
 					public void visit(Flight flight) {
 						Duration blkTime = timeService.getBlkTime(flight.getOrigin().getAirport(),
 								flight.getDepartsAt(), flight.getDestination().getAirport(), flight.getArrivesAt());
-						flight.getAdditionalProperties().put("duration", formatTime(blkTime.toPeriod()));
+						
+						flight.getAdditionalProperties().put("duration",TimeUtilities.periodToString(blkTime.toPeriod()));
 
 						if (prevFlightPeriod != null && prevFlight != null) {
 							if (prevFlight.getDestination().getAirport().equals(flight.getOrigin().getAirport())) {
@@ -80,7 +75,7 @@ public class AmadeusFlightServiceAspect {
 								Period layover = timeService
 										.getLayOverTime(airportCode, prevFlight.getArrivesAt(), flight.getDepartsAt())
 										.toPeriod();
-								layovers.put(airportCode, formatTime(layover));
+								layovers.put(airportCode, TimeUtilities.periodToString(layover));
 								totalFlightPeriod = totalFlightPeriod.plus(layover);
 							}
 						}
@@ -95,7 +90,7 @@ public class AmadeusFlightServiceAspect {
 					flight.accept(flightVisitor);
 				});
 
-				bound.setDuration(formatTime(totalFlightPeriod));
+				bound.setDuration(TimeUtilities.periodToString(totalFlightPeriod));
 
 				if (!layovers.isEmpty()) {
 					bound.setAdditionalProperty("layovers", layovers);
