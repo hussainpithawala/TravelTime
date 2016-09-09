@@ -48,19 +48,21 @@ var HotelSearchPanel = React.createClass({
   },
 
   render: function () {
+    var renderComponent;
     if(this.state.defualtView === 'RESULTSVIEW') {
       console.log('loading result view...');
-      return(
-        <div className="row">
-          <HotelSearchResultView onClick= {this.backToHotelsSearch} getHotelsResult={this.getHotelsResult}></HotelSearchResultView>
-        </div>
-      );
+          renderComponent = <HotelSearchResultView onClick= {this.backToHotelsSearch}
+                                                   getHotelsResult={this.getHotelsResult}></HotelSearchResultView>
     } else {
-      console.log('loading form view...');
-      return (
-          <HotelSearchForm updateSearchResult = {this.reloadHotels} updateLocations = {this.reloadLocations}></HotelSearchForm>
-      );
+          renderComponent = <HotelSearchForm updateSearchResult = {this.reloadHotels}
+                                             updateLocations = {this.reloadLocations}></HotelSearchForm>
     }
+
+    return (
+        <div>
+          {renderComponent}
+        </div>
+    );
   }
 });
 export default HotelSearchPanel;
