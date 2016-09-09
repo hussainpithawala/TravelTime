@@ -11,12 +11,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.amadeus.model.visitors.FlightElement;
+import com.synerzip.supplier.amadeus.model.visitors.FlightVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "departs_at", "arrives_at", "origin", "destination", "marketing_airline", "operating_airline",
 		"flight_number", "aircraft", "booking_info" })
-public class Flight {
+public class Flight implements FlightElement {
 
 	@JsonProperty("departs_at")
 	private String departsAt;
@@ -264,5 +266,10 @@ public class Flight {
 
 	public static Builder getBuilder() {
 		return new Builder(new Flight());
+	}
+
+	@Override
+	public void accept(FlightVisitor visitor) {
+		visitor.visit(this);
 	}
 }

@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Duration;
@@ -75,14 +77,29 @@ public class TimeService {
 	 */
 	public Duration getBlkTime(String departureStation, LocalDateTime departureDate, String arrivalStation, LocalDateTime arrivalDate) {
 		DateTime departDateZoned = getDateTimeObject(departureStation, departureDate);
-
 		DateTime arriveDateZoned = getDateTimeObject(arrivalStation, arrivalDate);
-		
 		Duration duration = new Duration(departDateZoned, arriveDateZoned);
-		
 		return duration;
 	}
 
+	/**
+	 * 
+	 * @param departureStation IATA airport code for departure station
+	 * @param departureDateTimeString String representation of Date-Time for flight departure (YYYY-MM-ddThh:mm)
+	 * 			This should be same as in Amadeus response, just pass it directly
+	 * @param arrivalStation IATA airport code for arrival station
+	 * @param arrivalDateTimeString String representation of Date-Time for flight arrival (YYYY-MM-ddThh:mm)
+	 * 			This should be same as in Amadeus response, just pass it directly
+	 * @return
+	 */
+	public Duration getBlkTime(String departureStation, String departureDateTimeString, String arrivalStation,
+			String arrivalDateTimeString) {
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm");
+		LocalDateTime departDateTime = LocalDateTime.parse(departureDateTimeString.replace('T', ' '), formatter);
+		LocalDateTime arrivalDateTime = LocalDateTime.parse(arrivalDateTimeString.replace('T', ' '), formatter);
+		return getBlkTime(departureStation, departDateTime, arrivalStation, arrivalDateTime);
+	}
+	
 	/**
 	 * 
 	 * @param airportCode IATA airport code for which layover time needs to be calculated
@@ -97,6 +114,13 @@ public class TimeService {
 		return duration;
 	}
 
+	public Duration getLayOverTime(String airportCode, String arrivalDateTimeString, String departureDateTimeString) {
+		DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm");
+		LocalDateTime departDateTime = LocalDateTime.parse(departureDateTimeString.replace('T', ' '), formatter);
+		LocalDateTime arrivalDateTime = LocalDateTime.parse(arrivalDateTimeString.replace('T', ' '), formatter);
+		return getLayOverTime(airportCode, arrivalDateTime, departDateTime);
+	}
+	
 	public void importTimeZoneFile(String fileName) {
 		try {
 			Files.lines(Paths.get(fileName)).forEach(content -> {

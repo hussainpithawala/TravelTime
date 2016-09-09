@@ -59,9 +59,6 @@ public class FlightsController {
 	@Autowired
 	private ThreadPoolTaskExecutor executor;
 	
-	private boolean lowfareSearchAsync = false;
-	
-	
 	@RequestMapping(value = "/rest/searchFlights", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<LowFareFlightSearchRS> searchFlights(
 			@RequestBody LowFareFlightSearchRQ lowFareFlightSearchRQ) {
@@ -74,10 +71,10 @@ public class FlightsController {
 				LowFareFlightSearchRS response = null;
 				try {
 					// prepare a Sabre's InstaFlightRequest from Amadeus's LowFareFlightSearchRQ
-					InstaFlightRequest instaFlightRequest = instaFlightRequestWriter.write.apply(lowFareFlightSearchRQ);
+					InstaFlightRequest instaFlightRQ = instaFlightRequestWriter.write.apply(lowFareFlightSearchRQ);
 					
 					// fetch the response from Sabre's service
-					InstaFlightResponse instaFlightResponse = sabreFlightService.doInstaFlightSearch(instaFlightRequest);
+					InstaFlightResponse instaFlightResponse = sabreFlightService.doInstaFlightSearch(instaFlightRQ);
 					
 					// write Amadeus's LowFareFlightSearchRS using Sabre's InstaFlightResponse
 					response = lowFareFlightSearchRSWriter.write.apply(instaFlightResponse);
@@ -95,7 +92,7 @@ public class FlightsController {
 			public LowFareFlightSearchRS call() throws Exception {
 				LowFareFlightSearchRS response = null;
 				try {
-					response = amadeusFlightService.fetchLowFareFlights(lowFareFlightSearchRQ,lowfareSearchAsync);
+					response = amadeusFlightService.fetchLowFareFlights(lowFareFlightSearchRQ);
 				} catch (Exception e) {
 					logger.error("An error has occured while processing Amadeus Request", e);
 				} finally {
@@ -138,7 +135,7 @@ public class FlightsController {
 	//not tested
 	@RequestMapping(value = "/rest/async/searchLowFare", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public AsyncResult<LowFareFlightSearchRS> searchLowFareFlightsAsync(@RequestBody LowFareFlightSearchRQ lowFareFlightSearchRQ) {
-		return new AsyncResult<LowFareFlightSearchRS>(amadeusFlightService.fetchLowFareFlights(lowFareFlightSearchRQ,lowfareSearchAsync));
+		return new AsyncResult<LowFareFlightSearchRS>(amadeusFlightService.fetchLowFareFlights(lowFareFlightSearchRQ));
 	}
 	
 	// This service retrieves prices of flights over a large number of days.

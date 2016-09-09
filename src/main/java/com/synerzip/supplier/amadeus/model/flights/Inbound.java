@@ -13,11 +13,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.amadeus.model.visitors.BoundElement;
+import com.synerzip.supplier.amadeus.model.visitors.BoundVisitor;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "flights", "duration" })
-public class Inbound {
+public class Inbound implements BoundElement {
 
 	@JsonProperty("flights")
 	private List<Flight> flights = new ArrayList<Flight>();
@@ -31,6 +33,7 @@ public class Inbound {
 	 * @return The flights
 	 */
 	@JsonProperty("flights")
+	@Override
 	public List<Flight> getFlights() {
 		return flights;
 	}
@@ -60,6 +63,7 @@ public class Inbound {
 	 *            The duration
 	 */
 	@JsonProperty("duration")
+	@Override
 	public void setDuration(String duration) {
 		this.duration = duration;
 	}
@@ -70,6 +74,7 @@ public class Inbound {
 	}
 
 	@JsonAnySetter
+	@Override
 	public void setAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
 	}
@@ -93,5 +98,10 @@ public class Inbound {
 	
 	public static Builder getBuilder() {
 		return new Builder(new Inbound());
+	}
+
+	@Override
+	public void accept(BoundVisitor visitor) {
+		visitor.visit(this);
 	}
 }

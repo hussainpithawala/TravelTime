@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
-    <logger name="com.synerzip" level="WARN" additivity="false">
+    <logger name="com.synerzip" level="INFO" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
-    <logger name="org.springframework" level="WARN" additivity="false">
-        <appender-ref ref="FILE"/>
+    <logger name="org.springframework" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE"/>
     </logger>
     <logger name="org.hibernate" level="WARN" additivity="false">
         <appender-ref ref="FILE"/>

@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
@@ -25,6 +26,7 @@ import com.synerzip.supplier.sabre.service.interceptor.AuthenticatingGetIntercep
 @SpringBootApplication
 @Configuration
 @PropertySource("classpath:supplier.properties")
+@EnableAspectJAutoProxy(proxyTargetClass=true)
 public class TravelTimeApplication {
 	private static final Logger logger = LoggerFactory.getLogger(TravelTimeApplication.class);
 	
@@ -55,10 +57,10 @@ public class TravelTimeApplication {
 	
 	@Bean(name="sabre")
 	public RestTemplate providesSpecificRestTemplate(){
-		List<ClientHttpRequestInterceptor> ris = new ArrayList<>();
-		ris.add(authInterceptor);
+		List<ClientHttpRequestInterceptor> restInterceptors = new ArrayList<>();
+		restInterceptors.add(authInterceptor);
 		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.setInterceptors(ris);
+		restTemplate.setInterceptors(restInterceptors);
 		restTemplate.setErrorHandler(new ResponseErrorHandler() {
 			@Override
 			public boolean hasError(ClientHttpResponse response) throws IOException {

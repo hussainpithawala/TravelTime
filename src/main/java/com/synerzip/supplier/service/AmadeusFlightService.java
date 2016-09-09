@@ -10,8 +10,8 @@ import com.synerzip.supplier.amadeus.model.flights.AirportAutocompleteRQ;
 import com.synerzip.supplier.amadeus.model.flights.AirportAutocompleteRS;
 import com.synerzip.supplier.amadeus.model.flights.ExtensiveSearchRQ;
 import com.synerzip.supplier.amadeus.model.flights.ExtensiveSearchRS;
-import com.synerzip.supplier.amadeus.model.flights.FlightInspirationSearchRS;
 import com.synerzip.supplier.amadeus.model.flights.FlightInspirationSearchRQ;
+import com.synerzip.supplier.amadeus.model.flights.FlightInspirationSearchRS;
 import com.synerzip.supplier.amadeus.model.flights.LocationInformationSearchRQ;
 import com.synerzip.supplier.amadeus.model.flights.LocationInformationSearchRS;
 import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRQ;
@@ -24,7 +24,7 @@ public class AmadeusFlightService extends AmadeusService {
 
 	private Logger logger = LoggerFactory.getLogger(AmadeusFlightService.class);
 	
-	public LowFareFlightSearchRS fetchLowFareFlights(LowFareFlightSearchRQ request, boolean async) {
+	public LowFareFlightSearchRS fetchLowFareFlights(LowFareFlightSearchRQ request) {
 		String subUrl = "/flights/low-fare-search";
 		return getResponseObject(subUrl, request, LowFareFlightSearchRS.class);
 	}
@@ -58,4 +58,6 @@ public class AmadeusFlightService extends AmadeusService {
 		String subUrl = "/airports/autocomplete";
 		return getResponseObject(subUrl, request, AirportAutocompleteRS[].class);
 	}
+
+	
 }
