@@ -78,9 +78,9 @@ public class TravelTimeApplication {
 	@Bean
 	public ThreadPoolTaskExecutor provideThreadPoolTaskExecutor() {
 		ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-		threadPoolTaskExecutor.setCorePoolSize(4);
-		threadPoolTaskExecutor.setMaxPoolSize(16);
-		threadPoolTaskExecutor.setQueueCapacity(20);
+		threadPoolTaskExecutor.setCorePoolSize(100);
+		threadPoolTaskExecutor.setMaxPoolSize(400);
+		threadPoolTaskExecutor.setQueueCapacity(100);
 		threadPoolTaskExecutor.initialize();
 		return threadPoolTaskExecutor;
 	}

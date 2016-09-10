@@ -2,6 +2,7 @@ package com.synerzip.supplier.service.aop;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Phaser;
 
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,6 +13,7 @@ import org.joda.time.format.PeriodFormatterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import com.synerzip.supplier.amadeus.model.flights.AffiliateFlightSearchRS;
@@ -31,18 +33,36 @@ public class AmadeusFlightServiceAspect {
 	@Autowired
 	private TimeService timeService;
 
+	@Autowired
+	private ThreadPoolTaskExecutor executor;
+	
 	@AfterReturning(pointcut = "execution(* com.synerzip.supplier.service.AmadeusFlightService.fetchLowFareFlights(*))", returning = "lowFareFlightSearchRS")
 	public void updateDuration(LowFareFlightSearchRS lowFareFlightSearchRS) {
 		logger.debug("After-returning advice for return type LowFareFlightSearchRS");
+		
+		final Phaser phaser = new Phaser(1); // "1" (register self)
+		
 		lowFareFlightSearchRS.getResults().stream().forEach(result -> {
 			result.getItineraries().stream().forEach(itinerary -> {
+				phaser.register();	// register the thread
+				executor.execute(() -> {
+					update(itinerary.getOutbound());
+					phaser.arriveAndAwaitAdvance();
+				});
+
 				// inbound needs to be checked for null-values since one-way flights don't have inbound itineray
-				update(itinerary.getOutbound());
 				if (itinerary.getInbound() != null) {
-					update(itinerary.getInbound());
+					phaser.register();	// register the instance
+					executor.execute(() -> {
+						update(itinerary.getInbound());
+						phaser.arriveAndAwaitAdvance();
+					});
 				}
 			});
 		});
+		
+		// allow threads to arrive and de-register self
+		phaser.arriveAndDeregister();
 	}
 
 	@AfterReturning(pointcut = "execution(* com.synerzip.supplier.service.AmadeusFlightService.fetchLowFareFlights(*))", returning = "affiliateFlightSearchRS")
