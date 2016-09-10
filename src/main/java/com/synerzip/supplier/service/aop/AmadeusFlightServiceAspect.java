@@ -36,8 +36,11 @@ public class AmadeusFlightServiceAspect {
 		logger.debug("After-returning advice for return type LowFareFlightSearchRS");
 		lowFareFlightSearchRS.getResults().stream().forEach(result -> {
 			result.getItineraries().stream().forEach(itinerary -> {
-				update(itinerary.getInbound());
+				// inbound needs to be checked for null-values since one-way flights don't have inbound itineray
 				update(itinerary.getOutbound());
+				if (itinerary.getInbound() != null) {
+					update(itinerary.getInbound());
+				}
 			});
 		});
 	}
@@ -46,8 +49,11 @@ public class AmadeusFlightServiceAspect {
 	public void updateDuration(AffiliateFlightSearchRS affiliateFlightSearchRS) {
 		logger.debug("After-returning advice for return type AffiliateFlightSearchRS");
 		affiliateFlightSearchRS.getResults().stream().forEach(itinerary -> {
-			update(itinerary.getInbound());
 			update(itinerary.getOutbound());
+			// inbound needs to be checked for null-values since one-way flights don't have inbound itineray
+			if (itinerary.getInbound() != null) {
+				update(itinerary.getInbound());
+			}
 		});
 	}
 

@@ -81,9 +81,7 @@ public class TravelTimeApplication {
 		threadPoolTaskExecutor.setCorePoolSize(4);
 		threadPoolTaskExecutor.setMaxPoolSize(16);
 		threadPoolTaskExecutor.setQueueCapacity(20);
-		
 		threadPoolTaskExecutor.initialize();
-		
 		return threadPoolTaskExecutor;
 	}
 	

@@ -2,6 +2,7 @@ package com.synerzip.client.orm;
 
 import java.io.Serializable;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 @Entity
 @Table(name="airports")
+@Cacheable
 public class Airport implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

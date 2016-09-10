@@ -45,18 +45,21 @@ public class TimeService {
 		
 		String gmtAdjustment =  airportZone.getGmtAdjustment();
 		
-		if(!gmtAdjustment.startsWith("-")) {
-			if (gmtAdjustment.length() == 3) {
-				gmtAdjustment = new StringBuffer(gmtAdjustment).insert(0, "0").toString();
-			}
-			gmtAdjustment = new StringBuffer(gmtAdjustment).insert(0, "+").toString();
+		if (gmtAdjustment.equals("0")) {
+			gmtAdjustment = "+00:00";
 		} else {
-			if (gmtAdjustment.length() == 4) {
-				gmtAdjustment = new StringBuffer(gmtAdjustment).insert(1, "0").toString();
+			if(!gmtAdjustment.startsWith("-")) {
+				if (gmtAdjustment.length() == 3) {
+					gmtAdjustment = new StringBuffer(gmtAdjustment).insert(0, "0").toString();
+				}
+				gmtAdjustment = new StringBuffer(gmtAdjustment).insert(0, "+").toString();
+			} else {
+				if (gmtAdjustment.length() == 4) {
+					gmtAdjustment = new StringBuffer(gmtAdjustment).insert(1, "0").toString();
+				}
 			}
+			gmtAdjustment = new StringBuffer(gmtAdjustment).insert(gmtAdjustment.length() - 2, ":").toString();
 		}
-		
-		gmtAdjustment = new StringBuffer(gmtAdjustment).insert(gmtAdjustment.length() - 2, ":").toString();
 		
 		DateTimeZone departTimeZone = DateTimeZone.forID(gmtAdjustment);
 		return travelDate.toDateTime(departTimeZone);

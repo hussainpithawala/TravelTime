@@ -3,6 +3,7 @@ package com.synerzip.client.orm;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ import javax.persistence.Table;
 @Entity
 @NamedQuery(name="Timezone.findByCodes", query = "SELECT t FROM Timezone t WHERE t.countryCode = ?1 AND t.timezoneCode = ?2")
 @Table(name="timezones")
+@Cacheable
 public class Timezone implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Id
