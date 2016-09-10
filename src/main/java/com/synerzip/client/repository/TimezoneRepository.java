@@ -11,6 +11,6 @@ import com.synerzip.client.orm.Timezone;
 
 @Transactional
 public interface TimezoneRepository extends JpaRepository<Timezone, Long> {
-	@Cacheable(value="timezonesCache", key="#countryAndTzCode")
+	@Cacheable(value="timezonesCache")
 	public List<Timezone> findByCodes(String countryCode, String timezoneCode);
 }

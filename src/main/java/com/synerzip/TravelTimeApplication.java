@@ -9,10 +9,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -27,6 +32,7 @@ import com.synerzip.supplier.sabre.service.interceptor.AuthenticatingGetIntercep
 @Configuration
 @PropertySource("classpath:supplier.properties")
 @EnableAspectJAutoProxy(proxyTargetClass=true)
+@EnableCaching
 public class TravelTimeApplication {
 	private static final Logger logger = LoggerFactory.getLogger(TravelTimeApplication.class);
 	
@@ -83,6 +89,19 @@ public class TravelTimeApplication {
 		threadPoolTaskExecutor.setQueueCapacity(100);
 		threadPoolTaskExecutor.initialize();
 		return threadPoolTaskExecutor;
+	}
+	
+	@Bean
+	public CacheManager cacheManager() {
+		return new EhCacheCacheManager(ehCacheCacheManager().getObject());
+	}
+
+	@Bean
+	public EhCacheManagerFactoryBean ehCacheCacheManager() {
+		EhCacheManagerFactoryBean cmfb = new EhCacheManagerFactoryBean();
+		cmfb.setConfigLocation(new ClassPathResource("ehcache.xml"));
+		cmfb.setShared(true);
+		return cmfb;
 	}
 	
 	public static void main(String[] args) {

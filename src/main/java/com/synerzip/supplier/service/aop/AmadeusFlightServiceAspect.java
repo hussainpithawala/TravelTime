@@ -2,14 +2,11 @@ package com.synerzip.supplier.service.aop;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Phaser;
 
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.joda.time.Duration;
 import org.joda.time.Period;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,34 +32,24 @@ public class AmadeusFlightServiceAspect {
 
 	@Autowired
 	private ThreadPoolTaskExecutor executor;
-	
+
 	@AfterReturning(pointcut = "execution(* com.synerzip.supplier.service.AmadeusFlightService.fetchLowFareFlights(*))", returning = "lowFareFlightSearchRS")
 	public void updateDuration(LowFareFlightSearchRS lowFareFlightSearchRS) {
 		logger.debug("After-returning advice for return type LowFareFlightSearchRS");
-		
-		final Phaser phaser = new Phaser(1); // "1" (register self)
-		
+
 		lowFareFlightSearchRS.getResults().stream().forEach(result -> {
 			result.getItineraries().stream().forEach(itinerary -> {
-				phaser.register();	// register the thread
-				executor.execute(() -> {
-					update(itinerary.getOutbound());
-					phaser.arriveAndAwaitAdvance();
-				});
-
-				// inbound needs to be checked for null-values since one-way flights don't have inbound itineray
+				update(itinerary.getOutbound());
+				// inbound needs to be checked for null-values since one-way
+				// flights don't have inbound itineray
 				if (itinerary.getInbound() != null) {
-					phaser.register();	// register the instance
-					executor.execute(() -> {
-						update(itinerary.getInbound());
-						phaser.arriveAndAwaitAdvance();
-					});
+					update(itinerary.getInbound());
 				}
 			});
 		});
-		
+
 		// allow threads to arrive and de-register self
-		phaser.arriveAndDeregister();
+		// phaser.arriveAndDeregister();
 	}
 
 	@AfterReturning(pointcut = "execution(* com.synerzip.supplier.service.AmadeusFlightService.fetchLowFareFlights(*))", returning = "affiliateFlightSearchRS")
@@ -70,7 +57,8 @@ public class AmadeusFlightServiceAspect {
 		logger.debug("After-returning advice for return type AffiliateFlightSearchRS");
 		affiliateFlightSearchRS.getResults().stream().forEach(itinerary -> {
 			update(itinerary.getOutbound());
-			// inbound needs to be checked for null-values since one-way flights don't have inbound itineray
+			// inbound needs to be checked for null-values since one-way flights
+			// don't have inbound itineray
 			if (itinerary.getInbound() != null) {
 				update(itinerary.getInbound());
 			}
@@ -80,6 +68,7 @@ public class AmadeusFlightServiceAspect {
 	private void update(BoundElement bound) {
 		BoundVisitor visitor = new BoundVisitor() {
 			Period totalFlightPeriod = Period.ZERO;
+
 			@Override
 			public void visit(BoundElement bound) {
 				Map<String, String> layovers = new HashMap<>();
@@ -92,8 +81,9 @@ public class AmadeusFlightServiceAspect {
 					public void visit(Flight flight) {
 						Duration blkTime = timeService.getBlkTime(flight.getOrigin().getAirport(),
 								flight.getDepartsAt(), flight.getDestination().getAirport(), flight.getArrivesAt());
-						
-						flight.getAdditionalProperties().put("duration",TimeUtilities.periodToString(blkTime.toPeriod()));
+
+						flight.getAdditionalProperties().put("duration",
+								TimeUtilities.periodToString(blkTime.toPeriod()));
 
 						if (prevFlightPeriod != null && prevFlight != null) {
 							if (prevFlight.getDestination().getAirport().equals(flight.getOrigin().getAirport())) {

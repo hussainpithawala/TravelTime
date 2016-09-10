@@ -33,17 +33,17 @@ public class TimeService {
 	@Autowired
 	private TimezoneRepository timezoneRepository;
 
-	private DateTime getDateTimeObject(String airport, LocalDateTime travelDate) {
-		Airport departureAirport = airportRepository.findByCode(airport);
-		List<Timezone> airportZones = timezoneRepository.findByCodes(departureAirport.getCountryCode(),
-				departureAirport.getTimeZone());
+	private DateTime getDateTimeObject(String airportCode, LocalDateTime travelDate) {
+		Airport airport = airportRepository.findByCode(airportCode);
+		List<Timezone> timeZones = timezoneRepository.findByCodes(airport.getCountryCode(),
+				airport.getTimeZone());
 		
-		Timezone airportZone = airportZones.stream().filter(
+		Timezone timeZone = timeZones.stream().filter(
 				timezone ->  (new LocalDateTime(timezone.getStartDate())).isBefore(travelDate) && 
 							 (new LocalDateTime(timezone.getEndDate())).isAfter(travelDate)) 
 				.findAny().orElse(null);
 		
-		String gmtAdjustment =  airportZone.getGmtAdjustment();
+		String gmtAdjustment =  timeZone.getGmtAdjustment();
 		
 		if (gmtAdjustment.equals("0")) {
 			gmtAdjustment = "+00:00";
@@ -61,8 +61,8 @@ public class TimeService {
 			gmtAdjustment = new StringBuffer(gmtAdjustment).insert(gmtAdjustment.length() - 2, ":").toString();
 		}
 		
-		DateTimeZone departTimeZone = DateTimeZone.forID(gmtAdjustment);
-		return travelDate.toDateTime(departTimeZone);
+		DateTimeZone dateTimeZone = DateTimeZone.forID(gmtAdjustment);
+		return travelDate.toDateTime(dateTimeZone);
 	}
 	
 	/**
