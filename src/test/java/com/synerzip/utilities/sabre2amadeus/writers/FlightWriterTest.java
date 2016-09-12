@@ -1,8 +1,5 @@
 package com.synerzip.utilities.sabre2amadeus.writers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,26 +23,28 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.synerzip.TravelTimeApplication;
-import com.synerzip.supplier.amadeus.model.flights.Fare;
-import com.synerzip.supplier.amadeus.model.flights.Outbound;
-import com.synerzip.supplier.amadeus.model.flights.ResultItinerary;
+import com.synerzip.supplier.amadeus.model.flights.Flight;
+import com.synerzip.supplier.sabre.model.flights.instaflight_gen.FlightSegment;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PricedItinerary;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration	
 @ContextConfiguration(classes = { TravelTimeApplication.class })
 @TestPropertySource(locations = { "classpath:supplier.properties", "classpath:application.properties" })
-public class ResultItineraryWriterTest {
-	private static final Logger logger = LoggerFactory.getLogger(ResultItineraryWriterTest.class);
+public class FlightWriterTest {
+private static final Logger logger = LoggerFactory.getLogger(FlightWriterTest.class);
 	
 	@Autowired
-	private ResultItineraryWriter writer;
-	
+	private FlightWriter writer;
+
 	private static PricedItinerary response;
+	
+	private static FlightSegment flightSegment;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		response = new PricedItinerary();
+		flightSegment = new FlightSegment();
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		Files.walk(Paths.get("src/test/resources/sabre/response/InstaFlightsSearch/pricedItinerary.json"))
@@ -57,6 +56,16 @@ public class ResultItineraryWriterTest {
 					logger.error(e.getMessage());
 				}
 			});
+		
+		Files.walk(Paths.get("src/test/resources/sabre/response/InstaFlightsSearch/flightSegment.json"))
+		.filter(Files::isRegularFile).map(Path::toFile).collect(Collectors.toList())
+		.stream().forEach(file -> {
+			try {
+				flightSegment = objectMapper.readValue(file, FlightSegment.class);
+			} catch (IOException e) {
+				logger.error(e.getMessage());
+			}
+		});
 	}
 
 	@AfterClass
@@ -73,17 +82,12 @@ public class ResultItineraryWriterTest {
 
 	@Test
 	public void test() {
-			ResultItinerary resultItinerary = writer.write(response);
-			Assert.assertEquals(resultItinerary.getItineraries().size(), 1);
-			Assert.assertEquals(resultItinerary.getItineraries().get(0).getInbound().getFlights().size(),1);
-			Assert.assertEquals(resultItinerary.getFare().getClass(),Fare.class);
-			Assert.assertEquals(resultItinerary.getItineraries().get(0).getOutbound().getClass(),Outbound.class);
+		Flight flight = writer.write(flightSegment, response);
+		Assert.assertNotNull("Flight object can not be null", flight);
+		Assert.assertEquals(flight.getOrigin().getAirport(),"ATL");
+		Assert.assertEquals(flight.getDestination().getAirport(),"LAS");
+		Assert.assertEquals(flight.getFlightNumber(),"1455");
+		Assert.assertEquals(flight.getClass(), Flight.class);
 	}
-	
-	@Test
-	public void ItineraryTest() {
-			ResultItinerary resultItinerary = writer.write(response);
-			assertTrue("Itineraries are not null: ", resultItinerary.getItineraries().size() > 0);
-	}
-}
 
+}

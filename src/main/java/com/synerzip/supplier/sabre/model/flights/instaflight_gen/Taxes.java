@@ -86,6 +86,7 @@ public class Taxes implements PTCFareBreakDownsElement {
 	public void accept(PTCFareBreakdownsVisitor visitor) {
 		// TODO Auto-generated method stub
 		visitor.visit(this);
+		totalTax.accept(visitor);
 	}
 
 }

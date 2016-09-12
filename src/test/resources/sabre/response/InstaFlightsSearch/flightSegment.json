@@ -1,0 +1,39 @@
+{
+						"DepartureAirport": {
+							"LocationCode": "ATL"
+						},
+						"ArrivalAirport": {
+							"LocationCode": "LAS"
+						},
+						"MarketingAirline": {
+							"Code": "F9"
+						},
+						"ArrivalTimeZone": {
+							"GMTOffset": -7
+						},
+						"TPA_Extensions": {
+							"eTicket": {
+								"Ind": true
+							}
+						},
+						"StopQuantity": 0,
+						"ElapsedTime": 252,
+						"ResBookDesigCode": "W",
+						"MarriageGrp": "O",
+						"Equipment": {
+							"AirEquipType": 320
+						},
+						"DepartureDateTime": "2016-08-13T18:15:00",
+						"ArrivalDateTime": "2016-08-13T19:27:00",
+						"FlightNumber": 1455,
+						"OnTimePerformance": {
+							"Percentage": 86
+						},
+						"OperatingAirline": {
+							"FlightNumber": 1455,
+							"Code": "F9"
+						},
+						"DepartureTimeZone": {
+							"GMTOffset": -4
+						}
+					}

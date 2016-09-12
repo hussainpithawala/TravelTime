@@ -1,8 +1,5 @@
 package com.synerzip.utilities.sabre2amadeus.writers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,21 +23,19 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.synerzip.TravelTimeApplication;
-import com.synerzip.supplier.amadeus.model.flights.Fare;
-import com.synerzip.supplier.amadeus.model.flights.Outbound;
-import com.synerzip.supplier.amadeus.model.flights.ResultItinerary;
+import com.synerzip.supplier.amadeus.model.flights.Itinerary;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.PricedItinerary;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration	
 @ContextConfiguration(classes = { TravelTimeApplication.class })
 @TestPropertySource(locations = { "classpath:supplier.properties", "classpath:application.properties" })
-public class ResultItineraryWriterTest {
+public class ItineraryWriterTest {
 	private static final Logger logger = LoggerFactory.getLogger(ResultItineraryWriterTest.class);
 	
 	@Autowired
-	private ResultItineraryWriter writer;
-	
+	private ItineraryWriter writer;
+
 	private static PricedItinerary response;
 
 	@BeforeClass
@@ -73,17 +68,11 @@ public class ResultItineraryWriterTest {
 
 	@Test
 	public void test() {
-			ResultItinerary resultItinerary = writer.write(response);
-			Assert.assertEquals(resultItinerary.getItineraries().size(), 1);
-			Assert.assertEquals(resultItinerary.getItineraries().get(0).getInbound().getFlights().size(),1);
-			Assert.assertEquals(resultItinerary.getFare().getClass(),Fare.class);
-			Assert.assertEquals(resultItinerary.getItineraries().get(0).getOutbound().getClass(),Outbound.class);
-	}
-	
-	@Test
-	public void ItineraryTest() {
-			ResultItinerary resultItinerary = writer.write(response);
-			assertTrue("Itineraries are not null: ", resultItinerary.getItineraries().size() > 0);
+			Itinerary itinerary = writer.write(response);
+			Assert.assertNotNull("Itinerary can not be null", itinerary);
+			Assert.assertEquals(itinerary.getOutbound().getFlights().size(),1);
+			Assert.assertEquals(itinerary.getInbound().getFlights().size(),1);
+			Assert.assertEquals(itinerary.getClass(), Itinerary.class);
 	}
 }
 

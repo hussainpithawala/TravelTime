@@ -1,5 +1,6 @@
 package com.synerzip.supplier.service;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,6 @@ import com.synerzip.TravelTimeApplication;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.InstaFlightRequest;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.InstaFlightResponse;
 import com.synerzip.supplier.service.SabreFlightService;
-
-import junit.framework.Assert;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -29,9 +28,10 @@ public class SabreFlightServiceTest {
 		request.setOrigin("ORD");
 		request.setDestination("LGA");
 		request.setDeparturedate("2016-09-13");
-//		request.setReturndate("2016-09-16");
+		request.setReturndate("2016-09-16");
 //		request.setMaxfare(140.0);
 		InstaFlightResponse response = sabreFlightService.doInstaFlightSearch(request);
+		Assert.assertNull(response.getAdditionalProperties().get("errorCode"));
 		Assert.assertNotNull("Returned Priced Itineraries", response.getPricedItineraries().size());
 	}
 

@@ -4,7 +4,7 @@
     <logger name="com.synerzip" level="INFO" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
-    <logger name="org.springframework" level="DEBUG" additivity="false">
+    <logger name="org.springframework" level="WARN" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
     <logger name="org.hibernate" level="WARN" additivity="false">
