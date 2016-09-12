@@ -10,4 +10,5 @@ src/main/resources/supplier.properties
 src/main/resources/static/node_modules/
 */**/.idea
 /data
+/reports
 src/test/resources/data-files/**

@@ -14,7 +14,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import com.synerzip.supplier.amadeus.model.flights.AffiliateFlightSearchRS;
+import com.synerzip.supplier.amadeus.model.flights.AffiliateSearchResult;
 import com.synerzip.supplier.amadeus.model.flights.Flight;
+import com.synerzip.supplier.amadeus.model.flights.Itinerary;
 import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRS;
 import com.synerzip.supplier.amadeus.model.visitors.BoundElement;
 import com.synerzip.supplier.amadeus.model.visitors.BoundVisitor;
@@ -36,35 +38,35 @@ public class AmadeusFlightServiceAspect {
 	@AfterReturning(pointcut = "execution(* com.synerzip.supplier.service.AmadeusFlightService.fetchLowFareFlights(*))", returning = "lowFareFlightSearchRS")
 	public void updateDuration(LowFareFlightSearchRS lowFareFlightSearchRS) {
 		logger.debug("After-returning advice for return type LowFareFlightSearchRS");
-
 		lowFareFlightSearchRS.getResults().stream().forEach(result -> {
-			result.getItineraries().stream().forEach(itinerary -> {
-				update(itinerary.getOutbound());
-				// inbound needs to be checked for null-values since one-way
-				// flights don't have inbound itineray
-				if (itinerary.getInbound() != null) {
-					update(itinerary.getInbound());
-				}
-			});
+			result.getItineraries().stream().forEach(itinerary -> update(itinerary));
 		});
-
-		// allow threads to arrive and de-register self
-		// phaser.arriveAndDeregister();
 	}
 
 	@AfterReturning(pointcut = "execution(* com.synerzip.supplier.service.AmadeusFlightService.fetchLowFareFlights(*))", returning = "affiliateFlightSearchRS")
 	public void updateDuration(AffiliateFlightSearchRS affiliateFlightSearchRS) {
 		logger.debug("After-returning advice for return type AffiliateFlightSearchRS");
-		affiliateFlightSearchRS.getResults().stream().forEach(itinerary -> {
-			update(itinerary.getOutbound());
-			// inbound needs to be checked for null-values since one-way flights
-			// don't have inbound itineray
-			if (itinerary.getInbound() != null) {
-				update(itinerary.getInbound());
-			}
-		});
+		affiliateFlightSearchRS.getResults().stream()
+				.forEach(affiliateFlightSearchResult -> update(affiliateFlightSearchResult));
 	}
 
+	private void update(AffiliateSearchResult affiliateSearchResult) {
+		update(affiliateSearchResult.getOutbound());
+		// in-bound needs to be checked for null-values since one-way flights
+		// don't have in-bound itinerary
+		if (affiliateSearchResult.getInbound() != null) {
+			update(affiliateSearchResult.getInbound());
+		}
+	}
+	private void update(Itinerary itinerary) {
+		update(itinerary.getOutbound());
+		// in-bound needs to be checked for null-values since one-way flights
+		// don't have in-bound itinerary
+		if (itinerary.getInbound() != null) {
+			update(itinerary.getInbound());
+		}
+	}
+	
 	private void update(BoundElement bound) {
 		BoundVisitor visitor = new BoundVisitor() {
 			Period totalFlightPeriod = Period.ZERO;
