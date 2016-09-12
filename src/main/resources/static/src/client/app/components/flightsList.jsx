@@ -209,7 +209,7 @@ var FlightsList = React.createClass({
                 <div className="col-xs-6">
                     <span id="mainText">Flights Result</span>
                 </div>
-                <div class = "col-xs-6">
+                <div className = "col-xs-6">
                     <button id = "backButton" className="btn btn-primary pull-right" onClick= {this.props.onBackBtnClick}>
                     Back
                     </button>
