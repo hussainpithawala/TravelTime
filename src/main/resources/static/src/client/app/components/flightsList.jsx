@@ -3,8 +3,12 @@ import React from 'react';
 var LayoverData = React.createClass({
     render:function () {
         var layOver;
+        var i = 1;
         for(var key in this.props.layoverTime){
-            layOver = this.props.layoverTime[key];
+            if(i == this.props.index) {
+                layOver = this.props.layoverTime[key];
+            }
+            i++;
         }
         return (<p className="col-12 dottedLine">
             <span> LayOver Time -> {layOver} </span>
@@ -21,7 +25,7 @@ var ItineraryDetails = React.createClass({
                 {itinerary[0].outbound.flights.map(function(flight, index) {
                     var layover;
                     if (index != 0 ){
-                        layover = <LayoverData layoverTime = {itinerary[0].outbound.layovers}></LayoverData>
+                        layover = <LayoverData index = {index} layoverTime = {itinerary[0].outbound.layovers}></LayoverData>
                     }
                     else  {
                         layover = null;
