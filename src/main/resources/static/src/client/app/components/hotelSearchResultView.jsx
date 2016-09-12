@@ -40,8 +40,8 @@ var hotelSearchResultView = React.createClass({
 			hotelResultViewType = <div> <h1> No results found </h1> </div>;
 		}
 		return (
-			<form id = "flightsearch">
-				<div className="row col-xs-12 col-centered">
+			<div id = "flightsearch">
+				<div className="row col-centered">
 					<div className="col-md-6">
 						<span className="flow-text" id="mainText">Hotel Results </span>
 					</div>
@@ -50,24 +50,24 @@ var hotelSearchResultView = React.createClass({
 							Back
 						</button>
 					</div>
-					<div className = "row col-xs-12 col-centered">
-						<div id = "groupButton" className="btn-group pull-right" role="group" aria-label="...">
-							<button type="button" className="btn btn-default" name="LISTVIEW"
-									onClick={this.onViewClick}>
-								<span className="glyphicon glyphicon-th-list" aria-hidden="true"></span> List
-							</button>
-							<button type="button" className="btn btn-default" name="MAPVIEW"
-									onClick={this.onViewClick}>
-								<span className="glyphicon glyphicon-globe" aria-hidden="true"></span> Map
-							</button>
-						</div>
-						<span id="note">LOWEST AVAILABLE NIGHTLY RATE PER ROOM</span>
-					</div>
-					<div className = "row col-xs-12 col-centered">
-						{hotelResultViewType}
-					</div>
 				</div>
-			</form>
+				<div className = "row col-xs-12 col-centered">
+					<div id = "groupButton" className="btn-group pull-right" role="group" aria-label="...">
+						<button type="button" className="btn btn-default" name="LISTVIEW"
+								onClick={this.onViewClick}>
+							<span className="glyphicon glyphicon-th-list" aria-hidden="true"></span> List
+						</button>
+						<button type="button" className="btn btn-default" name="MAPVIEW"
+								onClick={this.onViewClick}>
+							<span className="glyphicon glyphicon-globe" aria-hidden="true"></span> Map
+						</button>
+					</div>
+					<span id="note">LOWEST AVAILABLE NIGHTLY RATE PER ROOM</span>
+				</div>
+				<div className = "row col-xs-12 col-centered">
+					{hotelResultViewType}
+				</div>
+			</div>
 		);
 	}
 });
