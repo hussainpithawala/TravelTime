@@ -12,3 +12,4 @@ src/main/resources/static/node_modules/
 /data
 /reports
 src/test/resources/data-files/**
+src/main/resources/static/properties.json

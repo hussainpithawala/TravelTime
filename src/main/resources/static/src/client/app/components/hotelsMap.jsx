@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import MapInfoWindow from './mapInfoWindow.jsx'
 
 class HotelsMap extends React.Component {
 
@@ -49,17 +51,31 @@ class HotelsMap extends React.Component {
 
   createMarkers() {
   	var hotelsList =  this.props.searchResult;
+    var markerList = [];
+    var infoWindowList = [];
   	for (let i = 0; i < hotelsList.length; i++) {
   		var hotel = hotelsList[i];
   		var label = hotel.total_price.amount;
-  	  new google.maps.Marker({
+  	  markerList[i] = new google.maps.Marker({
       	position: { lat:hotel.location.latitude, lng: hotel.location.longitude },
       	map: this.map,
       	title: hotel.property_name,
       	label: label
       });
+      infoWindowList[i] = this.createInfoWindow(hotel);
+      markerList[i].addListener('click', function() {
+        infoWindowList[i].open(this.map, markerList[i]);
+      });
   	}
-    return null;
+    return markerList;
+  }
+
+  createInfoWindow(hotelInfo) {
+    var div = document.createElement('div');
+    ReactDOM.render(<MapInfoWindow hotelInfo={hotelInfo}/>, div );
+    return new google.maps.InfoWindow({
+      content: div
+    })
   }
 }
 
