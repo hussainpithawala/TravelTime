@@ -52,15 +52,26 @@ public class SabreTokenService {
 	private AtomicReference<AuthResponse> authResponseRef = new AtomicReference<AuthResponse>(null);
 
 	private static class Token implements Serializable {
-		Token(boolean invalid, AuthResponse authResponse,Date expirationDate) {
+		Token(boolean invalid, AuthResponse authResponse, Date expirationDate) {
 			this.invalid = invalid;
 			this.authResponse = authResponse;
 			this.expirationDate = expirationDate;
 		}
-		
+
 		private boolean invalid;
 		private AuthResponse authResponse;
 		private Date expirationDate;
+	}
+
+	private String getTokenFileName() {
+		return new StringBuilder(System.getProperty("user.dir")).append(System.getProperty("file.separator"))
+				.append(env.getProperty("token.directory")).append(System.getProperty("file.separator"))
+				.append(env.getProperty("sabre.token.filename")).toString();
+	}
+
+	private String getTokenDirectory() {
+		return new StringBuilder(System.getProperty("user.dir")).append(System.getProperty("file.separator"))
+				.append(env.getProperty("token.directory")).toString();
 	}
 
 	@PostConstruct
@@ -68,20 +79,16 @@ public class SabreTokenService {
 		// check whether sabre token is available in the directory
 		// if yes, populate token.
 		// serialize the values to the disk so that token is available next time
-		String currentDirectory = System.getProperty("user.dir");
-		String separator = System.getProperty("file.separator");
-		String tokenDirectory = currentDirectory + separator + env.getProperty("token.directory");
-		String fileName = tokenDirectory + separator + env.getProperty("sabre.token.filename");
 
 		try {
-			FileInputStream fis = new FileInputStream(fileName);
+			FileInputStream fis = new FileInputStream(getTokenFileName());
 			ObjectInputStream ois = new ObjectInputStream(fis);
-			Token token = (Token)ois.readObject();
-			
+			Token token = (Token) ois.readObject();
+
 			this.expirationDate = token.expirationDate;
 			this.invalid.set(token.invalid);
 			this.authResponseRef.set(token.authResponse);
-			
+
 			ois.close();
 			fis.close();
 		} catch (IOException | ClassNotFoundException e) {
@@ -94,16 +101,11 @@ public class SabreTokenService {
 	@PreDestroy
 	public void flushToDisk() {
 		// serialize the values to the disk so that token is available next time
-		String currentDirectory = System.getProperty("user.dir");
-		String separator = System.getProperty("file.separator");
-		String tokenDirectory = currentDirectory + separator + env.getProperty("token.directory");
-		String fileName = tokenDirectory + separator + env.getProperty("sabre.token.filename");
-		
-		File directory = new File(tokenDirectory);
+		File directory = new File(getTokenDirectory());
 		directory.mkdirs();
-		
+
 		try {
-			FileOutputStream fos = new FileOutputStream(fileName);
+			FileOutputStream fos = new FileOutputStream(getTokenFileName());
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(new Token(invalid.get(), authResponseRef.get(), expirationDate));
 			oos.close();
@@ -150,7 +152,7 @@ public class SabreTokenService {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.setMessageConverters(messageConverters);
 
-		String url = env.getProperty("sabre.url") + "/v2/auth/token";
+		String url = new StringBuilder(env.getProperty("sabre.url")).append("/v2/auth/token").toString();
 		AuthResponse authToken = restTemplate.postForObject(url, requestEntity, AuthResponse.class);
 		resetToken(authToken);
 	}
@@ -161,7 +163,7 @@ public class SabreTokenService {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.SECOND, Integer.parseInt(token.getExpiresIn()));
 		this.expirationDate = cal.getTime();
-		
+
 		flushToDisk();
 	}
 
