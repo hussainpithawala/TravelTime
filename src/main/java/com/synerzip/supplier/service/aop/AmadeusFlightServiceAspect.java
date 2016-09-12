@@ -2,6 +2,7 @@ package com.synerzip.supplier.service.aop;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Phaser;
 
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,9 +15,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import com.synerzip.supplier.amadeus.model.flights.AffiliateFlightSearchRS;
-import com.synerzip.supplier.amadeus.model.flights.AffiliateSearchResult;
 import com.synerzip.supplier.amadeus.model.flights.Flight;
-import com.synerzip.supplier.amadeus.model.flights.Itinerary;
 import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRS;
 import com.synerzip.supplier.amadeus.model.visitors.BoundElement;
 import com.synerzip.supplier.amadeus.model.visitors.BoundVisitor;
@@ -39,16 +38,33 @@ public class AmadeusFlightServiceAspect {
 	@AfterReturning(pointcut = "execution(* com.synerzip.supplier.service.AmadeusFlightService.fetchLowFareFlights(*))", returning = "lowFareFlightSearchRS")
 	public void updateDuration(LowFareFlightSearchRS lowFareFlightSearchRS) {
 		logger.debug("After-returning advice for return type LowFareFlightSearchRS");
+
+		final Phaser phaser = new Phaser(1); // "1" to register self
 		lowFareFlightSearchRS.getResults().stream().forEach(result -> {
-			result.getItineraries().stream().forEach(itinerary -> update(itinerary));
+			result.getItineraries().stream().forEach(itinerary -> {
+				executor.execute(() -> {
+					phaser.register();
+					update(itinerary);
+					phaser.arriveAndDeregister();
+				});
+			});
 		});
+		phaser.arriveAndAwaitAdvance();
 	}
 
 	@AfterReturning(pointcut = "execution(* com.synerzip.supplier.service.AmadeusFlightService.fetchLowFareFlights(*))", returning = "affiliateFlightSearchRS")
 	public void updateDuration(AffiliateFlightSearchRS affiliateFlightSearchRS) {
 		logger.debug("After-returning advice for return type AffiliateFlightSearchRS");
-		affiliateFlightSearchRS.getResults().stream()
-				.forEach(affiliateFlightSearchResult -> update(affiliateFlightSearchResult));
+
+		final Phaser phaser = new Phaser(1); // "1" to register self
+		affiliateFlightSearchRS.getResults().stream().forEach(affiliateFlightSearchResult -> {
+			executor.execute(() -> {
+				phaser.register();
+				update(affiliateFlightSearchResult);
+				phaser.arriveAndDeregister();
+			});
+		});
+		phaser.arriveAndAwaitAdvance();
 	}
 
 	private void update(IOBoundWrapper ioBoundWrapper) {
@@ -59,7 +75,7 @@ public class AmadeusFlightServiceAspect {
 			update(ioBoundWrapper.getInbound());
 		}
 	}
-	
+
 	private void update(BoundElement bound) {
 		BoundVisitor visitor = new BoundVisitor() {
 			Period totalFlightPeriod = Period.ZERO;
