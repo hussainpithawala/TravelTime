@@ -11,11 +11,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.synerzip.supplier.amadeus.model.visitors.IOBoundWrapper;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "outbound" })
-public class Itinerary {
+public class Itinerary implements IOBoundWrapper {
 
 	@JsonProperty("outbound")
 	private Outbound outbound;
@@ -29,6 +30,7 @@ public class Itinerary {
 	 * @return The outbound
 	 */
 	@JsonProperty("outbound")
+	@Override
 	public Outbound getOutbound() {
 		return outbound;
 	}
@@ -44,6 +46,7 @@ public class Itinerary {
 	}
 
 	@JsonProperty("inbound")
+	@Override
 	public Inbound getInbound() {
 		return inbound;
 	}

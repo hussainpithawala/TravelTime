@@ -21,6 +21,7 @@ import com.synerzip.supplier.amadeus.model.flights.LowFareFlightSearchRS;
 import com.synerzip.supplier.amadeus.model.visitors.BoundElement;
 import com.synerzip.supplier.amadeus.model.visitors.BoundVisitor;
 import com.synerzip.supplier.amadeus.model.visitors.FlightVisitor;
+import com.synerzip.supplier.amadeus.model.visitors.IOBoundWrapper;
 import com.synerzip.supplier.service.TimeService;
 import com.synerzip.utils.TimeUtils.TimeUtilities;
 
@@ -50,20 +51,12 @@ public class AmadeusFlightServiceAspect {
 				.forEach(affiliateFlightSearchResult -> update(affiliateFlightSearchResult));
 	}
 
-	private void update(AffiliateSearchResult affiliateSearchResult) {
-		update(affiliateSearchResult.getOutbound());
+	private void update(IOBoundWrapper ioBoundWrapper) {
+		update(ioBoundWrapper.getOutbound());
 		// in-bound needs to be checked for null-values since one-way flights
 		// don't have in-bound itinerary
-		if (affiliateSearchResult.getInbound() != null) {
-			update(affiliateSearchResult.getInbound());
-		}
-	}
-	private void update(Itinerary itinerary) {
-		update(itinerary.getOutbound());
-		// in-bound needs to be checked for null-values since one-way flights
-		// don't have in-bound itinerary
-		if (itinerary.getInbound() != null) {
-			update(itinerary.getInbound());
+		if (ioBoundWrapper.getInbound() != null) {
+			update(ioBoundWrapper.getInbound());
 		}
 	}
 	
