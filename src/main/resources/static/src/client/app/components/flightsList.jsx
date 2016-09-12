@@ -205,6 +205,16 @@ var ListHeading = React.createClass({
 var FlightsList = React.createClass({
     render:function () {
         return (<div className="flightsPanel">
+            <div className="row flightsPanelHeading">
+                <div className="col-xs-6">
+                    <span id="mainText">Flights Result</span>
+                </div>
+                <div class = "col-xs-6">
+                    <button id = "backButton" className="btn btn-primary pull-right" onClick= {this.props.onBackBtnClick}>
+                    Back
+                    </button>
+                </div>
+            </div>
             <div id="flightsContent">
                 <ListHeading></ListHeading>
                 <List data={this.props.flightsData.results}></List>

@@ -9,6 +9,7 @@ var FLightsSearchPanel = React.createClass({
     getInitialState:function() {
 
         return {
+            defualtView: 'FORMVIEW',
             flights: FlightsStore.getAllFlights()
         }
     },
@@ -25,6 +26,7 @@ var FLightsSearchPanel = React.createClass({
     getFlights: function() {
         this.setState({
             flights: FlightsStore.getAllFlights(),
+            defualtView: 'RESULTSVIEW'
         });
     },
     reloadFlights: function(jsonRequest) {
@@ -34,13 +36,19 @@ var FLightsSearchPanel = React.createClass({
         HotelsActions.reloadLocations(locationKey);
     },
 
+    backToFlightsSearch() {
+        this.setState({
+            defualtView: 'FORMVIEW'
+        });
+    },
+
     render:function () {
         var renderComponent;
-        if(!this.state.flights) {
-            renderComponent = <FlightsSearchForm reloadFlights={this.reloadFlights} updateLocations = {this.reloadLocations}></FlightsSearchForm>
+        if(this.state.defualtView === 'FORMVIEW') {
+            renderComponent = <FlightsSearchForm  reloadFlights={this.reloadFlights} updateLocations = {this.reloadLocations}></FlightsSearchForm>
         }
         else {
-            renderComponent = <FlightsList flightsData={this.state.flights}></FlightsList>
+            renderComponent = <FlightsList onBackBtnClick = {this.backToFlightsSearch} flightsData={this.state.flights}></FlightsList>
         }
         return(
             <div className="flightsSearchPanel">

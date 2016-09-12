@@ -295,7 +295,6 @@ div.panel.show {
 }
 #heading{
     border: 1px solid black;
-    height: 100%;
     text-align: center;
     padding: 1%;
     color: black;
@@ -363,12 +362,25 @@ div#fareDetails-row{
     font-size: x-small;
 }
 .flightsPanel{
-    overflow-y: scroll;
+    position: absolute;
     height: 86%;
     width: 63.5%;
-    position: absolute;
+    border: 1px solid white;
 }
 
+.flightsPanelHeading{
+    margin-top: 1%;
+    margin-right: 1%;
+    margin-left: 1%;
+}
+
+div#flightsContent{
+    overflow-y: scroll;
+    height: 87%;
+    width: 100%;
+    position: absolute;
+    padding: 1%;
+}
 #propertyName {
     margin-left: inherit;
     font: 15px Arial, Helvetica, sans-serif;
