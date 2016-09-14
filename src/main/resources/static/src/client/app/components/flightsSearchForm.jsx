@@ -10,7 +10,7 @@ var FlightsSearchForm = React.createClass({
             from:'',
             to:'',
             dep:'',
-            returnDate:'',
+            returnDate:undefined,
             selectedOption: 'one way',
             adult:1,
             child:0,
@@ -25,7 +25,7 @@ var FlightsSearchForm = React.createClass({
             "origin": this.state.from,
             "destination":this.state.to,
             "departure_date": this.state.dep,
-            "return_date":this.state.return_date,
+            "return_date":this.state.returnDate,
             "adults":this.state.adult,
             "children":this.state.child,
             "infants":this.state.infant

@@ -20,19 +20,20 @@ var ItineraryDetails = React.createClass({
     render: function () {
         var itinerary = this.props.itinerary;
         var rowStyle = {top_border: '1px dotted black'};
+        var layover = this.props.layover;
         return (
             <div id="itineraryDetails">
-                {itinerary[0].outbound.flights.map(function(flight, index) {
-                    var layover;
+                {itinerary.flights.map(function(flight, index) {
+                    var layoverInfo;
                     if (index != 0 ){
-                        layover = <LayoverData index = {index} layoverTime = {itinerary[0].outbound.layovers}></LayoverData>
+                        layoverInfo = <LayoverData index = {index} layoverTime = {layover}></LayoverData>
                     }
                     else  {
-                        layover = null;
+                        layoverInfo = null;
                     }
                     return (
                         <div className="row itinerary" key={index}>
-                            <div>{layover}</div>
+                            <div>{layoverInfo}</div>
                             <div className="col-xs-1">{flight.operating_airline}</div>
                             <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                 {flight.departs_at}
@@ -46,7 +47,7 @@ var ItineraryDetails = React.createClass({
                                 <span>{flight.destination.airport}</span>
                             </div>
                             <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">{flight.duration}
-                            <br/>
+                                <br/>
                                 <span className="travelClass">{flight.booking_info.travel_class}</span>
                             </div>
                         </div>
@@ -77,29 +78,9 @@ var FareDetails =  React.createClass({
 });
 
 var ViewDetails = React.createClass({
-    render:function () {
-        var component;
-        var rowStyle = {padding: '1%'};
-        var fare = this.props.flightInfo.fare.price_per_adult.total_fare - this.props.flightInfo.fare.price_per_adult.tax;
-        var tax = this.props.flightInfo.fare.price_per_adult.tax;
-        var total_price = this.props.flightInfo.fare.total_price;
-        if (this.props.view != 'fare') {
-            component = <ItineraryDetails itinerary={this.props.flightInfo.itineraries}></ItineraryDetails>
-        }
-        else {
-            component = <FareDetails rowStyle= {rowStyle} fare={fare} tax={tax} totalPrice = {total_price}></FareDetails>
-        }
-        return (
-            <div id="viewDetails">
-                {component}
-            </div>)
-    }
-});
-
-var FlightDetails = React.createClass({
     getInitialState:function () {
         return {
-            view :'fare'
+            view :'itinerary'
         }
     },
     onBtnClick: function (e) {
@@ -114,14 +95,26 @@ var FlightDetails = React.createClass({
         }
     },
     render:function () {
+        var component;
+        var rowStyle = {padding: '1%'};
+        var fare = this.props.flightInfo.fare.price_per_adult.total_fare - this.props.flightInfo.fare.price_per_adult.tax;
+        var tax = this.props.flightInfo.fare.price_per_adult.tax;
+        var total_price = this.props.flightInfo.fare.total_price;
         var btnStyle = {
             color: 'black',
             border: '1px solid black',
             float: 'left',
             padding: '2px'
         };
-        return(
-            <div id={this.props.id} className="collapse flightDetails">
+        var divStyle = (this.props.flightInfo.itineraries[0].inbound) ? {border : '1px dotted black' } : null;
+        if (this.state.view != 'fare') {
+            component = <ItineraryDetails itinerary={this.props.itinerary} layover={this.props.layover}></ItineraryDetails>
+        }
+        else {
+            component = <FareDetails rowStyle= {rowStyle} fare={fare} tax={tax} totalPrice = {total_price}></FareDetails>
+        }
+        return (
+            <div style={divStyle}>
                 <div id="infoTitle">
                     <button name = "itinerary" style={btnStyle} onClick={this.onBtnClick}>
                         ITINERARY
@@ -131,11 +124,96 @@ var FlightDetails = React.createClass({
                     </button>
                 </div>
                 <br/>
-                <ViewDetails view={this.state.view} flightInfo={this.props.flightInfo}></ViewDetails>
+                <div  id="viewDetails">
+                    {component}
+                </div>
+            </div>)
+    }
+});
+
+var FlightDetails = React.createClass({
+    getInitialState:function () {
+        return {
+            view :'outbound',
+            itinerary: this.props.flightInfo.itineraries[0].outbound,
+            layover: this.props.flightInfo.itineraries[0].outbound.layovers
+        }
+    },
+    onBtnClick: function (e) {
+        if(e.target.name == 'outbound'){
+            this.setState({
+                view: 'outbound',
+                itinerary: this.props.flightInfo.itineraries[0].outbound,
+                layover:this.props.flightInfo.itineraries[0].outbound.layovers
+            })
+        } else {
+            this.setState({
+                view: 'inbound',
+                itinerary: this.props.flightInfo.itineraries[0].inbound,
+                layover:this.props.flightInfo.itineraries[0].inbound.layovers
+            })
+        }
+    },
+    render:function () {
+        var btnStyle = {
+            color: 'black',
+            border: '1px solid black',
+            float: 'left',
+            padding: '2px'
+        };
+        var divStyle = {
+            marginBottom: '2%'
+        };
+
+        var inbndoOutbnddtls = (this.props.flightInfo.itineraries[0].inbound)? <div style={divStyle}>
+            <button name = "outbound" style={btnStyle} onClick={this.onBtnClick}>
+                OUTBOUND DETAILS
+            </button>
+            <button name = "inbound" style={btnStyle} onClick={this.onBtnClick}>
+                INBOUND DETAILS
+            </button>
+        </div> : null;
+
+        return(
+            <div id={this.props.id} className="collapse flightDetails">
+                {inbndoOutbnddtls}
+                {(inbndoOutbnddtls)? <br/> : null}
+                <ViewDetails view={this.state.view} layover={this.state.layover} flightInfo={this.props.flightInfo} itinerary={this.state.itinerary}></ViewDetails>
             </div>
         )
     }
 });
+
+var ReturnFlightHeading = React.createClass({
+    render: function () {
+        var length = this.props.inboundFlightData.length;
+        var arrivalTime = this.props.inboundFlightData[length - 1].arrives_at;
+        var destAirport = this.props.inboundFlightData[length - 1].destination.airport;
+        return(
+            <div>
+                <div id="dottedBorder"></div>
+                <span id="returnFlight">Return Flight</span>
+                <br/>
+                <div className="row returnFlightHeading">
+                    <div className="col-xs-1">{this.props.inboundFlightData[0].operating_airline}</div>
+                    <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        {this.props.inboundFlightData[0].departs_at}
+                        <br/>
+                        <span>{this.props.inboundFlightData[0].origin.airport}</span>
+                    </div>
+                    <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        {arrivalTime}
+                        <br/>
+                        <span>{destAirport}</span>
+                    </div>
+                    <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">{this.props.inboundDuration}</div>
+                    {/*<div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">{} USD</div>*/}
+                </div>
+            </div>
+        )
+    }
+});
+
 var FlightHeading = React.createClass({
     getInitialState : function() {
         return {showDetails : false};
@@ -154,20 +232,23 @@ var FlightHeading = React.createClass({
         var arrivalTime = this.props.flightData[length - 1].arrives_at;
         var destAirport = this.props.flightData[length - 1].destination.airport;
         var toggledetails;
-
         if (!this.state.showDetails) {
             toggledetails = <span onClick={this.OnViewDetailsClick}> +Show Details</span>
         } else {
             toggledetails = <span onClick={this.OnHideDetailsClick}> -Hide Details</span>
         }
 
+        var returnFlight = (this.props.inboundFlightData)? <ReturnFlightHeading inboundFlightData={this.props.inboundFlightData} inboundDuration={this.props.inboundDuration}></ReturnFlightHeading>:null;
+
         return (
             <div className="row" data-toggle="collapse" data-target={this.props.target}>
-                <div className="col-xs-1">{this.props.flightData[0].operating_airline}</div>
+                {(returnFlight) ? <span id="ownwardFlight">Ownward Flight</span> : null}
+                {(returnFlight) ? <div id="break"><br/></div> : null}
+                <div className="col-xs-1">{this.props.outboundFlightData[0].operating_airline}</div>
                 <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                    {this.props.flightData[0].departs_at}
+                    {this.props.outboundFlightData[0].departs_at}
                     <br/>
-                    <span>{this.props.flightData[0].origin.airport}</span>
+                    <span>{this.props.outboundFlightData[0].origin.airport}</span>
                 </div>
                 <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                     {arrivalTime}
@@ -179,6 +260,9 @@ var FlightHeading = React.createClass({
                 <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1">
                     <span id="toggleContent">{toggledetails}</span>
                 </div>
+                <div>
+                    {returnFlight}
+                </div>
             </div>
         )
     }
@@ -186,12 +270,16 @@ var FlightHeading = React.createClass({
 var Flight = React.createClass({
     render:function () {
         var flightData = this.props.flightdata.itineraries[0].outbound.flights;
+        var outboundFlightData = this.props.flightdata.itineraries[0].outbound.flights;
+        var inboundFlightData = (this.props.flightdata.itineraries[0].inbound)? this.props.flightdata.itineraries[0].inbound.flights:null;
         var duration = this.props.flightdata.itineraries[0].outbound.duration;
+        var inboundDuration = (this.props.flightdata.itineraries[0].inbound) ? this.props.flightdata.itineraries[0].inbound.duration : null;
         var totalPrice = this.props.flightdata.fare.total_price;
         var id = "info" + this.props.index;
         var target = "#info" + this.props.index;
         return (<div id="flightInfo">
-            <FlightHeading target={target} duration = {duration} flightData={flightData} totalPrice={totalPrice}></FlightHeading>
+            <FlightHeading target={target} duration = {duration} flightData={flightData} inboundDuration={inboundDuration} outboundFlightData={outboundFlightData} inboundFlightData={inboundFlightData}
+                           totalPrice={totalPrice}></FlightHeading>
             <FlightDetails id={id} flightInfo={this.props.flightdata}></FlightDetails>
         </div>)
     }
@@ -235,7 +323,7 @@ var FlightsList = React.createClass({
                 </div>
                 <div className = "col-xs-6">
                     <button id = "backButton" className="btn btn-primary pull-right" onClick= {this.props.onBackBtnClick}>
-                    Back
+                        Back
                     </button>
                 </div>
             </div>

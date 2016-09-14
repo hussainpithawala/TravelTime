@@ -298,7 +298,7 @@ div.panel.show {
     text-align: center;
     padding: 1%;
     color: black;
-    background-color: white;
+    background-color: lightblue;
     opacity: 0.8;
 }
 
@@ -353,6 +353,8 @@ div#fareDetails-row{
     margin-top: 1%;
     text-align: center;
     padding: 1%;
+    margin-left: 1%;
+    margin-right: 1%;
 }
 
 .itinerary {
@@ -419,4 +421,33 @@ div#flightsContent{
 #hotelsContent {
     overflow-y: scroll;
     height: 410px;
+}
+
+.returnFlightHeading{
+    margin-left: auto;
+    margin-top: 1%;
+}
+
+#dottedBorder {
+    border-top: 1px dotted black;
+    margin: 1%;
+    margin-top: 5%;
+}
+
+#returnFlight {
+    left: 3%;
+    position: absolute;
+    background-color: yellow;
+    opacity: 0.8;
+}
+
+#ownwardFlight {
+    left: 3%;
+    position: absolute;
+    background-color: yellowgreen;
+    opacity: 0.8;
+}
+
+#break{
+    margin-top: 1%;
 }
