@@ -169,7 +169,7 @@ var HotelSearchResult = React.createClass({
     render: function() {
         return (
           <div>
-              <Container id = "backendData" data = {this.state.backendData} ></Container>
+              <Container data = {this.state.backendData} ></Container>
           </div>
         );
     }

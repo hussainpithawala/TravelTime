@@ -403,3 +403,8 @@ div#flightsContent{
     font-size: 75%;
     cursor: pointer;
 }
+
+#hotelsContent {
+    overflow-y: scroll;
+    height: 410px;
+}
