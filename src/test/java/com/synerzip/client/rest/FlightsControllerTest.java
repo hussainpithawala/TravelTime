@@ -2,7 +2,6 @@ package com.synerzip.client.rest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -19,6 +18,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -48,20 +49,35 @@ public class FlightsControllerTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(instance).build();
 	}
 	
-	@Test
-	// Tests the response status of searchFlights request.
-	public void searchFlights() throws Exception {
-		//get current date 
-		LocalDate currentDate = LocalDateTime.now().toLocalDate();
-		//add 2 days to the current date
-		LocalDate dateAftertwoDays = currentDate.plus(2, ChronoUnit.DAYS);
-		//set request object using builder pattern
-		LowFareFlightSearchRQ flightSearchRequest = LowFareFlightSearchRQ.getBuilder().origin("ORD").destination("LGA")
-				.departureDate(currentDate.toString()).returnDate(dateAftertwoDays.toString()).numberOfResults(2).getInstance();
+	private String getCurrentDate(){
+		return LocalDateTime.now().toLocalDate().toString();
+	}
+	
+	private String getTwoDaysAfterCurrentDate(){
+		return LocalDateTime.now().toLocalDate().plus(2, ChronoUnit.DAYS).toString();
+	}
+	
+	private String convertObjectToJson(Object requestObject){
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
 		ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = writer.writeValueAsString(flightSearchRequest);
+		String requestJson = null;
+		try {
+			requestJson = writer.writeValueAsString(requestObject);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return requestJson;
+		
+	}
+	
+	@Test
+	// Tests the response status of searchFlights request.
+	public void searchFlights() throws Exception {
+		//set request object using builder pattern
+		LowFareFlightSearchRQ flightSearchRequest = LowFareFlightSearchRQ.getBuilder().origin("ORD").destination("LGA")
+				.departureDate(getCurrentDate()).returnDate(getTwoDaysAfterCurrentDate()).numberOfResults(2).getInstance();
+		String requestJson = convertObjectToJson(flightSearchRequest);
 		mockMvc.perform(MockMvcRequestBuilders.post("/rest/searchFlights")
 				.content(requestJson)
 				.contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -71,15 +87,9 @@ public class FlightsControllerTest {
 	@Test
 	// Tests response status of searchFlightExtensive
 	public void searchFlightExtensiveTest() throws Exception {
-		LocalDate currentDate = LocalDateTime.now().toLocalDate();
-		// add 2 days to the current date
-		LocalDate dateAftertwoDays = currentDate.plus(2, ChronoUnit.DAYS);
 		ExtensiveSearchRQ flightSearchRequest = ExtensiveSearchRQ.getBuilder().origin("FRA").destination("LON")
-				.departureDate(currentDate.toString() + "--" + dateAftertwoDays.toString()).oneWay(false).getInstance();
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-		ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = writer.writeValueAsString(flightSearchRequest);
+				.departureDate(getCurrentDate() + "--" + getTwoDaysAfterCurrentDate()).oneWay(false).getInstance();
+		String requestJson = convertObjectToJson(flightSearchRequest);
 		mockMvc.perform(MockMvcRequestBuilders.post("/rest/searchExtensive")
 				.content(requestJson)
 				.contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -89,16 +99,10 @@ public class FlightsControllerTest {
 	@Test
 	// Tests the response status of Flight Inspiration request.
 	public void searchFilghtInspiration() throws Exception {
-		LocalDate currentDate = LocalDateTime.now().toLocalDate();
-		// add 2 days to the current date
-		LocalDate dateAftertwoDays = currentDate.plus(2, ChronoUnit.DAYS);
 		FlightInspirationSearchRQ flightSearchRequest = FlightInspirationSearchRQ.getBuilder().origin("NYC")
-				.destination("PAR").departureDate(currentDate.toString() + "--" + dateAftertwoDays.toString())
+				.destination("PAR").departureDate(getCurrentDate()+ "--" + getTwoDaysAfterCurrentDate())
 				.oneWay(false).duration(2).maxPrice(900).aggregationMode("WEEK").getInstance();
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-		ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = writer.writeValueAsString(flightSearchRequest);
+		String requestJson = convertObjectToJson(flightSearchRequest);
 		mockMvc.perform(MockMvcRequestBuilders.post("/rest/searchFlightInspiration")
 				.content(requestJson)
 				.contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -109,10 +113,7 @@ public class FlightsControllerTest {
     // Tests the response status of Location Information request.
     public void searchLocationInformation() throws Exception {
     	LocationInformationSearchRQ airportSearchRequest = LocationInformationSearchRQ.getBuilder().code("DUB").getInstance();
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-		ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = writer.writeValueAsString(airportSearchRequest);
+    	String requestJson = convertObjectToJson(airportSearchRequest);
 		mockMvc.perform(MockMvcRequestBuilders.post("/rest/searchLocationInformation")
 				.content(requestJson)
 				.contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -122,16 +123,10 @@ public class FlightsControllerTest {
 	@Test
 	// Tests the response status of Affiliate search request.
 	public void searchAffiliateFlight() throws Exception {
-		LocalDate currentDate = LocalDateTime.now().toLocalDate();
-		//add 2 days to the current date
-	    LocalDate dateAftertwoDays = currentDate.plus(2, ChronoUnit.DAYS);
 		AffiliateFlightSearchRQ flightSearchRequest = AffiliateFlightSearchRQ.getBuilder().origin("LON")
-				.destination("DUB").departureDate(currentDate.toString()).returnDate(dateAftertwoDays.toString()).adults(1)
+				.destination("DUB").departureDate(getCurrentDate()).returnDate(getTwoDaysAfterCurrentDate()).adults(1)
 				.children(0).infants(0).maxPrice(900).currency("US").mobile(false).getInstance();
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-		ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = writer.writeValueAsString(flightSearchRequest);
+		String requestJson = convertObjectToJson(flightSearchRequest);
 		mockMvc.perform(MockMvcRequestBuilders.post("/rest/searchAffiliate")
 				.content(requestJson)
 				.contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -142,10 +137,7 @@ public class FlightsControllerTest {
 	// Tests the response status of nearest airport request.
 	public void searchNearestAirport() throws Exception {
 		NearestAirportSearchRQ airportSearchRequest = NearestAirportSearchRQ.getBuilder().latitude(54.9501).longitude(-71.7412).getInstance();
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-		ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = writer.writeValueAsString(airportSearchRequest);
+		String requestJson = convertObjectToJson(airportSearchRequest);
 		mockMvc.perform(MockMvcRequestBuilders.post("/rest/searchNearestAirport")
 				.content(requestJson)
 				.contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -157,10 +149,7 @@ public class FlightsControllerTest {
 	public void airportAutocomplete() throws Exception {
 		AirportAutocompleteRQ airportAutocompleteRequest = AirportAutocompleteRQ.getBuilder().term("LON").country("US")
 				.allAirports(false).getInstance();
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-		ObjectWriter writer = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson = writer.writeValueAsString(airportAutocompleteRequest);
+		String requestJson = convertObjectToJson(airportAutocompleteRequest);
 		mockMvc.perform(MockMvcRequestBuilders.post("/rest/airportAutocomplete")
 				.content(requestJson)
 				.contentType(MediaType.APPLICATION_JSON_VALUE))
