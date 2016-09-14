@@ -137,10 +137,30 @@ var FlightDetails = React.createClass({
     }
 });
 var FlightHeading = React.createClass({
+    getInitialState : function() {
+        return {showDetails : false};
+    },
+
+    OnViewDetailsClick : function () {
+        this.setState({ showDetails : true});
+    },
+
+    OnHideDetailsClick : function () {
+        this.setState({showDetails: false});
+    },
+
     render:function () {
         var length = this.props.flightData.length;
         var arrivalTime = this.props.flightData[length - 1].arrives_at;
         var destAirport = this.props.flightData[length - 1].destination.airport;
+        var toggledetails;
+
+        if (!this.state.showDetails) {
+            toggledetails = <span onClick={this.OnViewDetailsClick}> +Show Details</span>
+        } else {
+            toggledetails = <span onClick={this.OnHideDetailsClick}> -Hide Details</span>
+        }
+
         return (
             <div className="row" data-toggle="collapse" data-target={this.props.target}>
                 <div className="col-xs-1">{this.props.flightData[0].operating_airline}</div>
@@ -157,7 +177,7 @@ var FlightHeading = React.createClass({
                 <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">{this.props.duration}</div>
                 <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">{this.props.totalPrice} USD</div>
                 <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-                    <span id="details">Show Details</span>
+                    <span id="toggleContent">{toggledetails}</span>
                 </div>
             </div>
         )

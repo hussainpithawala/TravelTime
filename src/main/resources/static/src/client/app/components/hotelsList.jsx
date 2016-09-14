@@ -97,15 +97,35 @@ var HotelDetails = React.createClass({
 });
 
 var Section = React.createClass({
-    render: function() {
 
-        var id = "info" + this.props.index;
-        var target = "#info" + this.props.index;
+    getInitialState : function() {
+        return {showDetails : false};
+    },
+
+    OnViewDetailsClick : function () {
+        this.setState({ showDetails : true});
+    },
+
+    OnHideDetailsClick : function () {
+        this.setState({showDetails: false});
+    },
+
+    render: function() {
+        var id = "hotelinfo" + this.props.index;
+        var target = "#" + id;
+        var toggledetails;
+
+        if (!this.state.showDetails) {
+            toggledetails = <span onClick={this.OnViewDetailsClick}> +Show Details</span>
+        } else {
+            toggledetails = <span onClick={this.OnHideDetailsClick}> -Hide Details</span>
+        }
+
         return (
           <div id = "hotelSearchResult">
-              <div id = "propertyName" className = "row" data-toggle = "collapse" data-target = {target}
-                   title = {this.props.data.min_daily_rate.amount} >
+              <div id = "propertyName" className = "row" data-toggle = "collapse" data-target = {target}>
                   {this.props.data.property_name}
+                  <div id= "toggleContent"className="col-sm-2 pull-right">{toggledetails}</div>
               </div>
               <div className = "collapse " id = {id}>
                   <HotelDetails details = {this.props.data} index = {this.props.index}/>

@@ -191,11 +191,11 @@ div.panel.show {
 
 #hotelSearchResult {
     border: 1px solid black;
-    margin-top: 1%;
+    margin-top: 2%;
     padding: 1%;
     color: black;
     background-color: white;
-    opacity: 0.9;
+    opacity: 0.8;
 }
 
 #selectedRoomRate {
@@ -398,6 +398,8 @@ div#flightsContent{
     font-weight: bold;
 }
 
-#address {
-    margin-top: 1%;
+#toggleContent {
+    color: blue;
+    font-size: 75%;
+    cursor: pointer;
 }
