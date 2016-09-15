@@ -28,9 +28,9 @@ var hotelSearchResultView = React.createClass({
 		if (hotelsList) {
 			if (this.state.defaultView === 'MAPVIEW') {
 				var initialCenter = {lng: hotelsList[0].location.longitude, lat:hotelsList[0].location.latitude};
-				hotelResultViewType = <div className="col-md-12" style={hotelInfoStyle}> 
-																<MapPage initialCenter={initialCenter} searchResult={hotelsList}></MapPage>
-															</div>;
+				hotelResultViewType = <div className="col-md-12" style={hotelInfoStyle}>
+											<MapPage initialCenter={initialCenter} searchResult={hotelsList}></MapPage>
+									</div>;
 			} else if(this.state.defaultView === 'LISTVIEW') {
 				hotelResultViewType = <HotelSearchResult searchResult={hotelsList}></HotelSearchResult>;
 			} else {
@@ -64,7 +64,7 @@ var hotelSearchResultView = React.createClass({
 					</div>
 					<span id="note">LOWEST AVAILABLE NIGHTLY RATE PER ROOM</span>
 				</div>
-				<div className = "row col-xs-12 col-centered">
+				<div id = "hotelsContent" className = "row col-xs-12 col-centered">
 					{hotelResultViewType}
 				</div>
 			</div>

@@ -1,5 +1,8 @@
 package com.synerzip.supplier.service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,13 +25,21 @@ public class SabreFlightServiceTest {
 	@Autowired
 	private SabreFlightService sabreFlightService;
 	
+	private String getCurrentDate(){
+		return LocalDateTime.now().toLocalDate().toString();
+	}
+	
+	private String getTwoDaysAfterCurrentDate(){
+		return LocalDateTime.now().toLocalDate().plus(2, ChronoUnit.DAYS).toString();
+	}
+	
 	@Test
 	public void testDoInstaFlightSearch() {
 		InstaFlightRequest request = new InstaFlightRequest();
 		request.setOrigin("ORD");
 		request.setDestination("LGA");
-		request.setDeparturedate("2016-09-13");
-		request.setReturndate("2016-09-16");
+		request.setDeparturedate(getCurrentDate());
+		request.setReturndate(getTwoDaysAfterCurrentDate());
 //		request.setMaxfare(140.0);
 		InstaFlightResponse response = sabreFlightService.doInstaFlightSearch(request);
 		Assert.assertNull(response.getAdditionalProperties().get("errorCode"));

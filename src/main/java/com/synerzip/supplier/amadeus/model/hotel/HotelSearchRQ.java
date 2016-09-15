@@ -32,7 +32,7 @@ public class HotelSearchRQ {
 	private String checkOut;
 	
 	@JsonProperty("radius")
-	private String radius;
+	private Integer radius;
 	
 	@JsonProperty("lang")
 	private String lang;
@@ -41,16 +41,16 @@ public class HotelSearchRQ {
 	private String currency;
 	
 	@JsonProperty("max_rate")
-	private String maxRate;
+	private Integer maxRate;
 	
 	@JsonProperty("number_of_results")
-	private String numberOfResults;
+	private Integer numberOfResults;
 	
 	@JsonProperty("all_rooms")
-	private String allRooms;
+	private Boolean allRooms;
 	
 	@JsonProperty("show_sold_out")
-	private String showSoldOut;
+	private Boolean showSoldOut;
 	
 	@JsonProperty("amenities")
 	private String amenities;
@@ -120,7 +120,7 @@ public class HotelSearchRQ {
 	 * @return The radius
 	 */
 	@JsonProperty("radius")
-	public String getRadius() {
+	public Integer getRadius() {
 		return radius;
 	}
 
@@ -130,7 +130,7 @@ public class HotelSearchRQ {
 	 *            The radius
 	 */
 	@JsonProperty("radius")
-	public void setRadius(String radius) {
+	public void setRadius(Integer radius) {
 		this.radius = radius;
 	}
 
@@ -177,7 +177,7 @@ public class HotelSearchRQ {
 	 * @return The maxRate
 	 */
 	@JsonProperty("max_rate")
-	public String getMaxRate() {
+	public Integer getMaxRate() {
 		return maxRate;
 	}
 
@@ -187,7 +187,7 @@ public class HotelSearchRQ {
 	 *            The maxRate
 	 */
 	@JsonProperty("max_rate")
-	public void setMaxRate(String maxRate) {
+	public void setMaxRate(Integer maxRate) {
 		this.maxRate = maxRate;
 	}
 
@@ -196,7 +196,7 @@ public class HotelSearchRQ {
 	 * @return The numberOfResults
 	 */
 	@JsonProperty("number_of_results")
-	public String getNumberOfResults() {
+	public Integer getNumberOfResults() {
 		return numberOfResults;
 	}
 
@@ -206,7 +206,7 @@ public class HotelSearchRQ {
 	 *            The numberOfResults
 	 */
 	@JsonProperty("number_of_results")
-	public void setNumberOfResults(String numberOfResults) {
+	public void setNumberOfResults(Integer numberOfResults) {
 		this.numberOfResults = numberOfResults;
 	}
 
@@ -215,7 +215,7 @@ public class HotelSearchRQ {
 	 * @return The allRooms
 	 */
 	@JsonProperty("all_rooms")
-	public String getAllRooms() {
+	public Boolean getAllRooms() {
 		return allRooms;
 	}
 
@@ -225,7 +225,7 @@ public class HotelSearchRQ {
 	 *            The allRooms
 	 */
 	@JsonProperty("all_rooms")
-	public void setAllRooms(String allRooms) {
+	public void setAllRooms(Boolean allRooms) {
 		this.allRooms = allRooms;
 	}
 
@@ -234,7 +234,7 @@ public class HotelSearchRQ {
 	 * @return The showSoldOut
 	 */
 	@JsonProperty("show_sold_out")
-	public String getShowSoldOut() {
+	public Boolean getShowSoldOut() {
 		return showSoldOut;
 	}
 
@@ -244,7 +244,7 @@ public class HotelSearchRQ {
 	 *            The showSoldOut
 	 */
 	@JsonProperty("show_sold_out")
-	public void setShowSoldOut(String showSoldOut) {
+	public void setShowSoldOut(Boolean showSoldOut) {
 		this.showSoldOut = showSoldOut;
 	}
 
@@ -275,5 +275,76 @@ public class HotelSearchRQ {
 	@JsonAnySetter
 	public void setAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
+	}
+	
+	public static class Builder {
+		private HotelSearchRQ instance;
+
+		private Builder(HotelSearchRQ instance) {
+			this.instance = instance;
+		}
+
+		public Builder location(String location) {
+			this.instance.location = location;
+			return this;
+		}
+
+		public Builder CheckIn(String CheckIn) {
+			this.instance.checkIn = CheckIn;
+			return this;
+		}
+
+		public Builder CheckOut(String CheckOut) {
+			this.instance.checkOut = CheckOut;
+			return this;
+		}
+
+		public Builder radius(Integer radius) {
+			this.instance.radius = radius;
+			return this;
+		}
+
+		public Builder lang(String lang) {
+			this.instance.lang = lang;
+			return this;
+		}
+		
+		public Builder currency(String currency) {
+			this.instance.currency = currency;
+			return this;
+		}
+
+		public Builder maxRate(Integer maxRate) {
+			this.instance.maxRate = maxRate;
+			return this;
+		}
+		
+		public Builder numberOfResults(Integer numberOfResults) {
+			this.instance.numberOfResults = numberOfResults;
+			return this;
+		}
+
+		public Builder allRooms(Boolean allRooms) {
+			this.instance.allRooms = allRooms;
+			return this;
+		}
+		
+		public Builder showSoldOut(Boolean showSoldOut) {
+			this.instance.showSoldOut = showSoldOut;
+			return this;
+		}
+		
+		public Builder amenities(String amenities) {
+			this.instance.amenities = amenities;
+			return this;
+		}
+
+		public HotelSearchRQ getInstance() {
+			return this.instance;
+		}
+	}
+
+	public static Builder getBuilder() {
+		return new Builder(new HotelSearchRQ());
 	}
 }
