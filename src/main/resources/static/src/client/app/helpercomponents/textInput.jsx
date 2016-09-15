@@ -9,13 +9,17 @@ var TextInput = React.createClass({
     // validation function
     isValid: function(inputValue) {
         // check required fields
-        if ((inputValue.getAttribute('required') != null) && (inputValue.value = '')) {
+        //alert("(inputValue.getAttribute('required')",(inputValue.getAttribute('required'));
+        //console.log('inputValue',inputValue.required);
+        if ((inputValue.getAttribute('required') != null) && (inputValue.value == '')) {
             inputValue.classList.add('error'); // add error class
-            inputValue.nextSibling.textContent = this.props.messageRequired; // Show error message
+            inputValue.focus();
+            inputValue.nextSibling.textContent = inputValue.name + ' cannot be empty'; // Show error message
             return false;
         } else {
             inputValue.classList.remove('error'); // remove error class
             inputValue.nextSibling.textContent = '';
+            //alert(inputValue.placeholder + 'should not be empty');
         }
         return true;
     },
@@ -27,28 +31,29 @@ var TextInput = React.createClass({
     render: function() {
         var inputField;
         if (this.props.type == 'text' && this.props.list) {
+            {this.props}
             inputField =
                 <input  className="form-control" value={this.props.value} name={this.props.name}
                         placeholder={this.props.name} ref={this.props.name}
-                        required = {this.props.isrequired} onChange = {this.handleChange}
+                        required = {this.props.isRequired} onChange = {this.handleChange}
                         id={this.props.name} list={this.props.list}/>
         } else if (this.props.type == 'text') {
             inputField =
                 <input className="form-control" value={this.props.value} name={this.props.name}
                        placeholder={this.props.name} ref={this.props.name}
-                       required = {this.props.isrequired} onChange = {this.handleChange}
+                       required = {this.props.isRequired} onChange = {this.handleChange}
                        id={this.props.name} list={this.props.list}/>
         } else if(this.props.type == 'date' ) {
             inputField =
                 <input type="date" className="form-control" value={this.props.value} name={this.props.name}
-                       placeholder={this.props.name}ref={this.props.name} required = {this.props.isrequired}
+                       placeholder={this.props.name}ref={this.props.name} required = {this.props.isRequired}
                        onChange = {this.handleChange} id={this.props.name} data-type="date" min={this.props.min}/>
         }
         return (
-            <div className="col-sm-6">
+            <div className="col-sm-6 ">
                 <label htmlFor={this.props.name}>{this.props.name}</label>
                 {inputField}
-                <span className="error"></span>
+                <span className="error  errormsg"></span>
             </div>
         )
     }

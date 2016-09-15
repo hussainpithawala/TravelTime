@@ -75,15 +75,15 @@ var HotelSearchForm = React.createClass({
   // register input controls
   register: function (field) {
       var states = this.state.Fields;
-    states.push(field);
-    this.setState({
-        Fields: states
+      states.push(field);
+      this.setState({
+      Fields: states
     })
   },
 
   render: function() {
       return (
-          <form id="flightsearch" onSubmit={this.handleSubmit} className="row col-sm-12 ">
+          <form id="flightsearch"  className="row col-sm-12 form-group">
               <div className="row col-sm-12 col-centered">
                   <h1>Book Hotels</h1>
               </div>
@@ -115,7 +115,8 @@ var HotelSearchForm = React.createClass({
                              min={this.state.check_in}
                   />
               </div>
-              {/*<div className="row col-xs-12 col-centered ">
+              {/* This commented block can be used to add Max-wait input , Cribs and Rollaway Beds.
+              <div className="row col-xs-12 col-centered ">
                 <div className="col-xs-3">
                   <label htmlFor="dep">Max Wait:</label>
                   <input type="number" className="form-control" id="Max Wait:" min="1" max="1600" placeholder="Max 1600ms " />
@@ -142,7 +143,8 @@ var HotelSearchForm = React.createClass({
 
               <div className="row col-xs-12 col-centered">
                   <div className="col-sm-3">
-                      <button type="submit" className="btn btn-primary btn-block" id="submit">Search</button>
+                      <button type="submit" className="btn btn-primary btn-block"
+                              onClick={this.handleSubmit} id="submit">Search</button>
                   </div>
               </div>
           </form>

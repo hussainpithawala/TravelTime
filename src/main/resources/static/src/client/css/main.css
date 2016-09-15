@@ -397,7 +397,13 @@ div#flightsContent{
 #label {
     font-weight: bold;
 }
-
 #address {
     margin-top: 1%;
+}
+.errormsg{
+    color: #ff2a2a !important;
+    font-family: "DejaVu Sans";
+}
+.error{
+    border-color: #ff3f3f !important;
 }
