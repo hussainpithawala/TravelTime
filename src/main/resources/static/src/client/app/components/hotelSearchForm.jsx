@@ -108,12 +108,7 @@ var HotelSearchForm = React.createClass({
                   <TextInput type="date" value={this.state.check_in} label={'Check-In'} name={'CheckIn'}
                              htmlFor={'CheckIn'} isRequired={true} onChange={this.onChangeFromDate}
                              onComponentMounted={this.register} messageRequired={'Check-in required'}
-                             min={(function (){
-                              var todaysDate = new Date();
-                              return todaysDate.getFullYear()
-                              + '-' + (todaysDate.getMonth()+1 < 10 ? "0"+(todaysDate.getMonth()+1) : todaysDate.getMonth()+1)
-                              + '-' + todaysDate.getDate();
-                             })()}
+                             min={new Date().toISOString().slice(0,10)}
                   />
                   <TextInput type="date" value={this.state.check_out} label={'Check-Out'} name={'CheckOut'}
                              htmlFor={'CheckOut'} isRequired={true} onChange={this.onChangeToDate}
