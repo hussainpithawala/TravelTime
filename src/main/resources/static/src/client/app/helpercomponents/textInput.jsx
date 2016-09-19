@@ -47,7 +47,9 @@ var TextInput = React.createClass({
             inputField =
                 <input type="date" className="form-control" value={this.props.value} name={this.props.name}
                        placeholder={this.props.name}ref={this.props.name} required = {this.props.isRequired}
-                       onChange = {this.handleChange} id={this.props.name} data-type="date" min={this.props.min}/>
+                       onChange = {this.handleChange} id={this.props.name} data-type="date" min={this.props.min}
+                       disabled={this.props.disabled}
+                />
         }
         return (
             <div className="col-sm-6 ">

@@ -11,7 +11,7 @@ var FlightsSearchForm = React.createClass({
             to:'',
             dep:'',
             returnDate:undefined,
-            selectedOption: 'one way',
+            selectedOption: 0,
             adult:1,
             child:0,
             infant:0,
@@ -21,19 +21,37 @@ var FlightsSearchForm = React.createClass({
     },
     handleSearch: function (e) {
         e.preventDefault();
-        var requestJson = {
-            "origin": this.state.from,
-            "destination":this.state.to,
-            "departure_date": this.state.dep,
-            "return_date":this.state.returnDate,
-            "adults":this.state.adult,
-            "children":this.state.child,
-            "infants":this.state.infant
-        };
-        this.props.reloadFlights(requestJson);
+        var validForm = true;
+        this.state.Fields.forEach(function(field){
+            if (typeof field.isValid === "function") {
+                var validField = field.isValid(field.refs[field.props.name]);
+                validForm = validForm && validField;
+            }
+        });
+        if (validForm){
+            var requestJson = {
+                "origin": this.state.from,
+                "destination":this.state.to,
+                "departure_date": this.state.dep,
+                "return_date":this.state.returnDate,
+                "adults":this.state.adult,
+                "children":this.state.child,
+                "infants":this.state.infant
+            };
+            this.props.reloadFlights(requestJson);
+        }
     },
-
     handleOptionChange: function (changeEvent) {
+        if (this.state.selectedOption == 1){
+            document.getElementById("Return").value = '';
+            this.setState({
+                returnDate: ''
+            });
+        }else{
+            this.setState({
+                returnDate: document.getElementById("Return").value
+            });
+        }
         this.setState({
             selectedOption: changeEvent.target.value
         });
@@ -82,21 +100,28 @@ var FlightsSearchForm = React.createClass({
             returnDate: date
         });
     },
+    register: function (field) {
+        var states = this.state.Fields;
+        states.push(field);
+        this.setState({
+            Fields: states
+        })
+    },
     render: function() {
         return (
-            <form id="flightsearch" onSubmit={this.handleSearch} className="row col-sm-12 ">
+            <form id="flightsearch" className="row col-sm-12 ">
                 <div className="row col-sm-12 col-centered">
                     <h1>Book Flight Tickets</h1>
                 </div>
                 <div className="row col-sm-12 col-centered">
                     <label className="col-sm-3 col-xs-12 col-sm-3 col-sm-3">
-                        <input type="radio" name="tripType" value="one way"
-                               checked={this.state.selectedOption === 'one way'}
+                        <input type="radio" name="tripType" value={0}
+                               checked={this.state.selectedOption == 0}
                                onChange={this.handleOptionChange}/>{'  '}ONE WAY
                     </label>
                     <label className="col-sm-3 col-xs-12 col-sm-3 col-sm-3">
-                        <input type="radio" name="tripType" value="round trip"
-                               checked={this.state.selectedOption === 'round trip'}
+                        <input type="radio" name="tripType" value={1}
+                               checked={this.state.selectedOption == 1}
                                onChange={this.handleOptionChange}/> {'  '}ROUND TRIP
                     </label>
                 </div>
@@ -118,10 +143,12 @@ var FlightsSearchForm = React.createClass({
                     <TextInput type="date" value={this.state.dep} label={'Departure'} name={'Departure'}
                                htmlFor={'Departure'} isRequired={true} onChange={this.onChangeDepartureDate}
                                onComponentMounted={this.register} messageRequired={'Departure Date required'}
+                               min={new Date().toISOString().slice(0,10)}
                     />
                     <TextInput type="date" value={this.state.returnDate} label={'Return'} name={'Return'}
-                               htmlFor={'Return'} isRequired={false} onChange={this.onChangeReturnDate}
-                               onComponentMounted={this.register}
+                               htmlFor={'Return'} isRequired={this.state.selectedOption? true:false} onChange={this.onChangeReturnDate}
+                               onComponentMounted={this.register} disabled={this.state.selectedOption == 0}
+                               min={new Date().toISOString().slice(0,10) || this.state.dep}
                     />
                 </div>
                 <div className="row col-xs-12 col-centered ">
@@ -146,7 +173,8 @@ var FlightsSearchForm = React.createClass({
                 </div>
                 <div className="row col-xs-12 col-centered">
                     <div className="col-sm-3">
-                        <button type="submit" className="btn btn-primary btn-block" id="submit">Search</button>
+                        <button type="submit" className="btn btn-primary btn-block"
+                                onClick={this.handleSearch}id="submit">Search</button>
                     </div>
                 </div>
             </form>

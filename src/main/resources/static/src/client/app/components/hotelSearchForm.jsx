@@ -113,7 +113,7 @@ var HotelSearchForm = React.createClass({
                   <TextInput type="date" value={this.state.check_out} label={'Check-Out'} name={'CheckOut'}
                              htmlFor={'CheckOut'} isRequired={true} onChange={this.onChangeToDate}
                              onComponentMounted={this.register} messageRequired={'Check-out required'}
-                             min={this.state.check_in}
+                             min={new Date().toISOString().slice(0,10) || (this.state.check_in)}
                   />
               </div>
               {/* This commented block can be used to add Max-wait input , Cribs and Rollaway Beds.
