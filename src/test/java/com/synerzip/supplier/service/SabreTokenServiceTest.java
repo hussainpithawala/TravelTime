@@ -10,23 +10,33 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-
 import com.synerzip.TravelTimeApplication;
-import com.synerzip.supplier.service.SabreTokenService;
 
+/**
+ * @author synerzip
+ *
+ */
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = { TravelTimeApplication.class })
 @TestPropertySource(locations = { "classpath:supplier.properties", "classpath:application.properties"})
 public class SabreTokenServiceTest {
+	/**
+	 * @author synerzip
+	 *
+	 */
 	@Autowired
-	private SabreTokenService sabreTokenService;
+	private transient SabreTokenService sabreTokenService;
 	
 	private Logger logger = LoggerFactory.getLogger(SabreTokenServiceTest.class);
-		
+	
+	/**
+	 * @author synerzip
+	 *
+	 */
 	@Test
 	public void testGetTokenString() {
-		String token = sabreTokenService.getTokenString();
+		final String token = sabreTokenService.getTokenString();
 		Assert.assertNotNull(token, "Token is not null");
 	}
 }

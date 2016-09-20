@@ -15,15 +15,26 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.synerzip.TravelTimeApplication;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.InstaFlightRequest;
 import com.synerzip.supplier.sabre.model.flights.instaflight_gen.InstaFlightResponse;
-import com.synerzip.supplier.service.SabreFlightService;
 
+/**
+ * @author synerzip
+ *
+ */
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = { TravelTimeApplication.class })
 @TestPropertySource(locations = { "classpath:supplier.properties", "classpath:application.properties"})
 public class SabreFlightServiceTest {
+	/**
+	 * @author synerzip
+	 *
+	 */
 	@Autowired
-	private SabreFlightService sabreFlightService;
+	private transient SabreFlightService sabreFlightService;
+	
+	public SabreFlightServiceTest(){
+			
+	}
 	
 	private String getCurrentDate(){
 		return LocalDateTime.now().toLocalDate().toString();
@@ -33,15 +44,19 @@ public class SabreFlightServiceTest {
 		return LocalDateTime.now().toLocalDate().plus(2, ChronoUnit.DAYS).toString();
 	}
 	
+	/**
+	 * @author synerzip
+	 *
+	 */
 	@Test
 	public void testDoInstaFlightSearch() {
-		InstaFlightRequest request = new InstaFlightRequest();
+		final InstaFlightRequest request = new InstaFlightRequest();
 		request.setOrigin("ORD");
 		request.setDestination("LGA");
 		request.setDeparturedate(getCurrentDate());
 		request.setReturndate(getTwoDaysAfterCurrentDate());
 //		request.setMaxfare(140.0);
-		InstaFlightResponse response = sabreFlightService.doInstaFlightSearch(request);
+		final InstaFlightResponse response = sabreFlightService.doInstaFlightSearch(request);
 		Assert.assertNull(response.getAdditionalProperties().get("errorCode"));
 		Assert.assertNotNull("Returned Priced Itineraries", response.getPricedItineraries().size());
 	}

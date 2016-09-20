@@ -24,67 +24,107 @@ import com.synerzip.TravelTimeApplication;
 @WebAppConfiguration
 @ContextConfiguration(classes = { TravelTimeApplication.class })
 @TestPropertySource(locations = { "classpath:supplier.properties", "classpath:application.properties" })
+/**
+* @author synerzip
+*
+*/
 public class TimeServiceTest {
+	/**
+	 * @author synerzip
+	 *
+	 */
 	@Autowired
-	private TimeService timeService;
+	private transient TimeService timeService;
 
 	private static final Logger logger = LoggerFactory.getLogger(TimeServiceTest.class);
-
+	
+	/**
+	 * @author synerzip
+	 *
+	*/
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
-
+	
+	/**
+	 * @author synerzip
+	 *
+	*/
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
-
+	
+	/**
+	 * @author synerzip
+	 *
+	*/
 	@Before
 	public void setUp() throws Exception {
 	}
-
+	
+	/**
+	 * @author synerzip
+	 *
+	*/
 	@After
 	public void tearDown() throws Exception {
 	}
 
+	/**
+	 * @author synerzip
+	 *
+	 */
 	@Test
 	public void testGetBlkTime() {
-		String departAirportCode = "IST";
-		String departureDateTimeString = "2015-10-15T13:25";
+		final String departAirportCode = "IST";
+		final String departureDateTimeString = "2015-10-15T13:25";
 
-		String arrivalAirportCode = "BOS";
-		String arrivalDateTimeString = "2015-10-15T17:00";
+		final String arrivalAirportCode = "BOS";
+		final String arrivalDateTimeString = "2015-10-15T17:00";
 
-		DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm");
+		final DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm");
 
-		LocalDateTime departDateTime = LocalDateTime.parse(departureDateTimeString.replace('T', ' '), formatter);
-		LocalDateTime arrivalDateTime = LocalDateTime.parse(arrivalDateTimeString.replace('T', ' '), formatter);
+		final LocalDateTime departDateTime = LocalDateTime.parse(departureDateTimeString.replace('T', ' '), formatter);
+		final LocalDateTime arrivalDateTime = LocalDateTime.parse(arrivalDateTimeString.replace('T', ' '), formatter);
 
-		Long blktime = timeService.getBlkTime(departAirportCode, departDateTime, arrivalAirportCode, arrivalDateTime)
+		final Long blktime = timeService.getBlkTime(departAirportCode, departDateTime, arrivalAirportCode, arrivalDateTime)
 				.getStandardMinutes();
 
-		Assert.assertEquals(new Long(635L), blktime);
+		Assert.assertEquals(Long.valueOf(635L), blktime);
 	}
-
+	
+	/**
+	 * @author synerzip
+	 *
+	*/
 	@Test
 	public void testGetLayOverTime() {
-		String airportCode = "CDG";
-		String arrivalDateTimeString = "2015-10-22T08:35";
-		String departureDateTimeString = "2015-10-22T10:00";
+		final String airportCode = "CDG";
+		final String arrivalDateTimeString = "2015-10-22T08:35";
+		final String departureDateTimeString = "2015-10-22T10:00";
 
-		DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm");
+		final DateTimeFormatter formatter = DateTimeFormat.forPattern("YYYY-MM-dd HH:mm");
 
-		LocalDateTime departDateTime = LocalDateTime.parse(departureDateTimeString.replace('T', ' '), formatter);
-		LocalDateTime arrivalDateTime = LocalDateTime.parse(arrivalDateTimeString.replace('T', ' '), formatter);
+		final LocalDateTime departDateTime = LocalDateTime.parse(departureDateTimeString.replace('T', ' '), formatter);
+		final LocalDateTime arrivalDateTime = LocalDateTime.parse(arrivalDateTimeString.replace('T', ' '), formatter);
 
-		Long layOverTime = timeService.getLayOverTime(airportCode, arrivalDateTime, departDateTime)
+		final Long layOverTime = timeService.getLayOverTime(airportCode, arrivalDateTime, departDateTime)
 				.getStandardMinutes();
-		Assert.assertEquals(new Long(85L), layOverTime);
+		Assert.assertEquals(Long.valueOf(85L), layOverTime);
 	}
 
+	/**
+	 * @author synerzip
+	 *
+	*/
 	public void testImportTimeZoneFile() {
 		timeService.importTimeZoneFile("src/test/resources/data-files/timezones.txt");
 	}
 
+	/**
+	 * @author synerzip
+	 *
+	*/
 	public void testImportAirportFile() {
 		timeService.importAirportFile("src/test/resources/data-files/stations.txt");
 	}
