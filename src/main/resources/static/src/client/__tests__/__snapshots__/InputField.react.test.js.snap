@@ -1,0 +1,43 @@
+exports[`test textInput with date type 1`] = `
+<div
+  className="col-sm-6 ">
+  <label
+    htmlFor="CheckIn">
+    CheckIn
+  </label>
+  <input
+    className="form-control"
+    data-type="date"
+    id="CheckIn"
+    min="2016-09-20"
+    name="CheckIn"
+    onChange={[Function bound handleChange]}
+    placeholder="CheckIn"
+    required="true"
+    type="date"
+    value="2016-09-23" />
+  <span
+    className="error  errormsg" />
+</div>
+`;
+
+exports[`test textInput with text type 1`] = `
+<div
+  className="col-sm-6 ">
+  <label
+    htmlFor="Location">
+    Location
+  </label>
+  <input
+    className="form-control"
+    id="Location"
+    list="locations"
+    name="Location"
+    onChange={[Function bound handleChange]}
+    placeholder="Location"
+    required="true"
+    value="SAN" />
+  <span
+    className="error  errormsg" />
+</div>
+`;
