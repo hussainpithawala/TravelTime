@@ -44,6 +44,9 @@ var FlightsSearchForm = React.createClass({
     handleOptionChange: function (changeEvent) {
         if (this.state.selectedOption == 1){
             document.getElementById("Return").value = '';
+            document.getElementById("Return").classList.remove('error'); // remove error class
+            document.getElementById("Return").nextSibling.textContent = '';
+
             this.setState({
                 returnDate: ''
             });
@@ -146,7 +149,7 @@ var FlightsSearchForm = React.createClass({
                                min={new Date().toISOString().slice(0,10)}
                     />
                     <TextInput type="date" value={this.state.returnDate} label={'Return'} name={'Return'}
-                               htmlFor={'Return'} isRequired={this.state.selectedOption? true:false} onChange={this.onChangeReturnDate}
+                               htmlFor={'Return'} isRequired={this.state.selectedOption == 1} onChange={this.onChangeReturnDate}
                                onComponentMounted={this.register} disabled={this.state.selectedOption == 0}
                                min={new Date().toISOString().slice(0,10) || this.state.dep}
                     />

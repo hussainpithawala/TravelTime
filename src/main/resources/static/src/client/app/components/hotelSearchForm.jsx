@@ -12,6 +12,7 @@ var HotelSearchForm = React.createClass({
       location:'',
       rooms:0,
       serverMessage:'',
+        tomorrow:'',
       Fields:[]
     };
   },
@@ -34,18 +35,24 @@ var HotelSearchForm = React.createClass({
         "check_out" : this.state.check_out,
         "location" : this.state.location
       };
+      console.log('requestJSON',requestJSON);
       this.props.updateSearchResult(requestJSON);
     }
     console.log("Submitted!!");
   },
   // handle change from-date
   onChangeFromDate: function (date) {
+      var tomorrow = new Date(date);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow = tomorrow.toISOString().slice(0,10);
     this.setState({
-      check_in: date
+      check_in: date,
+      check_out: tomorrow,
+      tomorrow:tomorrow
     });
     if (new Date(date) > new Date(this.state.check_out)) {
       this.setState({
-        check_out: date
+        check_out: tomorrow
       });
     }
   },
@@ -58,7 +65,9 @@ var HotelSearchForm = React.createClass({
 
   // handle location change here
   onChangeLocation: function (location) {
+    console.log('location in on change',location);
     var me = this;
+    console.log('this.props',this.props);
     this.props.updateLocations(location);
     this.setState({
       location: location
@@ -113,7 +122,7 @@ var HotelSearchForm = React.createClass({
                   <TextInput type="date" value={this.state.check_out} label={'Check-Out'} name={'CheckOut'}
                              htmlFor={'CheckOut'} isRequired={true} onChange={this.onChangeToDate}
                              onComponentMounted={this.register} messageRequired={'Check-out required'}
-                             min={new Date().toISOString().slice(0,10) || (this.state.check_in)}
+                             min={this.state.tomorrow || new Date().toISOString().slice(0,10)}
                   />
               </div>
               {/* This commented block can be used to add Max-wait input , Cribs and Rollaway Beds.
