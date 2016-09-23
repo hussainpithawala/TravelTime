@@ -5,9 +5,23 @@ import FlightsSearchPanel from './pages/flightsSearchPanel.jsx';
 import GoogleMaps from './components/googleMap.jsx';
 
 class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            indexView: 'FORMVIEW'
+        }
+    }
+
+    handleClick() {
+        this.setState({
+            indexView : 'FORMVIEW'
+        });
+    }
+
     componentDidMount() {
       GoogleMaps.load();
     };
+
     render () {
         return (
             <div id="mainPage">
@@ -17,28 +31,23 @@ class App extends React.Component {
                 <div className="container-fluid" id="content">
                     <div id="tabBar">
                         <ul className="nav nav-tabs">
-                            <li className="dropdown">
-                                <a className="dropdown-toggle glyphicon glyphicon-home" data-toggle="dropdown" href="#">
-                                    {/*<span className="caret"></span>*/}
+                            <li className="active" >
+                                <a className="glyphicon glyphicon-home" data-toggle="tab" href="#HOTEL"
+                                   onClick={this.handleClick.bind(this)}>
                                 </a>
-                                <ul className="dropdown-menu">
-                                    <li><a href="#">Submenu 1-1</a></li>
-                                    <li><a href="#">Submenu 1-2</a></li>
-                                    <li><a href="#">Submenu 1-3</a></li>
-                                </ul>
                             </li>
-                            <li className="active" ><a href="#HOTEL" data-toggle="tab">HOTEL</a></li>
+                            <li><a href="#HOTEL" data-toggle="tab">HOTEL</a></li>
                             <li><a href="#FLIGHTS" data-toggle="tab">FLIGHTS</a></li>
                         </ul>
                         <div className="tab-content">
                             <div className="tab-pane active" id="HOTEL">
                                 <section className="panel" id="scroll-tab-1">
-                                    <HotelSearchPanel></HotelSearchPanel>
+                                    <HotelSearchPanel defaultView = {this.state.indexView}></HotelSearchPanel>
                                 </section>
                             </div>
                             <div className="tab-pane" id="FLIGHTS">
                                 <section className="panel" id="scroll-tab-2">
-                                    <FlightsSearchPanel></FlightsSearchPanel>
+                                    <FlightsSearchPanel defaultView = {this.state.indexView}></FlightsSearchPanel>
                                 </section>
                             </div>
                         </div>

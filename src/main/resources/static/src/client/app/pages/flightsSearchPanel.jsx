@@ -9,7 +9,7 @@ var FLightsSearchPanel = React.createClass({
     getInitialState:function() {
 
         return {
-            defualtView: 'FORMVIEW',
+            defaultView: this.props.defaultView,
             flights: FlightsStore.getAllFlights()
         }
     },
@@ -26,7 +26,7 @@ var FLightsSearchPanel = React.createClass({
     getFlights: function() {
         this.setState({
             flights: FlightsStore.getAllFlights(),
-            defualtView: 'RESULTSVIEW'
+            defaultView: 'RESULTSVIEW'
         });
     },
     reloadFlights: function(jsonRequest) {
@@ -38,13 +38,19 @@ var FLightsSearchPanel = React.createClass({
 
     backToFlightsSearch() {
         this.setState({
-            defualtView: 'FORMVIEW'
+            defaultView: 'FORMVIEW'
+        });
+    },
+
+    componentWillReceiveProps: function(nextProps) {
+        this.setState({
+            defaultView: this.props.defaultView
         });
     },
 
     render:function () {
         var renderComponent;
-        if(this.state.defualtView === 'FORMVIEW') {
+        if(this.state.defaultView === 'FORMVIEW') {
             renderComponent = <FlightsSearchForm  reloadFlights={this.reloadFlights} updateLocations = {this.reloadLocations}></FlightsSearchForm>
         }
         else {

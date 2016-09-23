@@ -8,7 +8,7 @@ import HotelsStore from '../stores/HotelsStore.jsx';
 var HotelSearchPanel = React.createClass({
   getInitialState: function() {
     return {
-      defualtView: 'FORMVIEW',
+      defaultView: this.props.defaultView,
       hotels: HotelsStore.getAllHotels()
     };
   },
@@ -25,7 +25,7 @@ var HotelSearchPanel = React.createClass({
   getHotels: function() {
     this.setState({
       hotels: HotelsStore.getAllHotels(),
-      defualtView: 'RESULTSVIEW'
+      defaultView: 'RESULTSVIEW'
     });
   },
 
@@ -39,7 +39,7 @@ var HotelSearchPanel = React.createClass({
   
   backToHotelsSearch() { 
     this.setState({
-      defualtView: 'FORMVIEW'
+      defaultView: 'FORMVIEW'
     });
   },
 
@@ -47,9 +47,15 @@ var HotelSearchPanel = React.createClass({
     return this.state.hotels;
   },
 
+  componentWillReceiveProps: function(nextProps) {
+    this.setState({
+      defaultView: this.props.defaultView
+    });
+  },
+
   render: function () {
     var renderComponent;
-    if(this.state.defualtView === 'RESULTSVIEW') {
+    if(this.state.defaultView === 'RESULTSVIEW') {
       console.log('loading result view...');
           renderComponent = <HotelSearchResultView onClick= {this.backToHotelsSearch}
                                                    getHotelsResult={this.getHotelsResult}></HotelSearchResultView>
