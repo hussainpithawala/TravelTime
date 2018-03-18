@@ -51,7 +51,7 @@ This repository houses examples related to development of a Internet Flight & Ho
 15. For one way flights only open-jaw flights (outbound) would be shown.
 
 
-##REST APIs covered by the application
+## REST APIs covered by the application
 1) Amadeus - Flights
     1. Low-fare-search
     2. Extensive-search
