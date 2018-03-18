@@ -8,6 +8,8 @@ import java.util.concurrent.Phaser;
 
 import com.synerzip.client.orm.Airline;
 import com.synerzip.client.repository.AirlineRepository;
+import com.synerzip.client.repository.AirportRepository;
+import com.synerzip.supplier.amadeus.model.flights.Airport;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.joda.time.Duration;
@@ -41,6 +43,9 @@ public class AmadeusFlightServiceAspect {
 
 	@Autowired
 	private AirlineRepository airlineRepository;
+
+	@Autowired
+	private AirportRepository airportRepository;
 
 	@AfterReturning(pointcut = "execution(* com.synerzip.supplier.service.AmadeusFlightService.fetchLowFareFlights(*))", returning = "lowFareFlightSearchRS")
 	public void updateDuration(LowFareFlightSearchRS lowFareFlightSearchRS) {
@@ -129,6 +134,9 @@ public class AmadeusFlightServiceAspect {
 						Optional.ofNullable(optAirline).ifPresent((airline) ->{
 							flight.setOperatingAirline(airline.get(0).getName());
 						});
+
+						flight.getOrigin().setAirport(airportRepository.findByCode(flight.getOrigin().getAirport()).getName());
+						flight.getDestination().setAirport(airportRepository.findByCode(flight.getDestination().getAirport()).getName());
 
 					}
 				};
