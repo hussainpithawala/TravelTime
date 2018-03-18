@@ -11,11 +11,11 @@ This repository houses examples related to development of a Internet Flight & Ho
 4. cd to main project directory i.e. TravelTime
 5. create a property file src/main/resources/supplier.properties
    1. Add following properties to it
-       amadeus.url=https://api.sandbox.amadeus.com/v1.2
-       amadeus.api.key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-       sabre.url=https://developer.sabre.com/io-docs/call-api
-       sabre.clientId=XXXXXXXXXX
-       sabre.clientSecret=XXXXXX
+       1. amadeus.url=https://api.sandbox.amadeus.com/v1.2
+       2. amadeus.api.key=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+       3. sabre.url=https://developer.sabre.com/io-docs/call-api
+       4. sabre.clientId=XXXXXXXXXX
+       5. sabre.clientSecret=XXXXXX
    2. amadeus.api.key can be obtained by registering at Amadeus for a developer account with Amadeus at 
    https://sandbox.amadeus.com
    3. sabre.clientId and sabre.clientSecret could be obtained by registering for a developer account with Sabre at
