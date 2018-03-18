@@ -15,4 +15,10 @@
 		memoryStoreEvictionPolicy="LFU" transactionalMode="off">
 		<persistence strategy="localTempSwap" />
 	</cache>
+	<cache name="airlinesCache" maxEntriesLocalHeap="1000"
+		maxEntriesLocalDisk="12000" eternal="false" diskSpoolBufferSizeMB="25"
+		timeToIdleSeconds="300" timeToLiveSeconds="600"
+		memoryStoreEvictionPolicy="LFU" transactionalMode="off">
+		<persistence strategy="localTempSwap" />
+	</cache>
 </ehcache>

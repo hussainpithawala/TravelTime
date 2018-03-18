@@ -1,9 +1,13 @@
 package com.synerzip.supplier.service.aop;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.Phaser;
 
+import com.synerzip.client.orm.Airline;
+import com.synerzip.client.repository.AirlineRepository;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.joda.time.Duration;
@@ -34,6 +38,9 @@ public class AmadeusFlightServiceAspect {
 
 	@Autowired
 	private ThreadPoolTaskExecutor executor;
+
+	@Autowired
+	private AirlineRepository airlineRepository;
 
 	@AfterReturning(pointcut = "execution(* com.synerzip.supplier.service.AmadeusFlightService.fetchLowFareFlights(*))", returning = "lowFareFlightSearchRS")
 	public void updateDuration(LowFareFlightSearchRS lowFareFlightSearchRS) {
@@ -110,6 +117,19 @@ public class AmadeusFlightServiceAspect {
 						totalFlightPeriod = totalFlightPeriod.plus(blkTime.toPeriod());
 						prevFlightPeriod = blkTime.toPeriod();
 						prevFlight = flight;
+
+						List<Airline> mktAirline = airlineRepository.findByIataCode(flight.getMarketingAirline());
+
+						Optional.ofNullable(mktAirline).ifPresent((airline) ->{
+							flight.setMarketingAirline(airline.get(0).getName());
+						});
+
+						List<Airline> optAirline = airlineRepository.findByIataCode(flight.getOperatingAirline());
+
+						Optional.ofNullable(optAirline).ifPresent((airline) ->{
+							flight.setOperatingAirline(airline.get(0).getName());
+						});
+
 					}
 				};
 
