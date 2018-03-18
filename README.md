@@ -23,9 +23,9 @@ This repository houses examples related to development of a Internet Flight & Ho
 
 6. Have a MySQL Host up and running with a Schema traveltime
     Change the following properties in application.properties to use the schema
-    1.spring.datasource.url=jdbc:mysql://localhost:3306/traveltime
-    2.spring.datasource.username=traveltime
-    3.spring.datasource.password=traveltime
+    1. spring.datasource.url=jdbc:mysql://localhost:3306/traveltime
+    2. spring.datasource.username=traveltime
+    3. spring.datasource.password=traveltime
 
 7. Run $> mvn spring-boot:run to run the application.
 
