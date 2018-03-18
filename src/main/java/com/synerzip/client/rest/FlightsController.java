@@ -67,7 +67,7 @@ public class FlightsController {
 
 		Future<LowFareFlightSearchRS> sabreResponse = executor.submit(new Callable<LowFareFlightSearchRS>() {
 			@Override
-			public LowFareFlightSearchRS call() throws Exception {
+			public LowFareFlightSearchRS call() {
 				LowFareFlightSearchRS response = null;
 				try {
 					// prepare a Sabre's InstaFlightRequest from Amadeus's LowFareFlightSearchRQ

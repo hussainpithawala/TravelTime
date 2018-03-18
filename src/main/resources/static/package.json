@@ -18,9 +18,9 @@
     "bootstrap": "^3.3.7",
     "flux": "^2.1.1",
     "font-awesome": "^4.6.3",
-    "jquery": "1.9.1",
+    "jquery": "3.0.0",
     "jqueryui": "1.11.1",
-    "moment": "2.14.1",
+    "moment": "2.19.3",
     "react": "^15.3.2",
     "react-dom": "^15.2.0",
     "webpack": "^1.13.1"
