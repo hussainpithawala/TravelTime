@@ -19,6 +19,10 @@ public class Origin {
 
 	@JsonProperty("airport")
 	private String airport;
+
+	@JsonProperty("airport_name_city")
+	private String airportNameCity;
+
 	@JsonProperty("terminal")
 	private String terminal;
 	@JsonIgnore
@@ -71,6 +75,17 @@ public class Origin {
 	public void setAdditionalProperty(String name, Object value) {
 		this.additionalProperties.put(name, value);
 	}
+
+	@JsonProperty("airport_name_city")
+	public String getAirportNameCity() {
+		return airportNameCity;
+	}
+
+	@JsonProperty("airport_name_city")
+	public void setAirportNameCity(String airportNameCity) {
+		this.airportNameCity = airportNameCity;
+	}
+
 
 	public static class Builder {
 		private Origin instance;

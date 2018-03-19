@@ -21,6 +21,10 @@ public class Destination {
 	private String airport;
 	@JsonProperty("terminal")
 	private String terminal;
+
+	@JsonProperty("airport_name_city")
+	private String airportNameCity;
+
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -87,6 +91,16 @@ public class Destination {
 		public Destination getInstance() {
 			return this.instance;
 		}
+	}
+
+	@JsonProperty("airport_name_city")
+	public String getAirportNameCity() {
+		return airportNameCity;
+	}
+
+	@JsonProperty("airport_name_city")
+	public void setAirportNameCity(String airportNameCity) {
+		this.airportNameCity = airportNameCity;
 	}
 
 	public static Builder getBuilder() {

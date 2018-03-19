@@ -38,13 +38,13 @@ var ItineraryDetails = React.createClass({
                             <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                 {flight.departs_at}
                                 <br/>
-                                <span>{flight.origin.airport}</span>
+                                <span>{flight.origin.airport_name_city}</span>
                             </div>
                             <i className="col-2 col-sm-2 col-md-2 col-lg-2 fa fa-arrow-right" aria-hidden="true"></i>
                             <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                 {flight.arrives_at}
                                 <br/>
-                                <span>{flight.destination.airport}</span>
+                                <span>{flight.destination.airport_name_city}</span>
                             </div>
                             <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">{flight.duration}
                                 <br/>
@@ -188,7 +188,7 @@ var ReturnFlightHeading = React.createClass({
     render: function () {
         var length = this.props.inboundFlightData.length;
         var arrivalTime = this.props.inboundFlightData[length - 1].arrives_at;
-        var destAirport = this.props.inboundFlightData[length - 1].destination.airport;
+        var destAirport = this.props.inboundFlightData[length - 1].destination.airport_name_city;
         return(
             <div>
                 <div id="dottedBorder"></div>
@@ -199,7 +199,7 @@ var ReturnFlightHeading = React.createClass({
                     <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                         {this.props.inboundFlightData[0].departs_at}
                         <br/>
-                        <span>{this.props.inboundFlightData[0].origin.airport}</span>
+                        <span>{this.props.inboundFlightData[0].origin.airport_name_city}</span>
                     </div>
                     <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                         {arrivalTime}
@@ -230,7 +230,7 @@ var FlightHeading = React.createClass({
     render:function () {
         var length = this.props.flightData.length;
         var arrivalTime = this.props.flightData[length - 1].arrives_at;
-        var destAirport = this.props.flightData[length - 1].destination.airport;
+        var destAirport = this.props.flightData[length - 1].destination.airport_name_city;
         var toggledetails;
         if (!this.state.showDetails) {
             toggledetails = <span onClick={this.OnViewDetailsClick}> +Show Details</span>
@@ -248,7 +248,7 @@ var FlightHeading = React.createClass({
                 <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                     {this.props.outboundFlightData[0].departs_at}
                     <br/>
-                    <span>{this.props.outboundFlightData[0].origin.airport}</span>
+                    <span>{this.props.outboundFlightData[0].origin.airport_name_city}</span>
                 </div>
                 <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                     {arrivalTime}
