@@ -1,5 +1,5 @@
 # TravelTime
-This repository houses examples related to development of a Flight & Hotel search/booking engine using the development sandboxes available from popular GDS's Amadeus and Galileo.
+This repository houses examples related to development of a Flight & Hotel search/booking engine using the development sandboxes available from popular GDS's Amadeus and Sabre.
 
 ## Building the application
 1. Clone the repository in your preferred location.
