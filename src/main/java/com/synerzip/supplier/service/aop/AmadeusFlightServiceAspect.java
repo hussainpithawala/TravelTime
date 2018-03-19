@@ -135,8 +135,14 @@ public class AmadeusFlightServiceAspect {
 							flight.setOperatingAirline(airline.get(0).getName());
 						});
 
-						flight.getOrigin().setAirport(airportRepository.findByCode(flight.getOrigin().getAirport()).getName());
-						flight.getDestination().setAirport(airportRepository.findByCode(flight.getDestination().getAirport()).getName());
+						com.synerzip.client.orm.Airport originAirport = airportRepository.findByCode(flight.getOrigin().getAirport());
+						String originCityAirport = originAirport.getName() + ", " + originAirport.getCityName();
+
+						com.synerzip.client.orm.Airport destinationAirport = airportRepository.findByCode(flight.getDestination().getAirport());
+						String destinationCityAirport = destinationAirport.getName() + ", " + destinationAirport.getCityName();
+
+						flight.getOrigin().setAirport(originCityAirport);
+						flight.getDestination().setAirport(destinationCityAirport);
 
 					}
 				};
