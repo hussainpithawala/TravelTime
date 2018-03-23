@@ -68,7 +68,10 @@ var HotelSearchForm = React.createClass({
     console.log('location in on change',location);
     var me = this;
     console.log('this.props',this.props);
-    this.props.updateLocations(location);
+
+  if(location.length > 2) {
+      this.props.updateLocations(location);
+  }
     this.setState({
       location: location
     });
