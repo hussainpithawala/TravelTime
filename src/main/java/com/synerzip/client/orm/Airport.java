@@ -1,19 +1,26 @@
 package com.synerzip.client.orm;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.io.Serializable;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @SuppressWarnings("serial")
 @Entity
+@NamedNativeQueries(
+		@NamedNativeQuery(name = "Airport.autoComplete", query = "select city_name, code, name from airports where city_name like ?1 or name like ?1 or code like ?1"))
 @Table(name="airports")
 @Cacheable
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+		"city_name",
+		"code",
+		"name",
+
+})
 public class Airport implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -21,15 +28,18 @@ public class Airport implements Serializable {
 	private Long id;
 	
 	@Column(name="code")
+	@JsonProperty("code")
 	private String code;
 	
 	@Column(name="city_code")
 	private String cityCode;
 	
 	@Column(name="name")
+	@JsonPropertyOrder("name")
 	private String name;
 	
 	@Column(name="city_name")
+	@JsonProperty("city_name")
 	private String cityName;
 	
 	@Column(name="region_code")

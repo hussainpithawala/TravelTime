@@ -75,14 +75,18 @@ var FlightsSearchForm = React.createClass({
         });
     },
     onChangeFrom: function (location) {
-        var me = this;
-        this.props.updateLocations(location);
+        if(location.length > 2) {
+            this.props.updateLocations(location);
+        }
         this.setState({
             from: location
         });
         console.log("changed location");
     },
     onChangeTo: function (location) {
+        if(location.length > 2) {
+            this.props.updateLocations(location);
+        }
         this.setState({
             to: location
         });

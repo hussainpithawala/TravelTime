@@ -5,7 +5,11 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.synerzip.client.orm.Airport;
 
+import java.util.List;
+
 public interface AirportRepository extends CrudRepository<Airport, Long> {
 	@Cacheable(value="airportsCache")
-	public Airport findByCode(String code);
+	Airport findByCode(String code);
+
+	List<Object[]> autoComplete(String parameter);
 }
