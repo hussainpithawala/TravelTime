@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 @RestController
 public class FlightsController {
@@ -51,75 +51,54 @@ public class FlightsController {
     private ThreadPoolTaskExecutor executor;
 
     @RequestMapping(value = "/rest/searchFlights", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<LowFareFlightSearchRS> searchFlights(
-            @RequestBody LowFareFlightSearchRQ lowFareFlightSearchRQ) {
+    public ResponseEntity<LowFareFlightSearchRS> searchFlights2(@RequestBody final LowFareFlightSearchRQ lowFareFlightSearchRQ) {
 
-        CountDownLatch latch = new CountDownLatch(2); // count-down of two, one for Sabre and other for Amadeus.
-
-        Future<LowFareFlightSearchRS> sabreResponse = executor.submit(new Callable<LowFareFlightSearchRS>() {
-            @Override
-            public LowFareFlightSearchRS call() {
-                LowFareFlightSearchRS response = null;
-                try {
-                    // prepare a Sabre's InstaFlightRequest from Amadeus's LowFareFlightSearchRQ
-                    InstaFlightRequest instaFlightRQ = instaFlightRequestWriter.write.apply(lowFareFlightSearchRQ);
-
-                    // fetch the response from Sabre's service
-                    InstaFlightResponse instaFlightResponse = sabreFlightService.doInstaFlightSearch(instaFlightRQ);
-
-                    // write Amadeus's LowFareFlightSearchRS using Sabre's InstaFlightResponse
-                    response = lowFareFlightSearchRSWriter.write.apply(instaFlightResponse);
-                } catch (Exception e) {
-                    logger.error("An error has occured while processing Sabre Request", e);
-                } finally {
-                    latch.countDown();
-                }
-                return response;
+        BiFunction<LowFareFlightSearchRS, Throwable, LowFareFlightSearchRS> exceptionHandler = (lowFareFlightSearchRS, ex) -> {
+            if(ex != null) {
+                logger.error("Unable to process the request", ex.getMessage());
+                ex.printStackTrace();
+                return null;
+            } else {
+                return lowFareFlightSearchRS;
             }
-        });
+        };
 
-        Future<LowFareFlightSearchRS> amadeusResponse = executor.submit(new Callable<LowFareFlightSearchRS>() {
-            @Override
-            public LowFareFlightSearchRS call() throws Exception {
-                LowFareFlightSearchRS response = null;
-                try {
-                    response = amadeusFlightService.fetchLowFareFlights(lowFareFlightSearchRQ);
-                } catch (Exception e) {
-                    logger.error("An error has occured while processing Amadeus Request", e);
-                } finally {
-                    latch.countDown();
-                }
-                return response;
+        CompletableFuture<LowFareFlightSearchRS> sabreCompleteableFuture = CompletableFuture.supplyAsync(() -> {
+            LowFareFlightSearchRS response = getLowFareFlightSearchRSFromSabre(lowFareFlightSearchRQ);
+            return response;
+        }).handle(exceptionHandler);
+
+        CompletableFuture<LowFareFlightSearchRS> amadeusCompletableFuture = CompletableFuture.supplyAsync(() -> {
+            LowFareFlightSearchRS response = amadeusFlightService.fetchLowFareFlights(lowFareFlightSearchRQ);
+            return response;
+        }).handle(exceptionHandler);
+
+        LowFareFlightSearchRS lowFareFlightSearchRSFinal = Stream.of(sabreCompleteableFuture, amadeusCompletableFuture).map(CompletableFuture::join).reduce((lowFareFlightSearchRS, lowFareFlightSearchRS2) -> {
+            LowFareFlightSearchRS result = null;
+            if (lowFareFlightSearchRS != null && lowFareFlightSearchRS2 != null) {
+                lowFareFlightSearchRS.getResults().addAll(lowFareFlightSearchRS2.getResults());
+                result = lowFareFlightSearchRS;
+            } else if (lowFareFlightSearchRS == null && lowFareFlightSearchRS2 != null) {
+                result = lowFareFlightSearchRS2;
+            } else if (lowFareFlightSearchRS != null && lowFareFlightSearchRS2 == null) {
+                result = lowFareFlightSearchRS;
             }
-        });
+            return result;
+        }).get();
 
-        try {
-            latch.await();
-        } catch (InterruptedException e) {
-            logger.error("Request executor thread has been interrupted", e);
-            e.printStackTrace();
-        }
+        return new ResponseEntity<>(lowFareFlightSearchRSFinal, HttpStatus.OK);
+    }
 
-        LowFareFlightSearchRS result = null;
+    private LowFareFlightSearchRS getLowFareFlightSearchRSFromSabre(LowFareFlightSearchRQ lowFareFlightSearchRQ) {
+        // prepare a Sabre's InstaFlightRequest from Amadeus's LowFareFlightSearchRQ
+        InstaFlightRequest instaFlightRQ = instaFlightRequestWriter.write.apply(lowFareFlightSearchRQ);
 
-        try {
-            LowFareFlightSearchRS amadeusResult = amadeusResponse.get();
-            LowFareFlightSearchRS sabreResult = sabreResponse.get();
+        // fetch the response from Sabre's service
+        InstaFlightResponse instaFlightResponse = sabreFlightService.doInstaFlightSearch(instaFlightRQ);
 
-            if (amadeusResult != null && sabreResult != null) {
-                amadeusResult.getResults().addAll(sabreResult.getResults());
-                result = amadeusResult;
-            } else if (amadeusResult == null && sabreResult != null) {
-                result = sabreResult;
-            } else if (amadeusResult != null && sabreResult == null) {
-                result = amadeusResult;
-            }
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
-        }
-
-        return new ResponseEntity<LowFareFlightSearchRS>(result, HttpStatus.OK);
+        // write Amadeus's LowFareFlightSearchRS using Sabre's InstaFlightResponse
+        LowFareFlightSearchRS response = lowFareFlightSearchRSWriter.write.apply(instaFlightResponse);
+        return response;
     }
 
     //this is asynchronous search call for low fare
