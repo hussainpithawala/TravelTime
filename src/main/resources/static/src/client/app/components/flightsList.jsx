@@ -287,14 +287,22 @@ var Flight = React.createClass({
 
 var List = React.createClass({
     render:function () {
-        return(
-            <div className="flightList">
-                {this.props.data.map(function(flightData, index) {
-                    return (<Flight key={index} index={index} flightdata={flightData}/>)
-                })}
+        if(this.props.data.length == 0) {
+            return(
+                <div style={<textarea name="No Results" id="" cols="30" rows="10"></textarea>}>
+                    No Results found for the search criteria
+                </div>
+            );
+        } else {
+            return(
+                <div className="flightList">
+                    {this.props.data.map(function(flightData, index) {
+                        return (<Flight key={index} index={index} flightdata={flightData}/>)
+                    })}
 
-            </div>
-        )
+                </div>
+            );
+        }
     }
 });
 var ListHeading = React.createClass({
