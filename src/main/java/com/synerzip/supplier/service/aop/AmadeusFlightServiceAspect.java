@@ -109,13 +109,15 @@ public class AmadeusFlightServiceAspect {
 								TimeUtilities.periodToString(blkTime.toPeriod()));
 
 						if (prevFlightPeriod != null && prevFlight != null) {
+							String airportCode = flight.getOrigin().getAirport();
+							Period layover = timeService
+									.getLayOverTime(airportCode, prevFlight.getArrivesAt(), flight.getDepartsAt())
+									.toPeriod();
+							totalFlightPeriod = totalFlightPeriod.plus(layover);
 							if (prevFlight.getDestination().getAirport().equals(flight.getOrigin().getAirport())) {
-								String airportCode = flight.getOrigin().getAirport();
-								Period layover = timeService
-										.getLayOverTime(airportCode, prevFlight.getArrivesAt(), flight.getDepartsAt())
-										.toPeriod();
 								layovers.put(airportCode, TimeUtilities.periodToString(layover));
-								totalFlightPeriod = totalFlightPeriod.plus(layover);
+							} else {
+								layovers.put(airportCode, TimeUtilities.periodToString(layover) + " Change of Airport ");
 							}
 						}
 
